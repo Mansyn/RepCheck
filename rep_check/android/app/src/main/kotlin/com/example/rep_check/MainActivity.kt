@@ -1,4 +1,4 @@
-package com.example.rep_check
+package com.unleashed.rep_check
 
 import io.flutter.embedding.android.FlutterActivity
 
