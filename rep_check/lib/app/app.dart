@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rep_check/state/shared_state.dart';
 import 'package:rep_check/ui/home_page.dart';
-import 'package:provider/provider.dart';
 
 class FlutterApp extends StatefulWidget {
   FlutterApp({
@@ -35,27 +34,37 @@ class FlutterAppState extends State<FlutterApp> {
     bottomAppBarColor: Colors.blue,
   );
 
-  Widget determineHomeScreen(SharedState appState) {
+  Widget determineHomeScreen() {
     // TODO: Add logic to determine the home screen of the app
-    return HomePage();
+    return HomePage(widget.state);
   }
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        // TODO: Add providers for app data
-      ],
-      child: MaterialApp(
-        title: widget.appName,
-        theme: theme,
-        home: determineHomeScreen(widget.state),
-        routes: {
-          HomePage.tag: (_) => HomePage(),
-        },
-        navigatorKey: SharedState.navigatorKey,
-        navigatorObservers: [],
-      ),
+    // return MultiProvider(
+    //   providers: [
+    //     // TODO: Add providers for app data
+    //   ],
+    //   child: MaterialApp(
+    //     title: widget.appName,
+    //     theme: theme,
+    //     home: determineHomeScreen(widget.state),
+    //     routes: {
+    //       HomePage.tag: (_) => HomePage(),
+    //     },
+    //     navigatorKey: SharedState.navigatorKey,
+    //     navigatorObservers: [],
+    //   ),
+    // );
+    return MaterialApp(
+      title: widget.appName,
+      theme: theme,
+      home: determineHomeScreen(),
+      routes: {
+        HomePage.tag: (_) => HomePage(widget.state),
+      },
+      navigatorKey: SharedState.navigatorKey,
+      navigatorObservers: [],
     );
   }
 

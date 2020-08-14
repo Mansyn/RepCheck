@@ -17,7 +17,8 @@ class FlutterAppConfig {
   FlutterAppConfig({
     @required this.appName,
     @required this.environment,
-    @required this.apiBaseUrl,
+    @required this.publicaBaseUrl,
+    @required this.publicaKey,
     this.initializeCrashlytics = true,
     this.monitorConnectivity = true,
     this.enableCrashlyiticsInDevMode = true,
@@ -25,14 +26,15 @@ class FlutterAppConfig {
 
   final String appName;
   final AppEnvironment environment;
-  final String apiBaseUrl;
+  final String publicaBaseUrl;
+  final String publicaKey;
   final bool initializeCrashlytics,
       monitorConnectivity,
       enableCrashlyiticsInDevMode;
 
   Future<SharedState> loadState() async {
     // TODO: load state
-    return SharedState();
+    return SharedState(publicaBaseUrl, publicaKey);
   }
 
   Widget createApp(SharedState state) {
