@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geocoder/model.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:rep_check/data/bloc/member_bloc.dart';
 import 'package:rep_check/data/model/member.dart';
 import 'package:rep_check/data/network/response.dart';
 import 'package:rep_check/state/shared_state.dart';
+import 'package:us_states/us_states.dart';
 
 class HomePage extends StatefulWidget {
   static const String tag = 'home-page';
@@ -22,46 +26,76 @@ class _HomeState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _bloc = MemberBloc(widget.state);
+    getState().then((data) {
+      setState(() {
+        widget.state.state = data;
+        widget.state.stateCode = USStates.getAbbreviation(data);
+      });
+      _bloc = MemberBloc(widget.state);
+    });
+  }
+
+  Future<String> getState() async {
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    debugPrint('location: ${position.latitude}');
+    final coordinates = new Coordinates(position.latitude, position.longitude);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    return first.adminArea; // this will return country name
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        automaticallyImplyLeading: false,
-        title: Text('Congress Members',
-            style: TextStyle(color: Colors.white, fontSize: 20)),
-        backgroundColor: Color(0xFF333333),
-      ),
-      backgroundColor: Color(0xFF333333),
-      body: RefreshIndicator(
-        onRefresh: () => _bloc.fetchMembers(),
-        child: StreamBuilder<Response<MemberResponse>>(
-          stream: _bloc.memberListStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              switch (snapshot.data.status) {
-                case Status.LOADING:
-                  return Loading(loadingMessage: snapshot.data.message);
-                  break;
-                case Status.COMPLETED:
-                  return CategoryList(categoryList: snapshot.data.data);
-                  break;
-                case Status.ERROR:
-                  return Error(
-                    errorMessage: snapshot.data.message,
-                    onRetryPressed: () => _bloc.fetchMembers(),
-                  );
-                  break;
-              }
-            }
-            return Container();
-          },
+    if (widget.state.state != null) {
+      return Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          automaticallyImplyLeading: false,
+          title: Text('Representatives for ' + widget.state.state,
+              style: TextStyle(color: Colors.white, fontSize: 20)),
+          backgroundColor: Color(0xFF333333),
         ),
-      ),
-    );
+        backgroundColor: Color(0xFF333333),
+        body: RefreshIndicator(
+          onRefresh: () => _bloc.fetchMembers(),
+          child: StreamBuilder<Response<MemberResponse>>(
+            stream: _bloc.memberListStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                switch (snapshot.data.status) {
+                  case Status.LOADING:
+                    return Loading(loadingMessage: snapshot.data.message);
+                    break;
+                  case Status.COMPLETED:
+                    return CategoryList(categoryList: snapshot.data.data);
+                    break;
+                  case Status.ERROR:
+                    return Error(
+                      errorMessage: snapshot.data.message,
+                      onRetryPressed: () => _bloc.fetchMembers(),
+                    );
+                    break;
+                }
+              }
+              return Container();
+            },
+          ),
+        ),
+      );
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+            elevation: 0.0,
+            automaticallyImplyLeading: false,
+            title: Text('Your Representatives',
+                style: TextStyle(color: Colors.white, fontSize: 20)),
+            backgroundColor: Color(0xFF333333),
+          ),
+          backgroundColor: Color(0xFF333333),
+          body: Loading(loadingMessage: 'determining location'));
+    }
   }
 
   @override

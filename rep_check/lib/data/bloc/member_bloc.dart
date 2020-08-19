@@ -27,7 +27,8 @@ class MemberBloc {
   fetchMembers() async {
     memberListSink.add(Response.loading('Getting Members.'));
     try {
-      MemberResponse members = await _memberRepository.fetchMemberData();
+      MemberResponse members =
+          await _memberRepository.fetchSenators(this.state.stateCode);
       memberListSink.add(Response.completed(members));
     } catch (e) {
       memberListSink.add(Response.error(e.toString()));

@@ -9,11 +9,11 @@ class MemberRepository {
   final String publicaBaseUrl;
   final String publicaKey;
 
-  MemberRepository(this.publicaBaseUrl, this.publicaKey) {}
+  MemberRepository(this.publicaBaseUrl, this.publicaKey);
 
-  Future<MemberResponse> fetchMemberData() async {
+  Future<MemberResponse> fetchSenators(String state) async {
     final response = await _provider.get(
-        this.publicaBaseUrl + "members/senate/RI/current.json",
+        this.publicaBaseUrl + "members/senate/" + state + "/current.json",
         this.publicaKey);
     return MemberResponse.fromJson(response);
   }

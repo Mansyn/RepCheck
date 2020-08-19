@@ -1,5 +1,5 @@
 name: rep_check
-description: A new Flutter project.
+description: A app to let a user know who represents them in government
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -25,6 +25,10 @@ dependencies:
   flutter:
     sdk: flutter
   provider: 
+  grouped_list:
+  geolocator:
+  geocoder:
+  us_states:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
