@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rep_check/state/shared_state.dart';
 import 'package:rep_check/ui/home_page.dart';
+import 'package:rep_check/ui/theme/build.dart';
 
 class FlutterApp extends StatefulWidget {
   FlutterApp({
@@ -28,11 +29,7 @@ class FlutterAppState extends State<FlutterApp> {
     // - Connectivity monitoring
   }
 
-  final theme = ThemeData(
-    primarySwatch: Colors.blue,
-    scaffoldBackgroundColor: Colors.white,
-    bottomAppBarColor: Colors.blue,
-  );
+  final ThemeData _theme = MyThemeBuilder.build();
 
   Widget determineHomeScreen() {
     // TODO: Add logic to determine the home screen of the app
@@ -41,24 +38,9 @@ class FlutterAppState extends State<FlutterApp> {
 
   @override
   Widget build(BuildContext context) {
-    // return MultiProvider(
-    //   providers: [
-    //     // TODO: Add providers for app data
-    //   ],
-    //   child: MaterialApp(
-    //     title: widget.appName,
-    //     theme: theme,
-    //     home: determineHomeScreen(widget.state),
-    //     routes: {
-    //       HomePage.tag: (_) => HomePage(),
-    //     },
-    //     navigatorKey: SharedState.navigatorKey,
-    //     navigatorObservers: [],
-    //   ),
-    // );
     return MaterialApp(
       title: widget.appName,
-      theme: theme,
+      theme: _theme,
       home: determineHomeScreen(),
       routes: {
         HomePage.tag: (_) => HomePage(widget.state),

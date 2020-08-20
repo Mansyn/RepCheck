@@ -1,18 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 
 class SharedState extends ChangeNotifier {
   static final navigatorKey = GlobalKey<NavigatorState>();
 
-  final String publicaBaseUrl;
-  final String publicaKey;
+  final String apiUrl;
+  final String apiKey;
 
   Position location;
   String state;
-  String stateCode;
+  Coordinates coordinates;
 
-  SharedState(this.publicaBaseUrl, this.publicaKey);
+  SharedState(this.apiUrl, this.apiKey);
 
   @override
   void dispose() {

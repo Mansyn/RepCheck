@@ -26,6 +26,7 @@ dependencies:
     sdk: flutter
   provider: 
   grouped_list:
+  flutter_spinkit:
   geolocator:
   geocoder:
   us_states:

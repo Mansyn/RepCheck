@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geocoder/model.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:rep_check/data/bloc/member_bloc.dart';
-import 'package:rep_check/data/model/member.dart';
+import 'package:rep_check/data/model/legislator.dart';
 import 'package:rep_check/data/network/response.dart';
 import 'package:rep_check/state/shared_state.dart';
-import 'package:us_states/us_states.dart';
+import 'package:rep_check/ui/theme/colors.dart';
+import 'package:rep_check/ui/theme/styles.dart';
 
 class HomePage extends StatefulWidget {
   static const String tag = 'home-page';
@@ -26,76 +31,105 @@ class _HomeState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    getState().then((data) {
+    getLocation().then((location) {
       setState(() {
-        widget.state.state = data;
-        widget.state.stateCode = USStates.getAbbreviation(data);
+        widget.state.state = location.adminArea;
+        widget.state.coordinates = location.coordinates;
       });
       _bloc = MemberBloc(widget.state);
     });
   }
 
-  Future<String> getState() async {
+  Future<bool> _onBackPress() {
+    _askExit();
+    return Future.value(false);
+  }
+
+  Future _askExit() async {
+    switch (await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+              title: new Text('Are you sure to exit app?'),
+              children: <Widget>[
+                new SimpleDialogOption(
+                  child: new Text('OK'),
+                  onPressed: () {
+                    Navigator.pop(context, 1);
+                  },
+                ),
+                new SimpleDialogOption(
+                  child: new Text('CANCEL'),
+                  onPressed: () {
+                    Navigator.pop(context, 0);
+                  },
+                )
+              ]);
+        })) {
+      case 1:
+        exit(0);
+        break;
+      case 0:
+        break;
+    }
+  }
+
+  Future<Address> getLocation() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     debugPrint('location: ${position.latitude}');
     final coordinates = new Coordinates(position.latitude, position.longitude);
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var first = addresses.first;
-    return first.adminArea; // this will return country name
+    return addresses.first; // this will return country name
   }
 
   @override
   Widget build(BuildContext context) {
     if (widget.state.state != null) {
-      return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          automaticallyImplyLeading: false,
-          title: Text('Representatives for ' + widget.state.state,
-              style: TextStyle(color: Colors.white, fontSize: 20)),
-          backgroundColor: Color(0xFF333333),
-        ),
-        backgroundColor: Color(0xFF333333),
-        body: RefreshIndicator(
-          onRefresh: () => _bloc.fetchMembers(),
-          child: StreamBuilder<Response<MemberResponse>>(
-            stream: _bloc.memberListStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                switch (snapshot.data.status) {
-                  case Status.LOADING:
-                    return Loading(loadingMessage: snapshot.data.message);
-                    break;
-                  case Status.COMPLETED:
-                    return CategoryList(categoryList: snapshot.data.data);
-                    break;
-                  case Status.ERROR:
-                    return Error(
-                      errorMessage: snapshot.data.message,
-                      onRetryPressed: () => _bloc.fetchMembers(),
-                    );
-                    break;
-                }
-              }
-              return Container();
-            },
-          ),
-        ),
-      );
+      return WillPopScope(
+          child: Scaffold(
+              appBar: AppBar(
+                  backgroundColor: primaryDarkColor,
+                  title: Text(widget.state.state + ' Representatives',
+                      style: primaryH1TextStyle)),
+              body: _showBody()),
+          //drawer: _buildDrawer()),
+          onWillPop: _onBackPress);
     } else {
       return Scaffold(
-          appBar: AppBar(
-            elevation: 0.0,
-            automaticallyImplyLeading: false,
-            title: Text('Your Representatives',
-                style: TextStyle(color: Colors.white, fontSize: 20)),
-            backgroundColor: Color(0xFF333333),
-          ),
-          backgroundColor: Color(0xFF333333),
-          body: Loading(loadingMessage: 'determining location'));
+          appBar: AppBar(title: Text('Your Representatives')),
+          body: Loading(loadingMessage: 'determining location...'));
     }
+  }
+
+  Widget _showBody() {
+    return RefreshIndicator(
+      onRefresh: () => _bloc.fetchMembers(),
+      child: StreamBuilder<Response<List<Legislator>>>(
+        stream: _bloc.memberListStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            switch (snapshot.data.status) {
+              case Status.LOADING:
+                return Loading(
+                    loadingMessage: 'finding your representatives...');
+                break;
+              case Status.COMPLETED:
+                return CategoryList(categoryList: snapshot.data.data);
+                break;
+              case Status.ERROR:
+                return Error(
+                  errorMessage: snapshot.data.message,
+                  onRetryPressed: () => _bloc.fetchMembers(),
+                );
+                break;
+            }
+          }
+          return Container();
+        },
+      ),
+    );
   }
 
   @override
@@ -106,45 +140,44 @@ class _HomeState extends State<HomePage> {
 }
 
 class CategoryList extends StatelessWidget {
-  final MemberResponse categoryList;
+  final List<Legislator> categoryList;
 
   const CategoryList({Key key, this.categoryList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: Color(0xFF202020),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 0.0,
-                vertical: 1.0,
+      backgroundColor: primaryLightColor,
+      body: GroupedListView<Legislator, String>(
+        groupBy: (element) => element.chamber,
+        elements: categoryList,
+        order: GroupedListOrder.DESC,
+        useStickyGroupSeparators: true,
+        groupSeparatorBuilder: (String value) => Container(
+          color: primaryLightColor,
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            value.toUpperCase(),
+            textAlign: TextAlign.center,
+            style: primaryH1TextStyle,
+          ),
+        ),
+        itemBuilder: (c, element) {
+          return Card(
+            color: primaryColor,
+            elevation: 8.0,
+            margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+            child: Container(
+              child: ListTile(
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                leading: Icon(Icons.account_circle),
+                title: Text(element.fullName, style: primaryTextStyle),
+                trailing: Icon(Icons.arrow_forward),
               ),
-              child: InkWell(
-                  child: SizedBox(
-                height: 65,
-                child: Container(
-                  color: Color(0xFF333333),
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                    child: Text(
-                      categoryList.results[index].name,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w100,
-                          fontFamily: 'Roboto'),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-              )));
+            ),
+          );
         },
-        itemCount: categoryList.results.length,
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
       ),
     );
   }
@@ -204,9 +237,12 @@ class Loading extends StatelessWidget {
             ),
           ),
           SizedBox(height: 24),
-          CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-          ),
+          Center(
+              child: SizedBox(
+            child: const SpinKitChasingDots(color: accentColor, size: 100.0),
+            height: 100.0,
+            width: 100.0,
+          )),
         ],
       ),
     );
