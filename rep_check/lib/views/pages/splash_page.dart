@@ -39,7 +39,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Styles.appPrimaryColor,
+      color: Styles.primaryColor,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
@@ -56,9 +56,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
               Center(
                 child: Text(
                   Constants.appName,
-                  style: Styles.h1White.copyWith(
-                    fontSize: 45,
-                  ),
+                  style: Styles.h1AppName,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -81,7 +79,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
               Container(
                 padding: EdgeInsets.all(20),
                 height: 250,
-                child: Image.asset(Constants.brandKey),
+                child: Image.asset(Constants.logoKey),
               ),
               SizedBox(
                 height: 10.0,

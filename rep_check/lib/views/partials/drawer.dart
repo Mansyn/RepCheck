@@ -10,13 +10,19 @@ class HomeDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeaderItem(),
-          FlutterTipsItem(),
+          // FlutterTipsItem(),
+          // Divider(
+          //   color: Colors.grey[500],
+          // ),
+          //LoginItem(),
+          ReferAFriendItem(),
           Divider(
             color: Colors.grey[500],
           ),
-          LoginItem(),
-          ReferAFriendItem(),
           AboutItem(),
+          Divider(
+            color: Colors.grey[500],
+          ),
           RateAppItem(),
           SizedBox(
             height: 50,
@@ -35,9 +41,6 @@ class BackendDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeaderItem(),
-          Divider(
-            color: Colors.grey[500],
-          ),
           LogoutItem(),
           ReferAFriendItem(),
           AboutItem(),
@@ -60,7 +63,7 @@ class DrawerHeaderItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         image: DecorationImage(
-            image: AssetImage(Constants.logoKey), fit: BoxFit.contain),
+            image: AssetImage(Constants.rootsKey), fit: BoxFit.fill),
       ),
     );
   }
@@ -71,28 +74,12 @@ class HomeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Home", style: Styles.appDrawerTextStyle),
-      leading: Icon(Icons.lightbulb_outline, color: Styles.appDrawerIconColor),
+      title: Text("Home"),
+      leading: Icon(Icons.lightbulb_outline),
       onTap: () {
         Navigator.pop(context);
 
         Navigator.pushNamed(context, '/');
-      },
-    );
-  }
-}
-
-/// flutter tips item
-class FlutterTipsItem extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text("Flutter Tips", style: Styles.appDrawerTextStyle),
-      leading: Icon(Icons.lightbulb_outline, color: Styles.appDrawerIconColor),
-      onTap: () {
-        Navigator.pop(context);
-
-        Navigator.pushNamed(context, '/flutter-tips');
       },
     );
   }
@@ -103,8 +90,8 @@ class ReferAFriendItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Refer a Friend", style: Styles.appDrawerTextStyle),
-      leading: Icon(Icons.share, color: Styles.appDrawerIconColor),
+      title: Text("Refer a Friend"),
+      leading: Icon(Icons.share),
       onTap: () {
         Navigator.pop(context);
 
@@ -119,8 +106,8 @@ class LogoutItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Logout", style: Styles.appDrawerTextStyle),
-      leading: Icon(Icons.exit_to_app, color: Styles.appDrawerIconColor),
+      title: Text("Logout"),
+      leading: Icon(Icons.exit_to_app),
       onTap: () {
 //        AuthProvider().logout();
 
@@ -160,8 +147,8 @@ class _LoginItemState extends State<LoginItem> {
   Widget build(BuildContext context) {
     return loggedIn
         ? ListTile(
-            title: Text("Dashboard", style: Styles.appDrawerTextStyle),
-            leading: Icon(Icons.home, color: Styles.appDrawerIconColor),
+            title: Text("Dashboard"),
+            leading: Icon(Icons.home),
             onTap: () {
               Navigator.pop(context);
 
@@ -169,8 +156,8 @@ class _LoginItemState extends State<LoginItem> {
             },
           )
         : ListTile(
-            title: Text("Sign In", style: Styles.appDrawerTextStyle),
-            leading: Icon(Icons.exit_to_app, color: Styles.appDrawerIconColor),
+            title: Text("Sign In"),
+            leading: Icon(Icons.exit_to_app),
             onTap: () {
               Navigator.pop(context);
 
@@ -185,8 +172,8 @@ class AboutItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("About", style: Styles.appDrawerTextStyle),
-      leading: Icon(Icons.info_outline, color: Styles.appDrawerIconColor),
+      title: Text("About"),
+      leading: Icon(Icons.info_outline),
       onTap: () {
         Navigator.pop(context);
 
@@ -201,8 +188,8 @@ class RateAppItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Rate Us", style: Styles.appDrawerTextStyle),
-      leading: Icon(Icons.star, color: Styles.appDrawerIconColor),
+      title: Text("Rate Us"),
+      leading: Icon(Icons.star),
       onTap: () {
         Navigator.pop(context);
 

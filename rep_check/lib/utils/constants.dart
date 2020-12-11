@@ -9,17 +9,23 @@ class Constants {
   static String appBio = "Built to help people know who represents them";
   static String contactEmail = "iwalktheline@live.com";
   static String logoKey = "assets/images/logo.png";
-  static String brandKey = 'assets/images/rep_brand.png';
+  static String rootsKey = 'assets/images/roots.png';
   static String loadingKey = "assets/images/loading.gif";
   static String defaultProfile = "assets/images/congressman_avatar.png";
   static String appAbout =
       "The was built to help people easily discover who represents them, and will let them see what they do in Congress.";
 
   /// Share message
-  static String shareLink = "http://google.com";
+  static String shareLink = "http://unleasheddevelopement.com";
   static String shareMessage = "Check out this Amazing App at " + shareLink;
   static String shareSubject = "Best App Ever!";
   static String twitterUrl = "https://twitter.com/rhymenocerus";
+
+// ad config
+  static List<String> testing_devices = ['emulator-5554'];
+  static String ad_unit_id = 'ca-app-pub-4892089932850014/8913053714';
+  static String app_id = 'ca-app-pub-4892089932850014~6638244163';
+  static List<String> keywords = ['voting', 'government', 'information'];
 
   /// http headers
   static Object apiHeaders = {
@@ -61,8 +67,13 @@ class Constants {
   /// api routes
   static String apiBaseUrl = "https://api.propublica.org/congress/v1/";
 
+  static String fbUrl = 'https://www.facebook.com/';
   static String fbPhotoUrl =
       'https://graph.facebook.com/{id}/picture?type=large';
+  static String twitUrl = 'https://www.twitter.com/';
   static String twitPhotoUrl =
       'https://twitter.com/{id}/profile_image?size=bigger';
+
+  static String youtubeUrl = 'https://www.youtube.com/';
+  static String govTrackUrl = 'https://www.govtrack.us/congress/members/';
 }

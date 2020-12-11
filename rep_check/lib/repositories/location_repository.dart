@@ -2,15 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 
 class LocationRepository {
   Future<Address> getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    LocationData _locationData = await Location().getLocation();
+
+    final coordinates =
+        new Coordinates(_locationData.latitude, _locationData.longitude);
+
     debugPrint(
-        'latitude: ${position.latitude} longitude: ${position.longitude}');
-    final coordinates = new Coordinates(position.latitude, position.longitude);
+        'latitude: ${_locationData.latitude} longitude: ${_locationData.longitude}');
+
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     return addresses.first;

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:rep_check/models/member.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/styles.dart';
 import 'package:rep_check/utils/widget_helper.dart';
 import 'package:rep_check/views/members/details.dart';
 
-class MemberList extends StatelessWidget {
+class StateMemberList extends StatelessWidget {
   final List<Member> memberList;
-
-  const MemberList({Key key, this.memberList}) : super(key: key);
+  final String state;
+  const StateMemberList({Key key, this.memberList, this.state})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,28 +52,23 @@ class MemberList extends StatelessWidget {
                                   memberList[index].lastName,
                               style: Styles.listItemHeader,
                               textAlign: TextAlign.center),
-                          Text(memberList[index].state,
-                              style: Styles.defaultStyle),
-                          Text(memberList[index].title, style: Styles.detail),
+                          Text(state, style: Styles.defaultStyle),
+                          Text(memberList[index].role, style: Styles.detail),
                           Text(Widgethelper.getMemberParty(memberList[index]),
                               style: Styles.detail),
-                          ButtonBar(
-                            children: <Widget>[
-                              FlatButton(
-                                child: const Text('MORE INFO'),
+                          ButtonBar(children: <Widget>[
+                            FlatButton(
+                                child: Icon(MdiIcons.dotsHorizontal),
                                 onPressed: () {
                                   Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          Details(id: memberList[index].id),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ]))
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Details(id: memberList[index].id),
+                                      ));
+                                })
+                          ])
+                        ])),
                   ],
                 ))),
         staggeredTileBuilder: (int index) => new StaggeredTile.fit(1),

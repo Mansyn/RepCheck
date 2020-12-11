@@ -1,63 +1,96 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-// primaryColor = #9b51e0 rgb(155,81,224)
+class MyAppTheme {
+  Color bglight;
+  Color bgdark;
+  Color prime1;
+  Color prime2;
+  Color accent1;
+  Color accent2;
+  bool isDark;
+
+  /// Default constructor
+  MyAppTheme({@required this.isDark});
+
+  ThemeData get themeData {
+    /// Create a TextTheme and ColorScheme, that we can use to generate ThemeData
+    TextTheme txtTheme =
+        (isDark ? ThemeData.dark() : ThemeData.light()).textTheme;
+    Color txtColor = txtTheme.bodyText1.color;
+    ColorScheme colorScheme = ColorScheme(
+        // Decide how you want to apply your own custom them, to the MaterialApp
+        brightness: isDark ? Brightness.dark : Brightness.light,
+        primary: prime1,
+        primaryVariant: prime2,
+        secondary: accent1,
+        secondaryVariant: accent2,
+        background: isDark ? bgdark : bglight,
+        surface: isDark ? bgdark : bglight,
+        onBackground: txtColor,
+        onSurface: txtColor,
+        onError: Colors.white,
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        error: Colors.red.shade400);
+
+    /// Now that we have ColorScheme and TextTheme, we can create the ThemeData
+    var t = ThemeData.from(textTheme: txtTheme, colorScheme: colorScheme)
+        // We can also add on some extra properties that ColorScheme seems to miss
+        .copyWith(
+            buttonColor: accent1,
+            cursorColor: accent1,
+            highlightColor: accent1,
+            toggleableActiveColor: accent1);
+
+    /// Return the themeData which MaterialApp can now use
+    return t;
+  }
+}
 
 class Styles {
-  static Color appPrimaryColor = Color(0xFFa7d129);
-  static Color appAccentColor = Color(0xFFdcff60);
-  static Color appCanvasColor = Colors.white;
-  static Color appBackground = Color(0xFF74a000);
-  static Color commonDarkBackground = Colors.grey[200];
-  static Color commonDarkCardBackground = Colors.grey[200]; // #1e2d3b
+  static Color primaryColor = Color(0xFFa7d129);
+  static Color primaryVariantColor = Color(0xFFdcff60);
+  static Color accentColor = Color(0xFF101010);
+  static Color accentVarColor = Color(0xFF484848); // #1e2d3b
   static TextTheme appTextTheme = TextTheme(
     headline5: TextStyle(
       fontSize: 72.0,
       fontWeight: FontWeight.bold,
-    ),
-    headline6: Styles.title.copyWith(
-      height: 2,
     ),
     bodyText1: TextStyle(
       color: Colors.grey[100],
     ),
   );
 
-  static Color appDrawerIconColor = Colors.grey[800];
-  static TextStyle appDrawerTextStyle = TextStyle(color: Colors.grey[900]);
-
-  static TextStyle defaultStyle = TextStyle(
-    color: Colors.grey[800],
-  );
+  static TextStyle defaultStyle = TextStyle();
 
   static TextStyle h1 = defaultStyle.copyWith(
     fontWeight: FontWeight.w700,
     fontSize: 18.0,
     height: 22 / 18,
-    color: Colors.grey[700],
+    color: primaryColor,
   );
 
   static TextStyle h1AppName = defaultStyle.copyWith(
-    fontSize: 30.0,
-    height: 35,
-    fontFamily: 'YatraOne',
+    fontSize: 72.0,
+    fontFamily: 'PassionOne',
   );
 
-  static TextStyle title = defaultStyle.copyWith(
-    fontSize: 30.0,
-    height: 35,
-    fontFamily: 'YatraOne',
+  static TextStyle listItemHeader = defaultStyle.copyWith(
+    fontSize: 26.0,
+    fontFamily: 'PassionOne'
+    
   );
 
-  static TextStyle display1 = defaultStyle.copyWith(
-    fontSize: 30.0,
-    fontFamily: 'Radicals',
+  static TextStyle detailHeader = defaultStyle.copyWith(
+    fontSize: 42.0,
+    fontFamily: 'PassionOne',
   );
 
   static TextStyle h1White = defaultStyle.copyWith(
     fontWeight: FontWeight.w700,
     fontSize: 18.0,
-    height: 22 / 18,
     color: Colors.white,
   );
 
@@ -67,7 +100,7 @@ class Styles {
   );
 
   static TextStyle pTheme = p.copyWith(
-    color: appPrimaryColor,
+    color: primaryColor,
   );
 
   static TextStyle pWhite = p.copyWith(
@@ -76,6 +109,11 @@ class Styles {
 
   static TextStyle pMuted = p.copyWith(
     color: Colors.grey[500],
+  );
+
+  static TextStyle detail = defaultStyle.copyWith(
+    fontSize: 12.0,
+    color: Colors.grey[800],
   );
 
   static TextStyle pForgotPassword = p.copyWith(
@@ -97,7 +135,7 @@ class Styles {
     focusColor: Colors.grey[900],
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.blue,
+        color: primaryColor,
         width: 2.0,
       ),
     ),

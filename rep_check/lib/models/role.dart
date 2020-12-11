@@ -8,7 +8,7 @@ class Role {
   String shortTitle;
   String state;
   String party;
-  Null leadershipRole;
+  String leadershipRole;
   String fecCandidateId;
   String seniority;
   String district;
@@ -18,11 +18,11 @@ class Role {
   String endDate;
   String office;
   String phone;
-  Null fax;
-  Null contactForm;
+  String fax;
+  String contactForm;
   String cookPvi;
   double dwNominate;
-  Null idealPoint;
+  double idealPoint;
   String nextElection;
   int totalVotes;
   int missedVotes;

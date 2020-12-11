@@ -1,9 +1,9 @@
-import 'package:rep_check/models/chamber.dart';
+import 'package:rep_check/models/member_details.dart';
 
 class MemberResponse {
   String status;
   String copyright;
-  List<Chamber> results;
+  List<MemberDetails> results;
 
   MemberResponse({this.status, this.copyright, this.results});
 
@@ -11,9 +11,9 @@ class MemberResponse {
     status = json['status'];
     copyright = json['copyright'];
     if (json['results'] != null) {
-      results = new List<Chamber>();
+      results = new List<MemberDetails>();
       json['results'].forEach((v) {
-        results.add(new Chamber.fromJson(v));
+        results.add(new MemberDetails.fromJson(v));
       });
     }
   }

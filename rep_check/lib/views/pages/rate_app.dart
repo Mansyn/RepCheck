@@ -23,7 +23,7 @@ class _RateAppState extends State<RateApp> {
           children: <Widget>[
             Container(
               child: Card(
-                color: Styles.commonDarkCardBackground,
+                color: Styles.primaryColor,
                 elevation: 5,
                 child: Padding(
                   padding: EdgeInsets.all(20),
@@ -33,7 +33,7 @@ class _RateAppState extends State<RateApp> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           Constants.appName,
-                          style: Styles.title.copyWith(
+                          style: Styles.detailHeader.copyWith(
                             fontSize: 45,
                             height: 1.4,
                           ),

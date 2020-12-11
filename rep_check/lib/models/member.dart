@@ -23,6 +23,7 @@ class Member {
   String fecCandidateId;
   String url;
   String rssUrl;
+  String role;
   String contactForm;
   bool inOffice;
   String cookPvi;
@@ -71,6 +72,7 @@ class Member {
       this.fecCandidateId,
       this.url,
       this.rssUrl,
+      this.role,
       this.contactForm,
       this.inOffice,
       this.cookPvi,
@@ -119,6 +121,7 @@ class Member {
     fecCandidateId = json['fec_candidate_id'];
     url = json['url'];
     rssUrl = json['rss_url'];
+    role = json['role'];
     contactForm = json['contact_form'];
     inOffice = json['in_office'];
     cookPvi = json['cook_pvi'];
@@ -169,6 +172,7 @@ class Member {
     data['fec_candidate_id'] = this.fecCandidateId;
     data['url'] = this.url;
     data['rss_url'] = this.rssUrl;
+    data['role'] = this.role;
     data['contact_form'] = this.contactForm;
     data['in_office'] = this.inOffice;
     data['cook_pvi'] = this.cookPvi;

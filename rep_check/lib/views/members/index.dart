@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:geocoder/model.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:location/location.dart';
 import 'package:rep_check/api/api_response.dart';
 import 'package:rep_check/blocs/location_bloc.dart';
-import 'package:rep_check/blocs/member_bloc.dart';
+import 'package:rep_check/blocs/all_member_bloc.dart';
+import 'package:rep_check/blocs/state_member_bloc.dart';
 import 'package:rep_check/models/member.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/query.dart';
+import 'package:rep_check/views/members/state_list.dart';
 import 'package:rep_check/views/partials/api_error.dart';
 import 'package:rep_check/views/partials/loading.dart';
 
@@ -23,42 +24,69 @@ class MembersIndexPage extends StatefulWidget {
 }
 
 class _MembersIndexPageState extends State<MembersIndexPage> {
-  MemberBloc _bloc;
+  AllMemberBloc _allbloc;
+  StateMemberBloc _statebloc;
   String _state;
-  Coordinates _coordinates;
 
-  Permission _permission = Permission.location;
-  PermissionStatus _permissionStatus = PermissionStatus.undetermined;
+  Location location = new Location();
+  bool _serviceEnabled;
+  PermissionStatus _permissionStatus;
 
   @override
   void initState() {
-    super.initState();
-
     switch (widget.query) {
       case Query.full:
-        _bloc = MemberBloc(widget.chamber);
+        _allbloc = AllMemberBloc(widget.chamber);
         break;
       case Query.state:
-        _listenForPermissionStatus();
+        checkPermission();
         break;
       case Query.district:
-        _listenForPermissionStatus();
+        checkPermission();
         break;
     }
+    super.initState();
   }
 
-  void _listenForPermissionStatus() async {
-    final status = await _permission.status;
-    setState(() => _permissionStatus = status);
+  Future<bool> checkPermission() async {
+    bool serviceEnabled;
+    PermissionStatus permissionStatus;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        Navigator.of(context).pop();
+      }
+    }
+
+    permissionStatus = await location.hasPermission();
+
+    print('location service enbabled: ' + _serviceEnabled.toString());
+    print('location permission: ' + _permissionStatus.toString());
+
+    setState(() => {
+          _permissionStatus = permissionStatus,
+          _serviceEnabled = serviceEnabled
+        });
+
+    return _permissionStatus == PermissionStatus.granted ||
+        _permissionStatus == PermissionStatus.grantedLimited;
   }
 
-  Future<void> _requestPermission(Permission permission) async {
-    final status = await permission.request();
+  Future<void> _requestPermission() async {
+    PermissionStatus permissionStatus = await location.hasPermission();
+    if (permissionStatus == PermissionStatus.denied) {
+      permissionStatus = await location.requestPermission();
+      if (permissionStatus != PermissionStatus.granted) {
+        return;
+      }
+    }
 
     setState(() {
-      print(status);
-      _permissionStatus = status;
-      print(_permissionStatus);
+      _permissionStatus = permissionStatus;
+      print('location permission requested - result: ' +
+          _permissionStatus.toString());
     });
   }
 
@@ -67,13 +95,13 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
 
     setState(() {
       _state = location.adminArea != null ? location.adminArea : 'DC';
-      _coordinates = location.coordinates;
     });
   }
 
   @override
   void dispose() {
-    _bloc.dispose();
+    _allbloc.dispose();
+    _statebloc.dispose();
     super.dispose();
   }
 
@@ -85,9 +113,9 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
       body: Container(
         padding: EdgeInsets.all(Constants.commonPadding),
         child: RefreshIndicator(
-          onRefresh: () => _bloc.fetchMembersList(widget.chamber),
+          onRefresh: () => _allbloc.fetchMembersList(),
           child: StreamBuilder<ApiResponse<List<Member>>>(
-            stream: _bloc.memberListStream,
+            stream: _allbloc.memberListStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 switch (snapshot.data.status) {
@@ -104,8 +132,7 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
                   case Status.ERROR:
                     return ApiError(
                       errorMessage: snapshot.data.message,
-                      onRetryPressed: () =>
-                          _bloc.fetchMembersList(widget.chamber),
+                      onRetryPressed: () => _allbloc.fetchMembersList(),
                     );
                     break;
                 }
@@ -119,54 +146,58 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
   }
 
   Widget buildState() {
-    if (!_permissionStatus.isGranted) {
-      this._requestPermission(_permission);
-      return Loading(loadingMessage: 'need your permission...');
-    } else {
-      if (_state == null) {
-        this._fetchLocation();
-        return Loading(loadingMessage: 'need your location...');
-      } else {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(_state + " " + widget.chamber + " MEMBERS"),
-          ),
-          body: Container(
-            padding: EdgeInsets.all(Constants.commonPadding),
-            child: RefreshIndicator(
-              onRefresh: () =>
-                  _bloc.fetchStateMembersList(widget.chamber, _state),
-              child: StreamBuilder<ApiResponse<List<Member>>>(
-                stream: _bloc.memberListStream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    switch (snapshot.data.status) {
-                      case Status.LOADING:
-                        return Loading(
-                          loadingMessage: snapshot.data.message,
-                        );
-                        break;
-                      case Status.COMPLETED:
-                        snapshot.data.data
-                            .sort((a, b) => a.state.compareTo(b.state));
-                        return MemberList(memberList: snapshot.data.data);
-                        break;
-                      case Status.ERROR:
-                        return ApiError(
-                          errorMessage: snapshot.data.message,
-                          onRetryPressed: () => _bloc.fetchStateMembersList(
-                              widget.chamber, _state),
-                        );
-                        break;
+    switch (_permissionStatus) {
+      case PermissionStatus.granted:
+      case PermissionStatus.grantedLimited:
+        if (_state == null) {
+          this._fetchLocation();
+          return Loading(loadingMessage: 'getting your location...');
+        } else {
+          _statebloc = StateMemberBloc(widget.chamber, _state);
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(_state + " " + widget.chamber + " MEMBERS"),
+            ),
+            body: Container(
+              padding: EdgeInsets.all(Constants.commonPadding),
+              child: RefreshIndicator(
+                onRefresh: () => _statebloc.fetchMembersList(),
+                child: StreamBuilder<ApiResponse<List<Member>>>(
+                  stream: _statebloc.memberListStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      switch (snapshot.data.status) {
+                        case Status.LOADING:
+                          return Loading(
+                            loadingMessage: snapshot.data.message,
+                          );
+                          break;
+                        case Status.COMPLETED:
+                          snapshot.data.data
+                              .sort((a, b) => a.lastName.compareTo(b.lastName));
+                          return StateMemberList(
+                              memberList: snapshot.data.data, state: _state);
+                          break;
+                        case Status.ERROR:
+                          return ApiError(
+                            errorMessage: snapshot.data.message,
+                            onRetryPressed: () => _statebloc.fetchMembersList(),
+                          );
+                          break;
+                      }
                     }
-                  }
-                  return Container();
-                },
+                    return Container();
+                  },
+                ),
               ),
             ),
-          ),
-        );
-      }
+          );
+        }
+        break;
+      default:
+        this._requestPermission();
+        return Loading(loadingMessage: 'need your permission...');
+        break;
     }
   }
 

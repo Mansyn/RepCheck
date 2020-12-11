@@ -1,50 +1,42 @@
 import 'dart:async';
 
 import 'package:rep_check/api/api_response.dart';
-import 'package:rep_check/models/member.dart';
+import 'package:rep_check/blocs/bloc.dart';
+import 'package:rep_check/models/member_details.dart';
 import 'package:rep_check/repositories/members_repository.dart';
 
-class MemberBloc {
+class MemberBloc implements Bloc {
   MemberRepository _memberRepository;
 
-  StreamController _memberListController;
+  StreamController _memberController;
 
-  StreamSink<ApiResponse<List<Member>>> get memberListSink =>
-      _memberListController.sink;
+  String _id;
 
-  Stream<ApiResponse<List<Member>>> get memberListStream =>
-      _memberListController.stream;
+  StreamSink<ApiResponse<MemberDetails>> get memberSink =>
+      _memberController.sink;
 
-  MemberBloc(String chamber) {
-    _memberListController = StreamController<ApiResponse<List<Member>>>();
+  Stream<ApiResponse<MemberDetails>> get memberStream =>
+      _memberController.stream;
+
+  MemberBloc(String id) {
+    _id = id;
+    _memberController = StreamController<ApiResponse<MemberDetails>>();
     _memberRepository = MemberRepository();
-    fetchMembersList(chamber);
+    fetchMember();
   }
 
-  fetchMembersList(String chamber) async {
-    memberListSink.add(ApiResponse.loading('Fetching All Members'));
+  fetchMember() async {
+    memberSink.add(ApiResponse.loading('Fetching Member'));
     try {
-      List<Member> members = await _memberRepository.fetchMemberList(chamber);
-      memberListSink.add(ApiResponse.completed(members));
+      MemberDetails members = await _memberRepository.fetchMember(_id);
+      memberSink.add(ApiResponse.completed(members));
     } catch (e) {
-      memberListSink.add(ApiResponse.error(e.toString()));
-      print(e);
-    }
-  }
-
-  fetchStateMembersList(String chamber, String state) async {
-    memberListSink.add(ApiResponse.loading('Fetching State Members'));
-    try {
-      List<Member> members =
-          await _memberRepository.fetchStateMemberList(chamber, state);
-      memberListSink.add(ApiResponse.completed(members));
-    } catch (e) {
-      memberListSink.add(ApiResponse.error(e.toString()));
+      memberSink.add(ApiResponse.error(e.toString()));
       print(e);
     }
   }
 
   dispose() {
-    _memberListController?.close();
+    _memberController?.close();
   }
 }

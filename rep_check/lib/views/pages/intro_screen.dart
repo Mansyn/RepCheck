@@ -14,36 +14,31 @@ class IntroScreenPage extends StatefulWidget {
 
 class _IntroScreenPageState extends State<IntroScreenPage> {
   static final List<String> images = [
-    'assets/images/rep_brand.png',
-    'assets/images/undraw_happy_music_g6wc.png',
-    'assets/images/undraw_the_world_is_mine_nb0e.png',
+    'assets/images/logo.png',
+    'assets/images/roots.png',
+    'assets/images/hands.png',
   ];
 
   static final List<String> titles = [
     Constants.appName,
-    'Location Based',
+    'Did You Know',
     'Be Informed',
   ];
 
   static final List<String> descriptions = [
-    'Built by Unleashed Development',
-    'find who represents a location',
-    'you should know who represents you!',
+    'We believe everyone should know who represents them in Congress.',
+    'Less than half of Americans can name their Representative. Too few know how their Representatives performed, too many are informed solely by advertisements.',
+    'We want this tool to empower voters with information.'
   ];
 
   final pages = [
     PageViewModel(
-        pageColor: Styles.appPrimaryColor,
-        // iconImageAssetPath: 'assets/air-hostess.png',
+        pageColor: Styles.primaryColor.withRed(120),
         bubble: Image.asset(images[1]),
         title: Text(titles[0]),
         body: Text(descriptions[0]),
-        titleTextStyle: TextStyle(fontFamily: 'Radicals', color: Colors.white),
-        bodyTextStyle: Styles.p.copyWith(
-          color: Colors.white,
-          fontFamily: 'Comfortaa',
-          fontStyle: FontStyle.italic,
-        ),
+        titleTextStyle: Styles.h1AppName,
+        bodyTextStyle: Styles.pWhite.copyWith(fontSize: 22),
         mainImage: Image.asset(
           images[0],
           height: 285.0,
@@ -51,41 +46,32 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
           alignment: Alignment.center,
         )),
     PageViewModel(
-      pageColor: const Color(0xFF8BC34A),
+      pageColor: Styles.primaryColor.withRed(150),
       iconImageAssetPath: images[2],
       title: Text(titles[1]),
       body: Text(descriptions[1]),
+      titleTextStyle: Styles.h1AppName,
+      bodyTextStyle: Styles.pWhite.copyWith(fontSize: 22),
       mainImage: Image.asset(
         images[1],
         height: 285.0,
         width: 285.0,
         alignment: Alignment.center,
       ),
-      titleTextStyle: TextStyle(fontFamily: 'Radicals', color: Colors.white),
-      bodyTextStyle: Styles.p.copyWith(
-        color: Colors.white,
-        fontFamily: 'Comfortaa',
-        fontStyle: FontStyle.italic,
-      ),
     ),
     PageViewModel(
-      pageColor: const Color.fromRGBO(22, 160, 133, 1),
-      iconImageAssetPath: images[1],
-      title: Text(titles[2]),
-      body: Text(descriptions[2]),
-      mainImage: Image.asset(
-        images[2],
-        height: 285.0,
-        width: 285.0,
-        alignment: Alignment.center,
-      ),
-      titleTextStyle: TextStyle(fontFamily: 'Radicals', color: Colors.white),
-      bodyTextStyle: Styles.p.copyWith(
-        color: Colors.white,
-        fontFamily: 'Comfortaa',
-        fontStyle: FontStyle.italic,
-      ),
-    ),
+        pageColor: Styles.primaryColor.withRed(90),
+        iconImageAssetPath: images[1],
+        title: Text(titles[2]),
+        body: Text(descriptions[2]),
+        titleTextStyle: Styles.h1AppName,
+        bodyTextStyle: Styles.pWhite.copyWith(fontSize: 22),
+        mainImage: Image.asset(
+          images[2],
+          height: 285.0,
+          width: 285.0,
+          alignment: Alignment.center,
+        )),
   ];
 
   @override
@@ -94,7 +80,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
       builder: (context) => Container(
         color: Colors.red,
         child: Scaffold(
-//          persistentFooterButtons: FakeBottomButtons(height: 40.0), // showcase admob banner
+          persistentFooterButtons: FakeBottomButtons(height: 50.0),
           body: IntroViewsFlutter(
             pages,
             showNextButton: true,

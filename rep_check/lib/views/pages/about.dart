@@ -99,14 +99,14 @@ class _AboutPageState extends State<AboutPage> {
               height: 10.0,
             ),
             Card(
-              color: Styles.commonDarkCardBackground,
+              color: Styles.primaryColor,
               margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
               child: Padding(
                 padding: EdgeInsets.all(20),
                 child: Column(
                   children: <Widget>[
                     Text("About Us",
-                        style: Styles.title.copyWith(
+                        style: Styles.detailHeader.copyWith(
                           height: 1,
                           fontSize: 22,
                         )),
