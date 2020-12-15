@@ -29,7 +29,7 @@ class StateMemberBloc implements Bloc {
   }
 
   fetchMembersList() async {
-    memberListSink.add(ApiResponse.loading('Fetching State Members'));
+    memberListSink.add(ApiResponse.loading('fetching state members'));
     try {
       List<Member> members =
           await _memberRepository.fetchStateMemberList(_chamber, _state);

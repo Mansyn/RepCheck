@@ -1,3 +1,5 @@
+import 'package:flutter_config/flutter_config.dart';
+
 class Constants {
   static bool testing = true;
 
@@ -9,7 +11,7 @@ class Constants {
   static String appBio = "Built to help people know who represents them";
   static String contactEmail = "iwalktheline@live.com";
   static String logoKey = "assets/images/logo.png";
-  static String rootsKey = 'assets/images/roots.png';
+  static String drawerKey = 'assets/images/hands2.png';
   static String loadingKey = "assets/images/loading.gif";
   static String defaultProfile = "assets/images/congressman_avatar.png";
   static String appAbout =
@@ -22,16 +24,16 @@ class Constants {
   static String twitterUrl = "https://twitter.com/rhymenocerus";
 
 // ad config
-  static List<String> testing_devices = ['emulator-5554'];
-  static String ad_unit_id = 'ca-app-pub-4892089932850014/8913053714';
-  static String app_id = 'ca-app-pub-4892089932850014~6638244163';
+  static List<String> testingDevices = ['emulator-5554', '9A271FFBA00CL1'];
+  static String adUnitId = 'ca-app-pub-4892089932850014/8913053714';
+  static String adAppId = 'ca-app-pub-4892089932850014~6638244163';
   static List<String> keywords = ['voting', 'government', 'information'];
 
   /// http headers
   static Object apiHeaders = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'X-API-Key': proPublicaApiKey
+    'X-API-Key': FlutterConfig.get('pbApiKey')
   };
 
   Map<String, String> backendHeaders = {
@@ -61,11 +63,8 @@ class Constants {
 
   static String session = "116";
 
-  // api keys
-  static String proPublicaApiKey = "NXPaOcfs3gRy8WabavuC9LyP0w2GNYbm5w6hBAhd";
-
-  /// api routes
-  static String apiBaseUrl = "https://api.propublica.org/congress/v1/";
+  static String openApiUrl = 'https://openstates.org/api/v1/';
+  static String openApiKey = '06a6f314-6354-4a0b-9d36-3d64535a3c91';
 
   static String fbUrl = 'https://www.facebook.com/';
   static String fbPhotoUrl =

@@ -193,7 +193,7 @@ class _DetailsPageState extends State<Details> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: FakeBottomButtons(height: 50.0),
+      persistentFooterButtons: fakeBottomButtons(height: 50.0),
       body: RefreshIndicator(
         onRefresh: () => _bloc.fetchMember(),
         child: StreamBuilder<ApiResponse<MemberDetails>>(

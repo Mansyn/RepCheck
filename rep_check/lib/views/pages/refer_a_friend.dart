@@ -36,7 +36,7 @@ class _ReferAFriendPageState extends State<ReferAFriendPage> {
               Share.share(Constants.shareMessage,
                   subject: Constants.shareSubject);
             }),
-            FakeBottom(),
+            fakeBottom(),
           ],
         ),
       ),

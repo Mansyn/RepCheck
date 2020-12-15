@@ -63,7 +63,7 @@ class DrawerHeaderItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         image: DecorationImage(
-            image: AssetImage(Constants.rootsKey), fit: BoxFit.fill),
+            image: AssetImage(Constants.drawerKey), fit: BoxFit.fill),
       ),
     );
   }

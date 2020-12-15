@@ -62,13 +62,14 @@ class Styles {
       color: Colors.grey[100],
     ),
   );
+  static Color primaryComp1 = Color(0xFF53d129);
+  static Color primaryComp2 = Color(0xFFd1bd29);
 
   static TextStyle defaultStyle = TextStyle();
 
   static TextStyle h1 = defaultStyle.copyWith(
     fontWeight: FontWeight.w700,
     fontSize: 18.0,
-    height: 22 / 18,
     color: primaryColor,
   );
 
@@ -77,21 +78,26 @@ class Styles {
     fontFamily: 'PassionOne',
   );
 
-  static TextStyle listItemHeader = defaultStyle.copyWith(
-    fontSize: 26.0,
-    fontFamily: 'PassionOne'
-    
-  );
+  static TextStyle loadingHeader = defaultStyle.copyWith(
+      fontSize: 42.0,
+      color: primaryColor,
+      decoration: TextDecoration.none,
+      fontWeight: FontWeight.normal);
+
+  static TextStyle listItemHeader =
+      defaultStyle.copyWith(fontSize: 28.0, fontFamily: 'PassionOne');
 
   static TextStyle detailHeader = defaultStyle.copyWith(
     fontSize: 42.0,
     fontFamily: 'PassionOne',
   );
 
-  static TextStyle h1White = defaultStyle.copyWith(
-    fontWeight: FontWeight.w700,
-    fontSize: 18.0,
+  static TextStyle h1White = h1.copyWith(
     color: Colors.white,
+  );
+
+  static TextStyle h1Black = h1.copyWith(
+    color: Colors.black,
   );
 
   static TextStyle p = defaultStyle.copyWith(

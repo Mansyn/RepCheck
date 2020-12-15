@@ -108,7 +108,7 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
   Widget buildFull() {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ALL " + widget.chamber + " MEMBERS"),
+        title: Text("ENTIRE " + widget.chamber),
       ),
       body: Container(
         padding: EdgeInsets.all(Constants.commonPadding),
@@ -151,12 +151,18 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
       case PermissionStatus.grantedLimited:
         if (_state == null) {
           this._fetchLocation();
-          return Loading(loadingMessage: 'getting your location...');
+          return Scaffold(
+              appBar: AppBar(
+                title: Text(""),
+              ),
+              body: Container(
+                  padding: EdgeInsets.all(Constants.commonPadding),
+                  child: Loading(loadingMessage: 'getting your location...')));
         } else {
           _statebloc = StateMemberBloc(widget.chamber, _state);
           return Scaffold(
             appBar: AppBar(
-              title: Text(_state + " " + widget.chamber + " MEMBERS"),
+              title: Text(_state.toUpperCase() + " " + widget.chamber),
             ),
             body: Container(
               padding: EdgeInsets.all(Constants.commonPadding),

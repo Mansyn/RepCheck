@@ -26,7 +26,7 @@ class AllMemberBloc implements Bloc {
   }
 
   fetchMembersList() async {
-    memberListSink.add(ApiResponse.loading('Fetching All Members'));
+    memberListSink.add(ApiResponse.loading('fetching all members'));
     try {
       List<Member> members = await _memberRepository.fetchMemberList(_chamber);
       memberListSink.add(ApiResponse.completed(members));

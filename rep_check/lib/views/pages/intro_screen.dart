@@ -15,8 +15,8 @@ class IntroScreenPage extends StatefulWidget {
 class _IntroScreenPageState extends State<IntroScreenPage> {
   static final List<String> images = [
     'assets/images/logo.png',
-    'assets/images/roots.png',
-    'assets/images/hands.png',
+    'assets/images/hands2.png',
+    'assets/images/magnify.png',
   ];
 
   static final List<String> titles = [
@@ -26,14 +26,14 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
   ];
 
   static final List<String> descriptions = [
-    'We believe everyone should know who represents them in Congress.',
-    'Less than half of Americans can name their Representative. Too few know how their Representatives performed, too many are informed solely by advertisements.',
-    'We want this tool to empower voters with information.'
+    'Less than half of USA citizens can name one of their Representatives.',
+    'Even less know how their Representatives performed, most are informed solely by advertisements.',
+    'This tool is meant to allow quick access to that information.'
   ];
 
   final pages = [
     PageViewModel(
-        pageColor: Styles.primaryColor.withRed(120),
+        pageColor: Styles.primaryColor,
         bubble: Image.asset(images[1]),
         title: Text(titles[0]),
         body: Text(descriptions[0]),
@@ -46,7 +46,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
           alignment: Alignment.center,
         )),
     PageViewModel(
-      pageColor: Styles.primaryColor.withRed(150),
+      pageColor: Styles.primaryComp1,
       iconImageAssetPath: images[2],
       title: Text(titles[1]),
       body: Text(descriptions[1]),
@@ -60,8 +60,8 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
       ),
     ),
     PageViewModel(
-        pageColor: Styles.primaryColor.withRed(90),
-        iconImageAssetPath: images[1],
+        pageColor: Styles.primaryComp2,
+        iconImageAssetPath: images[0],
         title: Text(titles[2]),
         body: Text(descriptions[2]),
         titleTextStyle: Styles.h1AppName,
@@ -80,7 +80,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
       builder: (context) => Container(
         color: Colors.red,
         child: Scaffold(
-          persistentFooterButtons: FakeBottomButtons(height: 50.0),
+          persistentFooterButtons: fakeBottomButtons(),
           body: IntroViewsFlutter(
             pages,
             showNextButton: true,

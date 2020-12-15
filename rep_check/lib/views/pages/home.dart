@@ -52,18 +52,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   static MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    testDevices: Constants.testing_devices,
-    keywords: Constants.keywords,
-    childDirected: true,
-    nonPersonalizedAds: false,
-  );
+      testDevices: Constants.testingDevices, keywords: Constants.keywords);
 
   bool _adShown = false;
   BannerAd _bannerAd;
 
   BannerAd createBannerAd() {
     return BannerAd(
-        adUnitId: BannerAd.testAdUnitId,
+        adUnitId: Constants.adUnitId,
         size: AdSize.banner,
         targetingInfo: targetingInfo,
         listener: (MobileAdEvent event) {
@@ -80,7 +76,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
+    FirebaseAdMob.instance.initialize(appId: Constants.adAppId);
     _adShown = false;
     _bannerAd = createBannerAd()
       ..load()
@@ -92,10 +88,10 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
         child: Scaffold(
           persistentFooterButtons: _adShown
-              ? FakeBottomButtons(height: 50.0)
+              ? fakeBottomButtons(height: 50.0)
               : null, // showcase admob banner
           appBar: AppBar(
-            title: Text(Constants.appName),
+            title: Text(Constants.appName.toUpperCase()),
             actions: commonAppBarActions(),
           ),
           drawer: HomeDrawer(),

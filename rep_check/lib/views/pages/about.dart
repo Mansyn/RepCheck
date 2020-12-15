@@ -188,7 +188,7 @@ class _AboutPageState extends State<AboutPage> {
               padding: EdgeInsets.all(15),
               child: Image.asset('assets/images/logo.png'),
             ),
-            FakeBottom(),
+            fakeBottom(),
           ],
         ),
       ),

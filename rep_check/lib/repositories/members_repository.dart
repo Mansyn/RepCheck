@@ -1,3 +1,4 @@
+import 'package:flutter_config/flutter_config.dart';
 import 'package:rep_check/api/api_base_helper.dart';
 import 'package:rep_check/models/member.dart';
 import 'package:rep_check/models/member_details.dart';
@@ -10,8 +11,10 @@ import 'package:us_states/us_states.dart';
 class MemberRepository {
   ApiBaseHelper _helper = ApiBaseHelper();
 
+  final String pbUrl = FlutterConfig.get('pbApiUrl');
+
   Future<List<Member>> fetchMemberList(String chamber) async {
-    String fullUrl = Constants.apiBaseUrl +
+    String fullUrl = pbUrl +
         Constants.session +
         Constants.sep +
         (chamber == 'SENATE' ? Constants.senate : Constants.house) +
@@ -26,7 +29,7 @@ class MemberRepository {
   Future<List<Member>> fetchStateMemberList(
       String chamber, String state) async {
     String stateCode = USStates.getAbbreviation(state);
-    String fullUrl = Constants.apiBaseUrl +
+    String fullUrl = pbUrl +
         Constants.members +
         Constants.sep +
         (chamber == 'SENATE' ? Constants.senate : Constants.house) +
@@ -41,11 +44,9 @@ class MemberRepository {
   }
 
   Future<MemberDetails> fetchMember(String id) async {
-    String fullUrl =
-        Constants.apiBaseUrl + Constants.members + Constants.sep + id + '.json';
+    String fullUrl = pbUrl + Constants.members + Constants.sep + id + '.json';
     print(fullUrl);
     final response = await _helper.get(fullUrl, Constants.apiHeaders);
-    print(response);
     return MemberResponse.fromJson(response).results[0];
   }
 }

@@ -52,10 +52,9 @@ class StateMemberList extends StatelessWidget {
                                   memberList[index].lastName,
                               style: Styles.listItemHeader,
                               textAlign: TextAlign.center),
-                          Text(state, style: Styles.defaultStyle),
-                          Text(memberList[index].role, style: Styles.detail),
                           Text(Widgethelper.getMemberParty(memberList[index]),
-                              style: Styles.detail),
+                              style: Styles.h1Black),
+                          Text(memberList[index].role, style: Styles.h1Black),
                           ButtonBar(children: <Widget>[
                             FlatButton(
                                 child: Icon(MdiIcons.dotsHorizontal),

@@ -21,7 +21,7 @@ class _DashboardPageState extends State<DashboardPage> {
             Center(
                 child: Text(
               "Welcome Home",
-              style: Styles.h1,
+              style: Styles.listItemHeader,
             )),
           ],
         ),
