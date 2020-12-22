@@ -42,9 +42,10 @@ class BackendDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeaderItem(),
           LogoutItem(),
-          ReferAFriendItem(),
           AboutItem(),
+          ReferAFriendItem(),
           RateAppItem(),
+          HomeItem(),
           SizedBox(
             height: 50,
           ),
@@ -61,9 +62,12 @@ class DrawerHeaderItem extends StatelessWidget {
     return DrawerHeader(
       child: Text(""),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Styles.primaryColor, Styles.accentColor]),
         image: DecorationImage(
-            image: AssetImage(Constants.drawerKey), fit: BoxFit.fill),
+            image: AssetImage(Constants.mapKey), fit: BoxFit.fill),
       ),
     );
   }

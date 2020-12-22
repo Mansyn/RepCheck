@@ -1,4 +1,4 @@
-import 'package:rep_check/models/role.dart';
+import 'package:rep_check/models/propublica/role.dart';
 
 class MemberDetails {
   String id;

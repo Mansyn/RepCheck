@@ -89,7 +89,7 @@ class _AboutPageState extends State<AboutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("About App"),
+        title: Text("ABOUT REP CHECK"),
         actions: commonAppBarActions(),
       ),
       body: Container(

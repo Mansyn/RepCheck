@@ -49,10 +49,10 @@ class MyAppTheme {
 }
 
 class Styles {
-  static Color primaryColor = Color(0xFFa7d129);
-  static Color primaryVariantColor = Color(0xFFdcff60);
-  static Color accentColor = Color(0xFF101010);
-  static Color accentVarColor = Color(0xFF484848); // #1e2d3b
+  static Color primaryColor = Color(0xFF86C232);
+  static Color primaryVariantColor = Color(0xFF61892F);
+  static Color accentColor = Color(0xFF222629);
+  static Color accentVarColor = Color(0xFF474B4F);
   static TextTheme appTextTheme = TextTheme(
     headline5: TextStyle(
       fontSize: 72.0,
@@ -62,8 +62,12 @@ class Styles {
       color: Colors.grey[100],
     ),
   );
-  static Color primaryComp1 = Color(0xFF53d129);
-  static Color primaryComp2 = Color(0xFFd1bd29);
+  static Color primaryAnalogous1 = Color(0xFF6CBB3C);
+  static Color primaryAnalogous2 = Color(0xFFB2C248);
+  static Color primaryAnalogous3 = Color(0xFF85BB65);
+  static Color primaryAnalogous4 = Color(0xFF243F17);
+  static Color primaryAnalogous5 = Color(0xFF007C01);
+  static Color primaryAnalogous6 = Color(0xFF427818);
 
   static TextStyle defaultStyle = TextStyle();
 
@@ -71,6 +75,11 @@ class Styles {
     fontWeight: FontWeight.w700,
     fontSize: 18.0,
     color: primaryColor,
+  );
+
+  static TextStyle h1AppBar = defaultStyle.copyWith(
+    fontSize: 26.0,
+    fontFamily: 'PassionOne',
   );
 
   static TextStyle h1AppName = defaultStyle.copyWith(
@@ -88,13 +97,17 @@ class Styles {
       defaultStyle.copyWith(fontSize: 28.0, fontFamily: 'PassionOne');
 
   static TextStyle detailHeader = defaultStyle.copyWith(
-    fontSize: 42.0,
+    fontSize: 38.0,
     fontFamily: 'PassionOne',
   );
 
-  static TextStyle h1White = h1.copyWith(
-    color: Colors.white,
+  static TextStyle appTitle = defaultStyle.copyWith(
+    fontSize: 38.0,
+    fontFamily: 'PassionOne',
   );
+
+  static TextStyle appHeader = defaultStyle.copyWith(
+      color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w800);
 
   static TextStyle h1Black = h1.copyWith(
     color: Colors.black,

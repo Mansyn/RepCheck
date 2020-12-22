@@ -15,7 +15,7 @@ class _ReferAFriendPageState extends State<ReferAFriendPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Refer A Friend"),
+        title: Text("REFER A FRIEND"),
       ),
       body: Container(
         padding: EdgeInsets.all(Constants.commonPadding),
@@ -23,13 +23,11 @@ class _ReferAFriendPageState extends State<ReferAFriendPage> {
           children: <Widget>[
             Text(
               "Tell a friend to tell a friend to tell a friend.",
-              style: Styles.h1.copyWith(
-                height: 2,
-              ),
+              style: Styles.h1,
             ),
             Container(
               height: 300,
-              child: Image.asset('assets/images/collaboration.png'),
+              child: Image.asset(Constants.handsKey),
             ),
             MySubmitIconedButton(
                 "Share App With Friends", Icon(Icons.share), false, () {

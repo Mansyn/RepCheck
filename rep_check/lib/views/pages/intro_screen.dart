@@ -33,7 +33,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
 
   final pages = [
     PageViewModel(
-        pageColor: Styles.primaryColor,
+        pageColor: Styles.primaryAnalogous1,
         bubble: Image.asset(images[1]),
         title: Text(titles[0]),
         body: Text(descriptions[0]),
@@ -46,7 +46,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
           alignment: Alignment.center,
         )),
     PageViewModel(
-      pageColor: Styles.primaryComp1,
+      pageColor: Styles.primaryAnalogous2,
       iconImageAssetPath: images[2],
       title: Text(titles[1]),
       body: Text(descriptions[1]),
@@ -60,7 +60,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
       ),
     ),
     PageViewModel(
-        pageColor: Styles.primaryComp2,
+        pageColor: Styles.primaryColor,
         iconImageAssetPath: images[0],
         title: Text(titles[2]),
         body: Text(descriptions[2]),

@@ -1,19 +1,20 @@
-import 'package:rep_check/models/chamber.dart';
+import 'package:rep_check/models/propublica/chamber.dart';
+import 'package:rep_check/models/propublica/member.dart';
 
-class AllMemberResponse {
+class StateMemberResponse {
   String status;
   String copyright;
-  List<Chamber> results;
+  List<Member> results;
 
-  AllMemberResponse({this.status, this.copyright, this.results});
+  StateMemberResponse({this.status, this.copyright, this.results});
 
-  AllMemberResponse.fromJson(Map<String, dynamic> json) {
+  StateMemberResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     copyright = json['copyright'];
     if (json['results'] != null) {
-      results = new List<Chamber>();
+      results = new List<Member>();
       json['results'].forEach((v) {
-        results.add(new Chamber.fromJson(v));
+        results.add(new Member.fromJson(v));
       });
     }
   }

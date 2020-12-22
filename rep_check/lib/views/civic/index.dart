@@ -2,32 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/model.dart';
 import 'package:location/location.dart';
 import 'package:rep_check/api/api_response.dart';
+import 'package:rep_check/blocs/district_member_bloc.dart';
 import 'package:rep_check/blocs/location_bloc.dart';
-import 'package:rep_check/blocs/all_member_bloc.dart';
-import 'package:rep_check/blocs/state_member_bloc.dart';
-import 'package:rep_check/models/propublica/member.dart';
+import 'package:rep_check/models/civic/official.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/enums.dart';
-import 'package:rep_check/views/members/state_list.dart';
+import 'package:rep_check/utils/styles.dart';
 import 'package:rep_check/views/partials/api_error.dart';
 import 'package:rep_check/views/partials/loading.dart';
 
 import 'list.dart';
 
-class MembersIndexPage extends StatefulWidget {
-  MembersIndexPage(this.chamber, this.query);
+class CivicIndexPage extends StatefulWidget {
+  CivicIndexPage(this.query, this.body);
 
-  final String chamber;
   final Query query;
+  final Body body;
 
   @override
-  _MembersIndexPageState createState() => _MembersIndexPageState();
+  _CivicIndexPageState createState() => _CivicIndexPageState();
 }
 
-class _MembersIndexPageState extends State<MembersIndexPage> {
-  AllMemberBloc _allbloc;
-  StateMemberBloc _statebloc;
-  String _state;
+class _CivicIndexPageState extends State<CivicIndexPage> {
+  DistrictMemberBloc _districtbloc;
   Address _address;
 
   Location location = new Location();
@@ -36,14 +33,7 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
 
   @override
   void initState() {
-    switch (widget.query) {
-      case Query.full:
-        break;
-      case Query.state:
-        checkPermission();
-        break;
-    }
-    if (widget.query == Query.state) {}
+    checkPermission();
     super.initState();
   }
 
@@ -60,9 +50,6 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
     }
 
     permissionStatus = await location.hasPermission();
-
-    print('location service enbabled: ' + _serviceEnabled.toString());
-    print('location permission: ' + _permissionStatus.toString());
 
     setState(() => {
           _permissionStatus = permissionStatus,
@@ -93,64 +80,35 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
     final location = await LocationBloc().fetchLocation();
 
     setState(() {
-      _state = location.adminArea != null ? location.adminArea : 'DC';
       _address = location;
     });
   }
 
   @override
   void dispose() {
-    _allbloc.dispose();
-    _statebloc.dispose();
+    _districtbloc.dispose();
     super.dispose();
   }
 
-  Widget buildFull() {
-    _allbloc = AllMemberBloc(widget.chamber);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("ENTIRE " + widget.chamber),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(Constants.commonPadding),
-        child: RefreshIndicator(
-          onRefresh: () => _allbloc.fetchMembersList(),
-          child: StreamBuilder<ApiResponse<List<Member>>>(
-            stream: _allbloc.memberListStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                switch (snapshot.data.status) {
-                  case Status.LOADING:
-                    return Loading(
-                      loadingMessage: snapshot.data.message,
-                    );
-                    break;
-                  case Status.COMPLETED:
-                    snapshot.data.data
-                        .sort((a, b) => a.state.compareTo(b.state));
-                    return MemberList(memberList: snapshot.data.data);
-                    break;
-                  case Status.ERROR:
-                    return ApiError(
-                      errorMessage: snapshot.data.message,
-                      onRetryPressed: () => _allbloc.fetchMembersList(),
-                    );
-                    break;
-                }
-              }
-              return Container();
-            },
-          ),
-        ),
-      ),
-    );
+  String _getQuery() {
+    switch (widget.body) {
+      case Body.upper:
+        return 'legislatorUpperBody';
+        break;
+      case Body.lower:
+        return 'legislatorLowerBody';
+        break;
+      default:
+        return 'legislatorUpperBody';
+    }
   }
 
-  Widget buildState() {
+  @override
+  Widget build(BuildContext context) {
     switch (_permissionStatus) {
       case PermissionStatus.granted:
       case PermissionStatus.grantedLimited:
-        if (_state == null) {
+        if (_address == null) {
           this._fetchLocation();
           return Scaffold(
               appBar: AppBar(
@@ -160,17 +118,17 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
                   padding: EdgeInsets.all(Constants.commonPadding),
                   child: Loading(loadingMessage: 'getting your location...')));
         } else {
-          _statebloc = StateMemberBloc(widget.chamber, _state);
+          _districtbloc = DistrictMemberBloc(_getQuery(), _address);
           return Scaffold(
             appBar: AppBar(
-              title: Text(_state.toUpperCase() + " " + widget.chamber),
+              title: Text('Federal Upper Body', style: Styles.h1AppBar),
             ),
             body: Container(
               padding: EdgeInsets.all(Constants.commonPadding),
               child: RefreshIndicator(
-                onRefresh: () => _statebloc.fetchMembersList(),
-                child: StreamBuilder<ApiResponse<List<Member>>>(
-                  stream: _statebloc.memberListStream,
+                onRefresh: () => _districtbloc.fetchMembersList(),
+                child: StreamBuilder<ApiResponse<List<Official>>>(
+                  stream: _districtbloc.memberListStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       switch (snapshot.data.status) {
@@ -181,14 +139,15 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
                           break;
                         case Status.COMPLETED:
                           snapshot.data.data
-                              .sort((a, b) => a.lastName.compareTo(b.lastName));
-                          return StateMemberList(
-                              memberList: snapshot.data.data, state: _state);
+                              .sort((a, b) => a.name.compareTo(b.name));
+                          return OfficialList(
+                              list: snapshot.data.data, address: _address);
                           break;
                         case Status.ERROR:
                           return ApiError(
                             errorMessage: snapshot.data.message,
-                            onRetryPressed: () => _statebloc.fetchMembersList(),
+                            onRetryPressed: () =>
+                                _districtbloc.fetchMembersList(),
                           );
                           break;
                       }
@@ -205,20 +164,6 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
         this._requestPermission();
         return Loading(loadingMessage: 'need your permission...');
         break;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    switch (widget.query) {
-      case Query.full:
-        return buildFull();
-        break;
-      case Query.state:
-        return buildState();
-        break;
-      default:
-        return buildFull();
     }
   }
 }

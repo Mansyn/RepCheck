@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:rep_check/models/member.dart';
+import 'package:rep_check/models/propublica/member.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/styles.dart';
 import 'package:rep_check/utils/widget_helper.dart';
@@ -34,10 +34,11 @@ class StateMemberList extends StatelessWidget {
                   children: <Widget>[
                     Card(
                       elevation: 0,
+                      color: Styles.primaryColor,
                       shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(10.0))),
-                      child: Widgethelper.getProfilePhoto(memberList[index]),
+                      child: Widgethelper.getPublicaPhoto(memberList[index]),
                       clipBehavior: Clip.antiAlias,
                       margin: EdgeInsets.all(8.0),
                     ),

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:rep_check/utils/constants.dart';
-import 'package:rep_check/utils/query.dart';
+import 'package:rep_check/utils/enums.dart';
 import 'package:rep_check/utils/styles.dart';
-import 'package:rep_check/views/members/index.dart';
+import 'package:rep_check/views/civic/index.dart';
 import 'package:rep_check/views/partials/common_appbar_actions.dart';
 import 'package:rep_check/views/partials/drawer.dart';
 import 'package:rep_check/views/partials/fake_bottom_buttons.dart';
@@ -87,158 +87,52 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return WillPopScope(
         child: Scaffold(
-          persistentFooterButtons: _adShown
-              ? fakeBottomButtons(height: 50.0)
-              : null, // showcase admob banner
-          appBar: AppBar(
-            title: Text(Constants.appName.toUpperCase()),
-            actions: commonAppBarActions(),
-          ),
-          drawer: HomeDrawer(),
-          body: Container(
-            padding: EdgeInsets.all(Constants.commonPadding),
-            constraints: BoxConstraints.expand(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'AVAILABLE QUERIES:',
-                  style: Styles.h1,
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(MdiIcons.viewList),
-                      Expanded(
-                        child: Text('VIEW ENTIRE SENATE',
-                            textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MembersIndexPage('SENATE', Query.full),
-                      ),
-                    );
-                  },
-                  onLongPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MembersIndexPage('SENATE', Query.full),
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(MdiIcons.viewList),
-                      Expanded(
-                        child: Text('VIEW ENTIRE HOUSE REPS',
-                            textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MembersIndexPage('HOUSE', Query.full),
-                      ),
-                    );
-                  },
-                  onLongPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MembersIndexPage('HOUSE', Query.full),
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(MdiIcons.viewList),
-                      Expanded(
-                        child: Text('VIEW SENATORS FOR YOUR STATE',
-                            textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MembersIndexPage('SENATE', Query.state),
-                      ),
-                    );
-                  },
-                  onLongPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MembersIndexPage('SENATE', Query.state),
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(MdiIcons.viewList),
-                      Expanded(
-                        child: Text('VIEW HOUSE REPS FOR YOUR STATE',
-                            textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MembersIndexPage('HOUSE', Query.state),
-                      ),
-                    );
-                  },
-                  onLongPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MembersIndexPage('HOUSE', Query.state),
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(height: 25)
-              ],
+            persistentFooterButtons: _adShown
+                ? fakeBottomButtons(height: 50.0)
+                : null, // showcase admob banner
+            appBar: AppBar(
+              title: Text('Available Queries', style: Styles.h1AppBar),
+              actions: commonAppBarActions(),
             ),
-          ),
-        ),
-        //drawer: _buildDrawer()),
+            drawer: HomeDrawer(),
+            body: ListView(scrollDirection: Axis.vertical, children: <Widget>[
+              CurvedListItem(
+                  title: 'Senators From Your District',
+                  header: 'UPPER BODY',
+                  color: Styles.primaryAnalogous1,
+                  nextColor: Styles.primaryAnalogous2,
+                  query: Query.district,
+                  body: Body.upper,
+                  icon: MdiIcons.locationEnter,
+                  description: 'Federal and State members'),
+              CurvedListItem(
+                  title: 'House Members From Your District',
+                  header: 'LOWER BODY',
+                  color: Styles.primaryAnalogous2,
+                  nextColor: Styles.primaryAnalogous3,
+                  query: Query.district,
+                  body: Body.lower,
+                  icon: MdiIcons.domain,
+                  description: 'Federal and State members'),
+              CurvedListItem(
+                  title: 'Senators From Your State',
+                  header: 'UPPER BODY',
+                  color: Styles.primaryAnalogous3,
+                  nextColor: Styles.primaryAnalogous4,
+                  query: Query.state,
+                  body: Body.upper,
+                  icon: MdiIcons.accountBox,
+                  description: 'State members'),
+              CurvedListItem(
+                  title: 'House Members From Your State',
+                  header: 'LOWER BODY',
+                  color: Styles.primaryAnalogous4,
+                  nextColor: Styles.accentColor,
+                  query: Query.state,
+                  body: Body.upper,
+                  icon: MdiIcons.accountBox,
+                  description: 'State members')
+            ])),
         onWillPop: _onBackPress);
   }
 
@@ -246,5 +140,62 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _bannerAd?.dispose();
     super.dispose();
+  }
+}
+
+class CurvedListItem extends StatelessWidget {
+  const CurvedListItem({
+    this.title,
+    this.header,
+    this.query,
+    this.body,
+    this.icon,
+    this.description,
+    this.color,
+    this.nextColor,
+  });
+
+  final String title;
+  final String header;
+  final Query query;
+  final Body body;
+  final String description;
+  final IconData icon;
+  final Color color;
+  final Color nextColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: nextColor,
+        child: Container(
+            decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(80.0),
+                )),
+            padding: const EdgeInsets.only(
+              left: 35,
+              right: 35,
+              top: 35.0,
+              bottom: 60,
+            ),
+            child: GestureDetector(
+                onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CivicIndexPage(query, body),
+                      ),
+                    ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(header, style: Styles.appHeader),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Text(title, style: Styles.appTitle),
+                      Text(description, style: Styles.appHeader)
+                    ]))));
   }
 }

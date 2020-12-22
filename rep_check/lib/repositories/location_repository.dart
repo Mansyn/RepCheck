@@ -14,7 +14,7 @@ class LocationRepository {
     debugPrint(
         'latitude: ${_locationData.latitude} longitude: ${_locationData.longitude}');
 
-    var addresses =
+    List<Address> addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     return addresses.first;
   }

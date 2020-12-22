@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rep_check/api/api_response.dart';
 import 'package:rep_check/blocs/member_bloc.dart';
-import 'package:rep_check/models/member_details.dart';
-import 'package:rep_check/models/role.dart';
+import 'package:rep_check/models/propublica/member_details.dart';
+import 'package:rep_check/models/propublica/role.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/widget_helper.dart';
 import 'package:rep_check/views/partials/api_error.dart';
@@ -91,7 +91,7 @@ class _DetailsPageState extends State<Details> {
                         style: TextStyle(color: Colors.white, fontSize: 16.0)),
                     background:
                         Stack(alignment: Alignment.center, children: <Widget>[
-                      Widgethelper.getProfilePhoto(member),
+                      Widgethelper.getPublicaPhoto(member),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white,

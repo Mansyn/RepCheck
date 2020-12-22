@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:rep_check/api/api_response.dart';
 import 'package:rep_check/blocs/bloc.dart';
-import 'package:rep_check/models/member.dart';
+import 'package:rep_check/models/propublica/member.dart';
 import 'package:rep_check/repositories/members_repository.dart';
 
 class AllMemberBloc implements Bloc {

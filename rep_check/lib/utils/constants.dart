@@ -4,36 +4,48 @@ class Constants {
   static bool testing = true;
 
   /// general setup
-  static String appId = "com.unleashed.rep_check";
-  static String iosAppId = "com.unleashed.rep_check";
-  static String appName = "Rep Check";
-  static String appTagLine = "Be aware of who represents you";
-  static String appBio = "Built to help people know who represents them";
-  static String contactEmail = "iwalktheline@live.com";
-  static String logoKey = "assets/images/logo.png";
-  static String drawerKey = 'assets/images/hands2.png';
-  static String loadingKey = "assets/images/loading.gif";
-  static String defaultProfile = "assets/images/congressman_avatar.png";
+  static String appId = 'com.unleashed.rep_check';
+  static String iosAppId = 'com.unleashed.rep_check';
+  static String appName = 'Rep Check';
+  static String appTagLine = 'Be aware of who represents you';
+  static String appBio = 'Built to help people know who represents them';
+  static String contactEmail = 'iwalktheline@live.com';
+  static String logoKey = 'assets/images/logo.png';
+  static String mapKey = 'assets/images/map.png';
+  static String handsKey = 'assets/images/hands2.png';
+  static String loadingKey = 'assets/images/loading.gif';
+  static String defaultProfile = 'assets/images/congressman_avatar.png';
   static String appAbout =
-      "The was built to help people easily discover who represents them, and will let them see what they do in Congress.";
+      'The was built to help people easily discover who represents them, and will let them see what they do in Congress. This is still a work in progress.';
 
   /// Share message
-  static String shareLink = "http://unleasheddevelopement.com";
-  static String shareMessage = "Check out this Amazing App at " + shareLink;
-  static String shareSubject = "Best App Ever!";
-  static String twitterUrl = "https://twitter.com/rhymenocerus";
+  static String shareLink = 'http://unleasheddevelopement.com';
+  static String shareMessage = 'Check out this Amazing App at ' + shareLink;
+  static String shareSubject = 'Best App Ever!';
+  static String twitterUrl = 'https://twitter.com/rhymenocerus';
 
 // ad config
-  static List<String> testingDevices = ['emulator-5554', '9A271FFBA00CL1'];
+  static List<String> testingDevices = [
+    'emulator-5554',
+    '9A271FFBA00CL1',
+    '3C1704A7B8B2A9B21396AF749904CBE3'
+  ];
   static String adUnitId = 'ca-app-pub-4892089932850014/8913053714';
   static String adAppId = 'ca-app-pub-4892089932850014~6638244163';
   static List<String> keywords = ['voting', 'government', 'information'];
 
+  static String pbKey = FlutterConfig.get('pbApiKey');
+
   /// http headers
-  static Object apiHeaders = {
+  static Map<String, String> pbHeaders = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'X-API-Key': FlutterConfig.get('pbApiKey')
+    'X-API-Key': pbKey
+  };
+
+  static Map<String, String> headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
   };
 
   Map<String, String> backendHeaders = {
@@ -43,28 +55,34 @@ class Constants {
   };
 
   /// FCM notification keys & topics
-  static String publicTopicKey = testing ? "testing" : "public";
+  static String publicTopicKey = testing ? 'testing' : 'public';
 
   /// e.t.c.
   static double commonPadding = 15.0;
-  static String commonDateFormat = "dd MMM yyyy, hh:mm a";
-  static String sep = "/";
+  static String commonDateFormat = 'dd MMM yyyy, hh:mm a';
+  static String sep = '/';
+  static String query = '?';
+  static String amp = '&';
 
   /// param keys
-  static String appPreviouslyRunKey = "seen";
-  static String members = "members";
-  static String congress = "congress";
-  static String house = "house";
-  static String senate = "senate";
-  static String chamber = "chamber";
-  static String state = "state";
-  static String district = "district";
-  static String current = "current";
+  static String appPreviouslyRunKey = 'seen';
+  static String members = 'members';
+  static String congress = 'congress';
+  static String house = 'house';
+  static String senate = 'senate';
+  static String representatives = 'representatives';
+  static String chamber = 'chamber';
+  static String state = 'state';
+  static String district = 'district';
+  static String current = 'current';
+  static String address = 'address=';
+  static String roles = 'roles=';
+  static String peopleGeo = 'people.geo';
+  static String lat = 'lat=';
+  static String long = 'lng=';
+  static String key = 'key=';
 
-  static String session = "116";
-
-  static String openApiUrl = 'https://openstates.org/api/v1/';
-  static String openApiKey = '06a6f314-6354-4a0b-9d36-3d64535a3c91';
+  static String session = '116';
 
   static String fbUrl = 'https://www.facebook.com/';
   static String fbPhotoUrl =

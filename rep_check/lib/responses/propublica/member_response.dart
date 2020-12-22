@@ -1,4 +1,4 @@
-import 'package:rep_check/models/member_details.dart';
+import 'package:rep_check/models/propublica/member_details.dart';
 
 class MemberResponse {
   String status;

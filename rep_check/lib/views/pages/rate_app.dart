@@ -14,7 +14,7 @@ class _RateAppState extends State<RateApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Rate App"),
+        title: Text("RATE APP"),
       ),
       body: Container(
 //        color: Styles.appPrimaryColor,
