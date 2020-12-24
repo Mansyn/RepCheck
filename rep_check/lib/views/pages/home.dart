@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                   color: Styles.primaryAnalogous4,
                   nextColor: Styles.accentColor,
                   query: Query.state,
-                  body: Body.upper,
+                  body: Body.lower,
                   icon: MdiIcons.accountBox,
                   description: 'State members')
             ])),
@@ -184,18 +184,18 @@ class CurvedListItem extends StatelessWidget {
                 onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CivicIndexPage(query, body),
+                        builder: (context) =>
+                            CivicIndexPage(query, body, title),
                       ),
                     ),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(header, style: Styles.appHeader),
-                      SizedBox(
-                        height: 2,
-                      ),
                       Text(title, style: Styles.appTitle),
-                      Text(description, style: Styles.appHeader)
+                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                        Text(description, style: Styles.appHeader)
+                      ])
                     ]))));
   }
 }

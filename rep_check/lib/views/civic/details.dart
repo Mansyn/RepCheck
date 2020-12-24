@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rep_check/models/civic/offices.dart';
 import 'package:rep_check/models/civic/official.dart';
+import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/widget_helper.dart';
 import 'package:rep_check/views/partials/fake_bottom_buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,7 +9,8 @@ import 'package:rep_check/utils/styles.dart';
 
 class OfficialDetails extends StatefulWidget {
   final Official official;
-  OfficialDetails({Key key, this.official}) : super(key: key);
+  final Offices office;
+  OfficialDetails({Key key, this.official, this.office}) : super(key: key);
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -41,8 +44,26 @@ class _DetailsPageState extends State<OfficialDetails> {
         child: RaisedButton(
           onPressed: () async {
             switch (type) {
-              case 'HOMEPAGE':
+              case 'Homepage':
                 launchURL(official.urls.first);
+                break;
+              case 'Facebook':
+                launchURL(Constants.fbUrl +
+                    official.channels
+                        .firstWhere((element) => element.type == 'Facebook')
+                        .id);
+                break;
+              case 'YouTube':
+                launchURL(Constants.youtubeUrl +
+                    official.channels
+                        .firstWhere((element) => element.type == 'YouTube')
+                        .id);
+                break;
+              case 'Twitter':
+                launchURL(Constants.twitUrl +
+                    official.channels
+                        .firstWhere((element) => element.type == 'Twitter')
+                        .id);
                 break;
             }
           },
@@ -51,7 +72,18 @@ class _DetailsPageState extends State<OfficialDetails> {
         ));
   }
 
-  Widget buildDetails(Official official) {
+  List<Widget> getButtons(Official official) {
+    List<Widget> buttons = List<Widget>();
+
+    buttons.add(buildButton('Homepage', official));
+    official.channels.forEach((channel) {
+      buttons.add(buildButton(channel.type, official));
+    });
+
+    return buttons;
+  }
+
+  Widget buildDetails(Official official, Offices office) {
     return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -101,17 +133,60 @@ class _DetailsPageState extends State<OfficialDetails> {
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text('Party', style: TextStyle(height: 3)),
-                              Text(official.party)
+                              Text('Office', style: Styles.detailProp),
+                              Text(office.name)
                             ]),
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              Text('Address', style: TextStyle(height: 3)),
-                              Text(Widgethelper.getPartyName(
-                                  official.address.first.line1))
+                              Text('Party', style: Styles.detailProp),
+                              Text(official.party)
                             ])
                       ]),
+                  Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('Address', style: Styles.detailProp),
+                            Text(official.address != null
+                                ? official.address[0].line1 +
+                                    ', ' +
+                                    official.address[0].city
+                                : 'n/a')
+                          ]),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Text('State', style: Styles.detailProp),
+                            Text(official.address[0].state),
+                          ])
+                    ],
+                  ),
+                  Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('Phone', style: Styles.detailProp),
+                            Text(official.phones != null
+                                ? official.phones[0]
+                                : 'n/a')
+                          ]),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Text('Email', style: Styles.detailProp),
+                            Text(official.emails != null
+                                ? official.emails[0]
+                                : 'n/a'),
+                          ])
+                    ],
+                  ),
                   SizedBox(height: 20),
                   getHeadline('Contact'),
                   Container(
@@ -119,7 +194,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                     padding: EdgeInsets.all(40.0),
                     child: Center(
                       child: Column(
-                        children: <Widget>[buildButton('HOMEPAGE', official)],
+                        children: getButtons(official),
                       ),
                     ),
                   )
@@ -129,6 +204,6 @@ class _DetailsPageState extends State<OfficialDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
         persistentFooterButtons: fakeBottomButtons(height: 50.0),
-        body: buildDetails(widget.official));
+        body: buildDetails(widget.official, widget.office));
   }
 }

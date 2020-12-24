@@ -4,7 +4,7 @@ import 'package:location/location.dart';
 import 'package:rep_check/api/api_response.dart';
 import 'package:rep_check/blocs/district_member_bloc.dart';
 import 'package:rep_check/blocs/location_bloc.dart';
-import 'package:rep_check/models/civic/official.dart';
+import 'package:rep_check/responses/civic/representative_response.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/enums.dart';
 import 'package:rep_check/utils/styles.dart';
@@ -14,11 +14,11 @@ import 'package:rep_check/views/partials/loading.dart';
 import 'list.dart';
 
 class CivicIndexPage extends StatefulWidget {
-  CivicIndexPage(this.query, this.body);
+  CivicIndexPage(this.query, this.body, this.title);
 
   final Query query;
   final Body body;
-
+  final String title;
   @override
   _CivicIndexPageState createState() => _CivicIndexPageState();
 }
@@ -90,7 +90,7 @@ class _CivicIndexPageState extends State<CivicIndexPage> {
     super.dispose();
   }
 
-  String _getQuery() {
+  String _getBody() {
     switch (widget.body) {
       case Body.upper:
         return 'legislatorUpperBody';
@@ -100,6 +100,16 @@ class _CivicIndexPageState extends State<CivicIndexPage> {
         break;
       default:
         return 'legislatorUpperBody';
+    }
+  }
+
+  String _getQuery() {
+    switch (widget.query) {
+      case Query.state:
+        return 'administrativeArea1';
+        break;
+      default:
+        return '';
     }
   }
 
@@ -118,16 +128,16 @@ class _CivicIndexPageState extends State<CivicIndexPage> {
                   padding: EdgeInsets.all(Constants.commonPadding),
                   child: Loading(loadingMessage: 'getting your location...')));
         } else {
-          _districtbloc = DistrictMemberBloc(_getQuery(), _address);
+          _districtbloc = DistrictMemberBloc(_getQuery(), _getBody(), _address);
           return Scaffold(
             appBar: AppBar(
-              title: Text('Federal Upper Body', style: Styles.h1AppBar),
+              title: Text(widget.title, style: Styles.h1AppBar),
             ),
             body: Container(
               padding: EdgeInsets.all(Constants.commonPadding),
               child: RefreshIndicator(
                 onRefresh: () => _districtbloc.fetchMembersList(),
-                child: StreamBuilder<ApiResponse<List<Official>>>(
+                child: StreamBuilder<ApiResponse<RepresentativeResponse>>(
                   stream: _districtbloc.memberListStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -138,10 +148,7 @@ class _CivicIndexPageState extends State<CivicIndexPage> {
                           );
                           break;
                         case Status.COMPLETED:
-                          snapshot.data.data
-                              .sort((a, b) => a.name.compareTo(b.name));
-                          return OfficialList(
-                              list: snapshot.data.data, address: _address);
+                          return OfficialList(response: snapshot.data.data);
                           break;
                         case Status.ERROR:
                           return ApiError(

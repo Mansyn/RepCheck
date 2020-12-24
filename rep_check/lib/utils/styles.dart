@@ -71,12 +71,6 @@ class Styles {
 
   static TextStyle defaultStyle = TextStyle();
 
-  static TextStyle h1 = defaultStyle.copyWith(
-    fontWeight: FontWeight.w700,
-    fontSize: 18.0,
-    color: primaryColor,
-  );
-
   static TextStyle h1AppBar = defaultStyle.copyWith(
     fontSize: 26.0,
     fontFamily: 'PassionOne',
@@ -109,7 +103,23 @@ class Styles {
   static TextStyle appHeader = defaultStyle.copyWith(
       color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w800);
 
-  static TextStyle h1Black = h1.copyWith(
+  static TextStyle h1 = defaultStyle.copyWith(
+    fontWeight: FontWeight.w700,
+    fontSize: 21.0,
+    color: primaryColor,
+  );
+
+  static TextStyle h2 = defaultStyle.copyWith(
+    fontWeight: FontWeight.w700,
+    fontSize: 16.0,
+    color: primaryColor,
+  );
+
+  static TextStyle h2White = h2.copyWith(
+    color: Colors.white,
+  );
+
+  static TextStyle h2Black = h2.copyWith(
     color: Colors.black,
   );
 
@@ -148,6 +158,8 @@ class Styles {
     fontSize: 14.0,
     color: Colors.red,
   );
+
+  static TextStyle detailProp = TextStyle(color: primaryColor, height: 3);
 
   static InputDecoration input = InputDecoration(
     fillColor: Colors.white,

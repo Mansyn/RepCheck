@@ -77,10 +77,12 @@ class Constants {
   static String current = 'current';
   static String address = 'address=';
   static String roles = 'roles=';
+  static String levels = 'levels=';
   static String peopleGeo = 'people.geo';
   static String lat = 'lat=';
   static String long = 'lng=';
   static String key = 'key=';
+  static String yourLocation = 'For Location: ';
 
   static String session = '116';
 

@@ -2,7 +2,6 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:geocoder/model.dart';
 import 'package:rep_check/api/api_base_helper.dart';
 import 'package:rep_check/env_config.dart';
-import 'package:rep_check/models/civic/official.dart';
 import 'package:rep_check/models/propublica/member.dart';
 import 'package:rep_check/models/propublica/member_details.dart';
 import 'package:rep_check/responses/civic/representative_response.dart';
@@ -10,6 +9,7 @@ import 'package:rep_check/responses/propublica/all_member_response.dart';
 import 'package:rep_check/responses/propublica/member_response.dart';
 import 'package:rep_check/responses/propublica/state_member_response.dart';
 import 'package:rep_check/utils/constants.dart';
+import 'package:rep_check/utils/enums.dart';
 import 'package:us_states/us_states.dart';
 
 class MemberRepository {
@@ -55,8 +55,8 @@ class MemberRepository {
     return MemberResponse.fromJson(response).results[0];
   }
 
-  Future<List<Official>> fetchAddressMemberList(
-      String body, Address address) async {
+  Future<RepresentativeResponse> fetchAddressMemberList(
+      String query, String body, Address address) async {
     String fullUrl = EnvConfig.apiUrl +
         Constants.representatives +
         Constants.query +
@@ -65,11 +65,12 @@ class MemberRepository {
         Constants.amp +
         Constants.roles +
         body +
+        (query != null ? (Constants.amp + Constants.levels + query) : '') +
         Constants.amp +
         Constants.address +
         address.addressLine.replaceAll(' ', '+');
     print(fullUrl);
     final response = await _helper.get(fullUrl, Constants.headers);
-    return RepresentativeResponse.fromJson(response).officials;
+    return RepresentativeResponse.fromJson(response);
   }
 }
