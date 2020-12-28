@@ -18,7 +18,7 @@ class Widgethelper {
       return buildProfilePhoto(
           Constants.fbPhotoUrl.replaceFirst('{id}', member.facebookAccount));
     } else if (member.twitterAccount != null) {
-      buildProfilePhoto(
+      return buildProfilePhoto(
           Constants.twitPhotoUrl.replaceFirst('{id}', member.twitterAccount));
     } else {
       return Image.asset(Constants.defaultProfile, fit: BoxFit.cover);

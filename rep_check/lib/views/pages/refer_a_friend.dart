@@ -29,7 +29,7 @@ class _ReferAFriendPageState extends State<ReferAFriendPage> {
               height: 300,
               child: Image.asset(Constants.handsKey),
             ),
-            MySubmitIconedButton(
+            mySubmitIconedButton(
                 "Share App With Friends", Icon(Icons.share), false, () {
               Share.share(Constants.shareMessage,
                   subject: Constants.shareSubject);

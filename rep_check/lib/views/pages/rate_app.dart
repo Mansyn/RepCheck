@@ -57,7 +57,7 @@ class _RateAppState extends State<RateApp> {
                       SizedBox(
                         height: 10.0,
                       ),
-                      MySubmitIconedButton(
+                      mySubmitIconedButton(
                           "Give The App 5 Stars", Icon(Icons.star), false, () {
                         LaunchReview.launch(
                             androidAppId: Constants.appId,

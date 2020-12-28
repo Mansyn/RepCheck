@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
             drawer: HomeDrawer(),
             body: ListView(scrollDirection: Axis.vertical, children: <Widget>[
               CurvedListItem(
-                  title: 'Senators From Your District',
+                  title: 'Senators For Your District',
                   header: 'UPPER BODY',
                   color: Styles.primaryAnalogous1,
                   nextColor: Styles.primaryAnalogous2,
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                   icon: MdiIcons.locationEnter,
                   description: 'Federal and State members'),
               CurvedListItem(
-                  title: 'House Members From Your District',
+                  title: 'House Members For Your District',
                   header: 'LOWER BODY',
                   color: Styles.primaryAnalogous2,
                   nextColor: Styles.primaryAnalogous3,
@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                   icon: MdiIcons.domain,
                   description: 'Federal and State members'),
               CurvedListItem(
-                  title: 'Senators From Your State',
+                  title: 'Senator For Your State',
                   header: 'UPPER BODY',
                   color: Styles.primaryAnalogous3,
                   nextColor: Styles.primaryAnalogous4,
@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                   icon: MdiIcons.accountBox,
                   description: 'State members'),
               CurvedListItem(
-                  title: 'House Members From Your State',
+                  title: 'House Members For Your State',
                   header: 'LOWER BODY',
                   color: Styles.primaryAnalogous4,
                   nextColor: Styles.accentColor,

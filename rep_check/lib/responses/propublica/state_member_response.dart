@@ -1,4 +1,3 @@
-import 'package:rep_check/models/propublica/chamber.dart';
 import 'package:rep_check/models/propublica/member.dart';
 
 class StateMemberResponse {

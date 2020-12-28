@@ -28,7 +28,6 @@ class _CivicIndexPageState extends State<CivicIndexPage> {
   Address _address;
 
   Location location = new Location();
-  bool _serviceEnabled;
   PermissionStatus _permissionStatus;
 
   @override
@@ -51,10 +50,7 @@ class _CivicIndexPageState extends State<CivicIndexPage> {
 
     permissionStatus = await location.hasPermission();
 
-    setState(() => {
-          _permissionStatus = permissionStatus,
-          _serviceEnabled = serviceEnabled
-        });
+    setState(() => {_permissionStatus = permissionStatus});
 
     return _permissionStatus == PermissionStatus.granted ||
         _permissionStatus == PermissionStatus.grantedLimited;

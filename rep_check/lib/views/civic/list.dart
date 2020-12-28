@@ -55,7 +55,7 @@ class OfficialList extends StatelessWidget {
                         response.normalizedInput.state +
                         ' ' +
                         response.normalizedInput.zip,
-                    style: Styles.h2White))
+                    style: Styles.h2))
           ])),
       Expanded(child:
           Container(child: OrientationBuilder(builder: (context, orientation) {

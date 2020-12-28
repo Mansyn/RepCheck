@@ -22,7 +22,16 @@ class _DetailsPageState extends State<OfficialDetails> {
     super.initState();
   }
 
-  launchURL(url) async {
+  launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  launchEmail(String email) async {
+    String url = 'mailto:$email';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -177,18 +186,25 @@ class _DetailsPageState extends State<OfficialDetails> {
                                 ? official.phones[0]
                                 : 'n/a')
                           ]),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Text('Email', style: Styles.detailProp),
-                            Text(official.emails != null
-                                ? official.emails[0]
-                                : 'n/a'),
-                          ])
+                      GestureDetector(
+                          onTap: () => (official.emails != null
+                              ? launchEmail(official.emails[0])
+                              : null),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text('Email', style: Styles.detailProp),
+                                Text(
+                                    official.emails != null
+                                        ? official.emails[0]
+                                        : 'n/a',
+                                    style: TextStyle(
+                                        color: Styles.primaryVariantColor)),
+                              ]))
                     ],
                   ),
                   SizedBox(height: 20),
-                  getHeadline('Contact'),
+                  getHeadline('Channels'),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.all(40.0),

@@ -16,8 +16,6 @@ class MyTextFormField extends StatelessWidget {
   final bool isWhite;
   final bool isBlack;
 
-  TextInputType type;
-
   MyTextFormField({
     this.initialValue = "",
     this.placeholder = "",
@@ -100,8 +98,6 @@ class MyTextFormField2 extends StatelessWidget {
   final bool isPhone;
   final bool isNumber;
 
-  TextInputType type;
-
   MyTextFormField2({
     this.hintText,
     this.validator,
@@ -143,7 +139,7 @@ class MyTextFormField2 extends StatelessWidget {
   }
 }
 
-Widget MySubmitButton(String text, Function action) {
+Widget mySubmitButton(String text, Function action) {
   return MaterialButton(
     onPressed: action,
     child: Text(
@@ -161,7 +157,7 @@ Widget MySubmitButton(String text, Function action) {
   );
 }
 
-Widget MySubmitThemedButton(context, String text, Function action) {
+Widget mySubmitThemedButton(context, String text, Function action) {
   return MaterialButton(
     onPressed: action,
     child: Text(
@@ -179,7 +175,7 @@ Widget MySubmitThemedButton(context, String text, Function action) {
   );
 }
 
-Widget MySubmitIconedButton(
+Widget mySubmitIconedButton(
     String text, Icon icon, bool isFilled, Function action) {
   return MaterialButton(
     onPressed: action,
@@ -212,7 +208,7 @@ Widget MySubmitIconedButton(
   );
 }
 
-Widget MySubmitIconedThemedButton(
+Widget mySubmitIconedThemedButton(
     context, String text, Icon icon, bool isFilled, Function action) {
   return MaterialButton(
     onPressed: action,
@@ -245,7 +241,7 @@ Widget MySubmitIconedThemedButton(
   );
 }
 
-Widget MyLoadingButton(context) {
+Widget myLoadingButton(context) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 0),
     child: Container(
@@ -268,7 +264,7 @@ Widget MyLoadingButton(context) {
   );
 }
 
-Widget MyLoadingButton2(context) {
+Widget myLoadingButton2(context) {
   return Center(
     child: SpinKitRipple(
       color: Theme.of(context).primaryColor,
@@ -276,7 +272,7 @@ Widget MyLoadingButton2(context) {
   );
 }
 
-Widget MyLoadingButton2WithText(context, {String text: 'Loading...'}) {
+Widget myLoadingButton2WithText(context, {String text: 'Loading...'}) {
   return Column(
     children: <Widget>[
       Center(
@@ -298,7 +294,7 @@ Widget MyLoadingButton2WithText(context, {String text: 'Loading...'}) {
   );
 }
 
-Widget MyCardButton(String text, Function action) {
+Widget myCardButton(String text, Function action) {
   return MaterialButton(
     onPressed: action,
     child: Text(
@@ -315,7 +311,7 @@ Widget MyCardButton(String text, Function action) {
   );
 }
 
-Widget MyCardThemedButton(context, String text, Function action) {
+Widget myCardThemedButton(context, String text, Function action) {
   return MaterialButton(
     onPressed: action,
     child: Text(
@@ -335,7 +331,7 @@ Widget MyCardThemedButton(context, String text, Function action) {
   );
 }
 
-Widget MyCardIconThemedButton(
+Widget myCardIconThemedButton(
     context, String text, Icon icon, Function action) {
   return MaterialButton(
     onPressed: action,
@@ -361,7 +357,7 @@ Widget MyCardIconThemedButton(
   );
 }
 
-Widget MyOutlinedButton(String text, Function action) {
+Widget myOutlinedButton(String text, Function action) {
   return OutlineButton(
     child: Text(
       text,
@@ -376,7 +372,7 @@ Widget MyOutlinedButton(String text, Function action) {
   );
 }
 
-Widget MyOutlinedThemedButton(context, String text, Function action) {
+Widget myOutlinedThemedButton(context, String text, Function action) {
   return OutlineButton(
     child: Text(
       text,

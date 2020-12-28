@@ -9,7 +9,6 @@ import 'package:rep_check/responses/propublica/all_member_response.dart';
 import 'package:rep_check/responses/propublica/member_response.dart';
 import 'package:rep_check/responses/propublica/state_member_response.dart';
 import 'package:rep_check/utils/constants.dart';
-import 'package:rep_check/utils/enums.dart';
 import 'package:us_states/us_states.dart';
 
 class MemberRepository {
@@ -65,7 +64,7 @@ class MemberRepository {
         Constants.amp +
         Constants.roles +
         body +
-        (query != null ? (Constants.amp + Constants.levels + query) : '') +
+        (query != '' ? (Constants.amp + Constants.levels + query) : '') +
         Constants.amp +
         Constants.address +
         address.addressLine.replaceAll(' ', '+');

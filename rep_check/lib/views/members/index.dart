@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geocoder/model.dart';
 import 'package:location/location.dart';
 import 'package:rep_check/api/api_response.dart';
 import 'package:rep_check/blocs/location_bloc.dart';
@@ -28,7 +27,6 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
   AllMemberBloc _allbloc;
   StateMemberBloc _statebloc;
   String _state;
-  Address _address;
 
   Location location = new Location();
   bool _serviceEnabled;
@@ -37,10 +35,10 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
   @override
   void initState() {
     switch (widget.query) {
-      case Query.full:
-        break;
       case Query.state:
         checkPermission();
+        break;
+      default:
         break;
     }
     if (widget.query == Query.state) {}
@@ -94,7 +92,6 @@ class _MembersIndexPageState extends State<MembersIndexPage> {
 
     setState(() {
       _state = location.adminArea != null ? location.adminArea : 'DC';
-      _address = location;
     });
   }
 
