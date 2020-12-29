@@ -26,8 +26,8 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
   ];
 
   static final List<String> descriptions = [
-    'Less than half of USA citizens can name one of their Representatives.',
-    'Even less know how their Representatives performed, most are informed solely by advertisements.',
+    'Less than half of USA citizens can name one of their representatives.',
+    'Even less know how they voted, most are informed solely by advertisements.',
     'This tool is meant to allow quick access to that information.'
   ];
 
@@ -78,7 +78,7 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) => Container(
-        color: Colors.red,
+        color: Styles.primaryColor,
         child: Scaffold(
           persistentFooterButtons: fakeBottomButtons(),
           body: IntroViewsFlutter(

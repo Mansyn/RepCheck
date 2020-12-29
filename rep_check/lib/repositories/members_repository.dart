@@ -14,7 +14,7 @@ import 'package:us_states/us_states.dart';
 class MemberRepository {
   ApiBaseHelper _helper = ApiBaseHelper();
 
-  static String osKey = FlutterConfig.get('apiKey');
+  static String osKey = 'AIzaSyD4USwfc1e3KEFtcp6smjmwblyCCC2df4o';
 
   Future<List<Member>> fetchMemberList(String chamber) async {
     String fullUrl = EnvConfig.pbApiUrl +

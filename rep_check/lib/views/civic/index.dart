@@ -10,7 +10,6 @@ import 'package:rep_check/utils/enums.dart';
 import 'package:rep_check/utils/styles.dart';
 import 'package:rep_check/views/partials/api_error.dart';
 import 'package:rep_check/views/partials/loading.dart';
-
 import 'list.dart';
 
 class CivicIndexPage extends StatefulWidget {

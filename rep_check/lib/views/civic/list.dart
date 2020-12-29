@@ -28,12 +28,16 @@ class OfficialList extends StatelessWidget {
   }
 
   Offices getOffice(Official official) {
+    Offices _office;
     int index = response.officials.indexOf(official);
 
-    Offices office =
-        response.offices[response.officials.indexOf(response.officials[index])];
+    response.offices.forEach((office) {
+      if (office.officialIndices.indexOf(index) > -1) {
+        _office = office;
+      }
+    });
 
-    return office;
+    return _office;
   }
 
   @override

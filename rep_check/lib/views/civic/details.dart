@@ -39,6 +39,15 @@ class _DetailsPageState extends State<OfficialDetails> {
     }
   }
 
+  launchPhone(String phone) async {
+    String url = 'tel:$phone';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   Widget getHeadline(String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -92,6 +101,58 @@ class _DetailsPageState extends State<OfficialDetails> {
     return buttons;
   }
 
+  String getOffice1(Official official) {
+    String address = 'n/a';
+    if (official.address != null) {
+      if (official.address.length > 0) {
+        address = official.address[0].line1;
+      }
+    }
+    return address;
+  }
+
+  String getOffice2(Official official) {
+    String address = 'n/a';
+    if (official.address != null) {
+      if (official.address.length > 0) {
+        address = official.address[0].city +
+            ', ' +
+            official.address[0].state +
+            ' ' +
+            official.address[0].zip;
+      }
+    }
+    return address;
+  }
+
+  bool hasPhone(Official official) {
+    bool phone = false;
+    if (official.phones != null) {
+      if (official.phones.length > 0) {
+        phone = true;
+      }
+    }
+    return phone;
+  }
+
+  String getPhone(Official official) {
+    return official.phones[0];
+  }
+
+  bool hasEmail(Official official) {
+    bool email = false;
+    if (official.emails != null) {
+      if (official.emails.length > 0) {
+        email = true;
+      }
+    }
+    return email;
+  }
+
+  String getEmail(Official official) {
+    return official.emails[0];
+  }
+
   Widget buildDetails(Official official, Offices office) {
     return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -142,7 +203,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text('Office', style: Styles.detailProp),
+                              Text('Title', style: Styles.detailProp),
                               Text(office.name)
                             ]),
                         Column(
@@ -156,22 +217,42 @@ class _DetailsPageState extends State<OfficialDetails> {
                     direction: Axis.horizontal,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text('Address', style: Styles.detailProp),
-                            Text(official.address != null
-                                ? official.address[0].line1 +
-                                    ', ' +
-                                    official.address[0].city
-                                : 'n/a')
-                          ]),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Text('State', style: Styles.detailProp),
-                            Text(official.address[0].state),
-                          ])
+                      hasPhone(official)
+                          ? GestureDetector(
+                              onTap: () => (official.phones != null
+                                  ? launchPhone(official.phones[0])
+                                  : null),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('Phone', style: Styles.detailProp),
+                                    Text(getPhone(official),
+                                        style: TextStyle(
+                                            color: Styles.primaryVariantColor)),
+                                  ]))
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                  Text('Phone', style: Styles.detailProp),
+                                  Text('n/a'),
+                                ]),
+                      hasEmail(official)
+                          ? GestureDetector(
+                              onTap: () => launchEmail(official.emails[0]),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    Text('Email', style: Styles.detailProp),
+                                    Text(getEmail(official),
+                                        style: TextStyle(
+                                            color: Styles.primaryVariantColor)),
+                                  ]))
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                  Text('Email', style: Styles.detailProp),
+                                  Text('n/a'),
+                                ])
                     ],
                   ),
                   Flex(
@@ -181,26 +262,10 @@ class _DetailsPageState extends State<OfficialDetails> {
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('Phone', style: Styles.detailProp),
-                            Text(official.phones != null
-                                ? official.phones[0]
-                                : 'n/a')
-                          ]),
-                      GestureDetector(
-                          onTap: () => (official.emails != null
-                              ? launchEmail(official.emails[0])
-                              : null),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Text('Email', style: Styles.detailProp),
-                                Text(
-                                    official.emails != null
-                                        ? official.emails[0]
-                                        : 'n/a',
-                                    style: TextStyle(
-                                        color: Styles.primaryVariantColor)),
-                              ]))
+                            Text('Office', style: Styles.detailProp),
+                            Text(getOffice1(official)),
+                            Text(getOffice2(official))
+                          ])
                     ],
                   ),
                   SizedBox(height: 20),
