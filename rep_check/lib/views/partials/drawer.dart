@@ -65,7 +65,7 @@ class DrawerHeaderItem extends StatelessWidget {
         gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Styles.primaryColor, Styles.accentColor]),
+            colors: [Styles.primaryColor, Styles.primaryVariantColor]),
         image: DecorationImage(
             image: AssetImage(Constants.mapKey), fit: BoxFit.fill),
       ),

@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       ..bgdark = Styles.accentColor;
     return MaterialApp(
       title: 'Rep Check',
+      debugShowCheckedModeBanner: false,
       theme: appTheme.themeData,
       initialRoute: '/splash',
       routes: appRoutes,

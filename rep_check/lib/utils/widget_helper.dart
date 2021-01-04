@@ -9,7 +9,7 @@ class Widgethelper {
     if (official.photoUrl != null) {
       return buildProfilePhoto(official.photoUrl);
     } else {
-      return Image.asset(Constants.defaultProfile, fit: BoxFit.cover);
+      return Image.asset(Constants.whiteAvatar, fit: BoxFit.cover);
     }
   }
 
@@ -21,7 +21,7 @@ class Widgethelper {
       return buildProfilePhoto(
           Constants.twitPhotoUrl.replaceFirst('{id}', member.twitterAccount));
     } else {
-      return Image.asset(Constants.defaultProfile, fit: BoxFit.cover);
+      return Image.asset(Constants.whiteAvatar, fit: BoxFit.cover);
     }
   }
 
@@ -34,7 +34,7 @@ class Widgethelper {
               size: 50.0,
             ),
         errorWidget: (context, url, error) =>
-            Image.asset(Constants.defaultProfile, fit: BoxFit.cover),
+            Image.asset(Constants.whiteAvatar, fit: BoxFit.cover),
         fit: BoxFit.cover);
   }
 

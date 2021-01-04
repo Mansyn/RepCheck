@@ -164,28 +164,10 @@ class _DetailsPageState extends State<OfficialDetails> {
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
-                    collapseMode: CollapseMode.pin,
-                    title: Text('',
+                    title: Text(official.name,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.white, fontSize: 16.0)),
-                    background:
-                        Stack(alignment: Alignment.center, children: <Widget>[
-                      Widgethelper.getCivicPhoto(official),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(3)),
-                          gradient: LinearGradient(
-                            begin: FractionalOffset.bottomCenter,
-                            end: FractionalOffset.topCenter,
-                            colors: [
-                              Colors.grey.withOpacity(0.0),
-                              Colors.black38,
-                            ],
-                          ),
-                        ),
-                      ),
-                    ])))
+                        style: Styles.sliverTitle),
+                    background: Widgethelper.getCivicPhoto(official)))
           ];
         },
         body: SingleChildScrollView(
@@ -195,7 +177,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  getHeadline(official.name),
+                  getHeadline('Details'),
                   Flex(
                       direction: Axis.horizontal,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

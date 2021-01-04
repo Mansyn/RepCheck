@@ -100,6 +100,9 @@ class Styles {
     fontFamily: 'PassionOne',
   );
 
+  static TextStyle sliverTitle = defaultStyle.copyWith(
+      fontSize: 21.0, fontFamily: 'PassionOne', color: primaryColor);
+
   static TextStyle appHeader = defaultStyle.copyWith(
       color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w800);
 

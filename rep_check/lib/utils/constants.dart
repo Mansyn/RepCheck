@@ -14,7 +14,8 @@ class Constants {
   static String mapKey = 'assets/images/map.png';
   static String handsKey = 'assets/images/hands2.png';
   static String loadingKey = 'assets/images/loading.gif';
-  static String defaultProfile = 'assets/images/congressman_avatar.png';
+  static String defaultAvatar = 'assets/images/avatar.png';
+  static String whiteAvatar = 'assets/images/avatar-white.png';
   static String appAbout =
       'The was built to help people easily discover who represents them, and will let them see what they do in Congress. This is still a work in progress.';
 
