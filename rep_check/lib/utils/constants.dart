@@ -35,6 +35,8 @@ class Constants {
   static String adAppId = 'ca-app-pub-4892089932850014~6638244163';
   static List<String> keywords = ['voting', 'government', 'information'];
 
+  static String apiKey = FlutterConfig.get('apiKey');
+  static String osKey = FlutterConfig.get('osKey');
   static String pbKey = FlutterConfig.get('pbApiKey');
 
   /// http headers
