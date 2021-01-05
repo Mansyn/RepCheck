@@ -12,7 +12,8 @@ import 'details.dart';
 
 class OfficialList extends StatelessWidget {
   final RepresentativeResponse response;
-  const OfficialList({Key key, this.response}) : super(key: key);
+  final String state;
+  const OfficialList({Key key, this.response, this.state}) : super(key: key);
 
   String getOfficeName(Official official) {
     String _office = '';
@@ -76,7 +77,8 @@ class OfficialList extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => OfficialDetails(
                               official: response.officials[index],
-                              office: getOffice(response.officials[index])),
+                              office: getOffice(response.officials[index]),
+                              state: state),
                         ),
                       ),
                   child: Column(
@@ -118,7 +120,8 @@ class OfficialList extends StatelessWidget {
                                               official:
                                                   response.officials[index],
                                               office: getOffice(
-                                                  response.officials[index])),
+                                                  response.officials[index]),
+                                              state: state),
                                         ));
                                   })
                             ])

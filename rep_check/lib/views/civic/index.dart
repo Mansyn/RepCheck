@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/model.dart';
 import 'package:location/location.dart';
 import 'package:rep_check/api/api_response.dart';
-import 'package:rep_check/blocs/district_member_bloc.dart';
+import 'package:rep_check/blocs/district_civic_bloc.dart';
 import 'package:rep_check/blocs/location_bloc.dart';
+import 'package:rep_check/blocs/opensecret_bloc.dart';
+import 'package:rep_check/models/opensecrets/legislator/legislator.dart';
 import 'package:rep_check/responses/civic/representative_response.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/enums.dart';
 import 'package:rep_check/utils/styles.dart';
 import 'package:rep_check/views/partials/api_error.dart';
 import 'package:rep_check/views/partials/loading.dart';
+import 'package:us_states/us_states.dart';
 import 'list.dart';
 
 class CivicIndexPage extends StatefulWidget {
@@ -23,7 +26,7 @@ class CivicIndexPage extends StatefulWidget {
 }
 
 class _CivicIndexPageState extends State<CivicIndexPage> {
-  DistrictMemberBloc _districtbloc;
+  DistrictCivicBloc _districtbloc;
   Address _address;
 
   Location location = new Location();
@@ -123,7 +126,7 @@ class _CivicIndexPageState extends State<CivicIndexPage> {
                   padding: EdgeInsets.all(Constants.commonPadding),
                   child: Loading(loadingMessage: 'getting your location...')));
         } else {
-          _districtbloc = DistrictMemberBloc(_getQuery(), _getBody(), _address);
+          _districtbloc = DistrictCivicBloc(_getQuery(), _getBody(), _address);
           return Scaffold(
             appBar: AppBar(
               title: Text(widget.title, style: Styles.h1AppBar),
@@ -133,7 +136,7 @@ class _CivicIndexPageState extends State<CivicIndexPage> {
               child: RefreshIndicator(
                 onRefresh: () => _districtbloc.fetchMembersList(),
                 child: StreamBuilder<ApiResponse<RepresentativeResponse>>(
-                  stream: _districtbloc.memberListStream,
+                  stream: _districtbloc.civicListStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       switch (snapshot.data.status) {
@@ -143,7 +146,9 @@ class _CivicIndexPageState extends State<CivicIndexPage> {
                           );
                           break;
                         case Status.COMPLETED:
-                          return OfficialList(response: snapshot.data.data);
+                          return OfficialList(
+                              response: snapshot.data.data,
+                              state: _address.adminArea);
                           break;
                         case Status.ERROR:
                           return ApiError(

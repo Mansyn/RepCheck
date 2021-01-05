@@ -83,6 +83,13 @@ class Constants {
   static String lat = 'lat=';
   static String long = 'lng=';
   static String key = 'key=';
+  static String apikey = 'apikey=';
+  static String method = 'method=';
+  static String outputJson = 'output=json';
+  static String id = 'id=';
+  static String cid = 'cid=';
+  static String getLegs = 'getLegislators';
+  static String candContrib = 'candContrib';
   static String yourLocation = 'For Location: ';
 
   static String session = '116';

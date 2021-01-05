@@ -1,25 +1,86 @@
+import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
+import 'package:rep_check/blocs/opensecret_bloc.dart';
 import 'package:rep_check/models/civic/offices.dart';
 import 'package:rep_check/models/civic/official.dart';
+import 'package:rep_check/models/opensecrets/contributor/contributor.dart';
+import 'package:rep_check/models/opensecrets/legislator/legislator.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/widget_helper.dart';
 import 'package:rep_check/views/partials/fake_bottom_buttons.dart';
+import 'package:rep_check/views/partials/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:rep_check/utils/styles.dart';
+import 'package:us_states/us_states.dart';
 
 class OfficialDetails extends StatefulWidget {
   final Official official;
   final Offices office;
-  OfficialDetails({Key key, this.official, this.office}) : super(key: key);
+  final String state;
+  OfficialDetails({Key key, this.official, this.office, this.state})
+      : super(key: key);
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }
 
 class _DetailsPageState extends State<OfficialDetails> {
+  List<Legislator> _relatedLegislators;
+  List<Contributor> _topContributors;
+  bool _searching = true;
+
+  final oCcy = new NumberFormat("#,##0.00", "en_US");
+
   @override
   void initState() {
     super.initState();
+    this._fetchStateSecrets(widget.state);
+  }
+
+  Future<void> _fetchStateSecrets(String state) async {
+    final code = USStates.getAbbreviation(state);
+    final legislators = await OpenSecretBloc().fetchStateLegislators(code);
+
+    setState(() {
+      _relatedLegislators = legislators.response.legislator;
+    });
+
+    _fetchTopContributors();
+  }
+
+  Future<void> _fetchTopContributors() async {
+    String cid;
+
+    _relatedLegislators.forEach((legis) {
+      List<String> legisNameParts = legis.attributes.firstlast.split(" ");
+      String legisName =
+          (legisNameParts[0] + " " + legisNameParts[legisNameParts.length - 1])
+              .toLowerCase();
+
+      List<String> officialNameParts = widget.official.name.split(" ");
+      String officialName = (officialNameParts[0] +
+              " " +
+              officialNameParts[officialNameParts.length - 1])
+          .toLowerCase();
+
+      if (legisName == officialName) {
+        cid = legis.attributes.cid;
+      }
+    });
+
+    if (cid != null) {
+      final contributors = await OpenSecretBloc().fetchTopContributors(cid);
+
+      setState(() {
+        _topContributors = contributors.response.contributors.contributor;
+        _searching = false;
+      });
+    } else {
+      setState(() {
+        _searching = false;
+      });
+    }
   }
 
   launchURL(String url) async {
@@ -53,6 +114,42 @@ class _DetailsPageState extends State<OfficialDetails> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Text(text, style: Styles.listItemHeader),
     );
+  }
+
+  Widget getContributorsHeadline() {
+    if (_topContributors != null) {
+      return getHeadline('Top Contributors');
+    } else {
+      return SizedBox(height: 0);
+    }
+  }
+
+  Widget getContributors() {
+    if (_topContributors != null) {
+      return Column(children: <Widget>[
+        for (int i = 0; i <= 4; i++)
+          Flex(
+              direction: Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('Organization', style: Styles.detailProp),
+                      Text(_topContributors[i].attributes.orgName)
+                    ]),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Text('Total', style: Styles.detailProp),
+                      Text("\$" +
+                          "${oCcy.format(double.parse(_topContributors[i].attributes.total))}")
+                    ]),
+              ])
+      ]);
+    } else {
+      return SizedBox(height: 0);
+    }
   }
 
   Widget buildButton(String type, Official official) {
@@ -254,13 +351,20 @@ class _DetailsPageState extends State<OfficialDetails> {
                   getHeadline('Channels'),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.all(40.0),
+                    padding: EdgeInsets.all(20.0),
                     child: Center(
                       child: Column(
                         children: getButtons(official),
                       ),
                     ),
-                  )
+                  ),
+                  if (_searching)
+                    Loading(
+                      loadingMessage: "Searching Contributors",
+                    ),
+                  getContributorsHeadline(),
+                  getContributors(),
+                  SizedBox(height: 40)
                 ])));
   }
 
