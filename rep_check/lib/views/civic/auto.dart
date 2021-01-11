@@ -4,28 +4,25 @@ import 'package:location/location.dart';
 import 'package:rep_check/api/api_response.dart';
 import 'package:rep_check/blocs/district_civic_bloc.dart';
 import 'package:rep_check/blocs/location_bloc.dart';
-import 'package:rep_check/blocs/opensecret_bloc.dart';
-import 'package:rep_check/models/opensecrets/legislator/legislator.dart';
 import 'package:rep_check/responses/civic/representative_response.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/enums.dart';
 import 'package:rep_check/utils/styles.dart';
 import 'package:rep_check/views/partials/api_error.dart';
 import 'package:rep_check/views/partials/loading.dart';
-import 'package:us_states/us_states.dart';
 import 'list.dart';
 
-class CivicIndexPage extends StatefulWidget {
-  CivicIndexPage(this.query, this.body, this.title);
+class CivicAutoPage extends StatefulWidget {
+  CivicAutoPage(this.query, this.body, this.title);
 
   final Query query;
   final Body body;
   final String title;
   @override
-  _CivicIndexPageState createState() => _CivicIndexPageState();
+  _CivicAutoPageState createState() => _CivicAutoPageState();
 }
 
-class _CivicIndexPageState extends State<CivicIndexPage> {
+class _CivicAutoPageState extends State<CivicAutoPage> {
   DistrictCivicBloc _districtbloc;
   Address _address;
 
@@ -126,45 +123,42 @@ class _CivicIndexPageState extends State<CivicIndexPage> {
                   padding: EdgeInsets.all(Constants.commonPadding),
                   child: Loading(loadingMessage: 'getting your location...')));
         } else {
-          _districtbloc = DistrictCivicBloc(_getQuery(), _getBody(), _address);
+          _districtbloc =
+              DistrictCivicBloc(_getQuery(), _getBody(), _address.addressLine);
           return Scaffold(
-            appBar: AppBar(
-              title: Text(widget.title, style: Styles.h1AppBar),
-            ),
-            body: Container(
-              padding: EdgeInsets.all(Constants.commonPadding),
-              child: RefreshIndicator(
-                onRefresh: () => _districtbloc.fetchMembersList(),
-                child: StreamBuilder<ApiResponse<RepresentativeResponse>>(
-                  stream: _districtbloc.civicListStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      switch (snapshot.data.status) {
-                        case Status.LOADING:
-                          return Loading(
-                            loadingMessage: snapshot.data.message,
-                          );
-                          break;
-                        case Status.COMPLETED:
-                          return OfficialList(
-                              response: snapshot.data.data,
-                              state: _address.adminArea);
-                          break;
-                        case Status.ERROR:
-                          return ApiError(
-                            errorMessage: snapshot.data.message,
-                            onRetryPressed: () =>
-                                _districtbloc.fetchMembersList(),
-                          );
-                          break;
-                      }
-                    }
-                    return Container();
-                  },
-                ),
+              appBar: AppBar(
+                title: Text(widget.title, style: Styles.h1AppBar),
               ),
-            ),
-          );
+              body: Container(
+                  padding: EdgeInsets.all(Constants.commonPadding),
+                  child: RefreshIndicator(
+                      onRefresh: () => _districtbloc.fetchMembersList(),
+                      child: StreamBuilder<ApiResponse<RepresentativeResponse>>(
+                          stream: _districtbloc.civicListStream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              switch (snapshot.data.status) {
+                                case Status.LOADING:
+                                  return Loading(
+                                    loadingMessage: snapshot.data.message,
+                                  );
+                                  break;
+                                case Status.COMPLETED:
+                                  return OfficialList(
+                                      response: snapshot.data.data,
+                                      state: _address.adminArea);
+                                  break;
+                                case Status.ERROR:
+                                  return ApiError(
+                                    errorMessage: snapshot.data.message,
+                                    onRetryPressed: () =>
+                                        _districtbloc.fetchMembersList(),
+                                  );
+                                  break;
+                              }
+                            }
+                            return Container();
+                          }))));
         }
         break;
       default:

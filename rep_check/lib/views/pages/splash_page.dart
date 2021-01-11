@@ -19,6 +19,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     bool _seen = (prefs.getBool(Constants.appPreviouslyRunKey) ?? false);
 
     if (_seen) {
+      Navigator.pop(context);
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
     } else {

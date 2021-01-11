@@ -19,7 +19,7 @@ class SecretRepository {
         Constants.outputJson +
         Constants.amp +
         Constants.apikey +
-        Constants.osKey;
+        Constants.osApiKey;
     print(fullUrl);
     final response = await _helper.get(fullUrl, Constants.headers);
     return LegislatorResponse.fromJson(response);
@@ -37,7 +37,7 @@ class SecretRepository {
         Constants.outputJson +
         Constants.amp +
         Constants.apikey +
-        Constants.osKey;
+        Constants.osApiKey;
     print(fullUrl);
     final response = await _helper.get(fullUrl, Constants.headers);
     return ContributorResponse.fromJson(response);

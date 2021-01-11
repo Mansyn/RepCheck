@@ -28,6 +28,12 @@ class MyApp extends StatelessWidget {
       theme: appTheme.themeData,
       initialRoute: '/splash',
       routes: appRoutes,
+      builder: (context, widget) {
+        return new Padding(
+          child: widget,
+          padding: new EdgeInsets.only(bottom: 50.0),
+        );
+      },
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(
           builder: (BuildContext context) => UnknownPage(),

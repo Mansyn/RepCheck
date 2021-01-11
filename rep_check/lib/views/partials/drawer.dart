@@ -14,16 +14,16 @@ class HomeDrawer extends StatelessWidget {
           // Divider(
           //   color: Colors.grey[500],
           // ),
-          //LoginItem(),
-          ReferAFriendItem(),
+          AutoItem(),
+          ManualItem(),
           Divider(
-            color: Colors.grey[500],
+            color: Styles.accentColor,
           ),
+          ReferAFriendItem(),
           AboutItem(),
           Divider(
-            color: Colors.grey[500],
+            color: Styles.accentColor,
           ),
-          RateAppItem(),
           SizedBox(
             height: 50,
           ),
@@ -84,6 +84,32 @@ class HomeItem extends StatelessWidget {
         Navigator.pop(context);
 
         Navigator.pushNamed(context, '/');
+      },
+    );
+  }
+}
+
+class AutoItem extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text("Detect District"),
+      leading: Icon(Icons.location_searching),
+      onTap: () {
+        Navigator.pushNamed(context, '/auto');
+      },
+    );
+  }
+}
+
+class ManualItem extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text("Lookup District"),
+      leading: Icon(Icons.search),
+      onTap: () {
+        Navigator.pushNamed(context, '/manual');
       },
     );
   }

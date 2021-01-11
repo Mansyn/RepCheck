@@ -8,7 +8,6 @@ import 'package:rep_check/models/opensecrets/contributor/contributor.dart';
 import 'package:rep_check/models/opensecrets/legislator/legislator.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/widget_helper.dart';
-import 'package:rep_check/views/partials/fake_bottom_buttons.dart';
 import 'package:rep_check/views/partials/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:rep_check/utils/styles.dart';
@@ -369,8 +368,6 @@ class _DetailsPageState extends State<OfficialDetails> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-        persistentFooterButtons: fakeBottomButtons(height: 50.0),
-        body: buildDetails(widget.official, widget.office));
+    return Scaffold(body: buildDetails(widget.official, widget.office));
   }
 }

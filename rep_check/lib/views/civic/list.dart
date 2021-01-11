@@ -56,7 +56,7 @@ class OfficialList extends StatelessWidget {
                         response.normalizedInput.line1 +
                         ', ' +
                         response.normalizedInput.city +
-                        ' ' +
+                        ', ' +
                         response.normalizedInput.state +
                         ' ' +
                         response.normalizedInput.zip,

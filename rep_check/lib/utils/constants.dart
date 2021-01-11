@@ -12,6 +12,7 @@ class Constants {
   static String contactEmail = 'iwalktheline@live.com';
   static String logoKey = 'assets/images/logo.png';
   static String mapKey = 'assets/images/map.png';
+  static String rootsKey = 'assets/images/roots.png';
   static String handsKey = 'assets/images/hands2.png';
   static String loadingKey = 'assets/images/loading.gif';
   static String defaultAvatar = 'assets/images/avatar.png';
@@ -36,14 +37,15 @@ class Constants {
   static List<String> keywords = ['voting', 'government', 'information'];
 
   static String apiKey = FlutterConfig.get('apiKey');
-  static String osKey = FlutterConfig.get('osKey');
-  static String pbKey = FlutterConfig.get('pbApiKey');
+  static String osApiKey = FlutterConfig.get('osKey');
+  static String pbApiKey = FlutterConfig.get('pbApiKey');
+  static String mapsApiKey = FlutterConfig.get('mapsKey');
 
   /// http headers
   static Map<String, String> pbHeaders = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'X-API-Key': pbKey
+    'X-API-Key': pbApiKey
   };
 
   static Map<String, String> headers = {

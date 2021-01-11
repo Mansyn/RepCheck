@@ -15,7 +15,7 @@ class DistrictCivicBloc implements Bloc {
 
   String _body;
 
-  Address _address;
+  String _address;
 
   StreamSink<ApiResponse<RepresentativeResponse>> get civicListSink =>
       _civicListController.sink;
@@ -23,7 +23,7 @@ class DistrictCivicBloc implements Bloc {
   Stream<ApiResponse<RepresentativeResponse>> get civicListStream =>
       _civicListController.stream;
 
-  DistrictCivicBloc(String query, String body, Address address) {
+  DistrictCivicBloc(String query, String body, String address) {
     _query = query;
     _body = body;
     _address = address;
