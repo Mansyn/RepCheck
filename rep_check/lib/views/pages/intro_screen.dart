@@ -80,7 +80,6 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
       builder: (context) => Container(
         color: Styles.primaryColor,
         child: Scaffold(
-          persistentFooterButtons: fakeBottomButtons(),
           body: IntroViewsFlutter(
             pages,
             showNextButton: true,

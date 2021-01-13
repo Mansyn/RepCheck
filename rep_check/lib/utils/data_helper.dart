@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
+import 'package:us_states/us_states.dart';
 
 enum SearchType { Google, Flickr }
 
@@ -32,5 +33,13 @@ class Datahelper {
       return links;
     } else
       throw Exception('Failed');
+  }
+
+  static String getStateShort(String name) {
+    return USStates.getAbbreviation(name);
+  }
+
+  static String getStateLong(String code) {
+    return USStates.getName(code);
   }
 }

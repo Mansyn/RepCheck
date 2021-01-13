@@ -24,14 +24,14 @@ class MyApp extends StatelessWidget {
       ..bgdark = Styles.accentColor;
     return MaterialApp(
       title: 'Rep Check',
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       theme: appTheme.themeData,
       initialRoute: '/splash',
       routes: appRoutes,
       builder: (context, widget) {
-        return new Padding(
+        return Padding(
           child: widget,
-          padding: new EdgeInsets.only(bottom: 50.0),
+          padding: EdgeInsets.only(bottom: 50.0),
         );
       },
       onUnknownRoute: (RouteSettings settings) {

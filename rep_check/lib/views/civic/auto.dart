@@ -126,6 +126,7 @@ class _CivicAutoPageState extends State<CivicAutoPage> {
           _districtbloc =
               DistrictCivicBloc(_getQuery(), _getBody(), _address.addressLine);
           return Scaffold(
+              resizeToAvoidBottomPadding: true,
               appBar: AppBar(
                 title: Text(widget.title, style: Styles.h1AppBar),
               ),

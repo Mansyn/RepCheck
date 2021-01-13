@@ -66,7 +66,7 @@ class PlaceApiProvider {
             place.city = c['long_name'];
           }
           if (type.contains('administrative_area_level_1')) {
-            place.zipCode = c['long_name'];
+            place.state = c['long_name'];
           }
           if (type.contains('postal_code')) {
             place.zipCode = c['long_name'];

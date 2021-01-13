@@ -23,6 +23,7 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
   String _streetNumber = '';
   String _street = '';
   String _city = '';
+  String _state = '';
   String _zipCode = '';
 
   @override
@@ -30,7 +31,7 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
     if (_place == null) {
       return Scaffold(
           appBar: AppBar(
-            title: Text('Address Lookup', style: Styles.h1AppBar),
+            title: Text('Lookup District', style: Styles.h1AppBar),
           ),
           body: Column(children: <Widget>[
             TextField(
@@ -52,6 +53,7 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
                       _streetNumber = placeDetails.streetNumber;
                       _street = placeDetails.street;
                       _city = placeDetails.city;
+                      _state = placeDetails.state;
                       _zipCode = placeDetails.zipCode;
                       _place = placeDetails;
                     });
@@ -82,12 +84,13 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
                 child: Row(children: [
                   Flexible(
                       child: Text(
-                          Constants.yourLocation +
-                              _streetNumber +
+                          _streetNumber +
                               ' ' +
                               _street +
-                              ' ' +
+                              ', ' +
                               _city +
+                              ', ' +
+                              _state +
                               ' ' +
                               _zipCode,
                           style: Styles.h2))
@@ -104,7 +107,8 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
                   body: Body.upper,
                   icon: MdiIcons.locationEnter,
                   description: 'Federal and State members',
-                  lookup: Lookup.manual),
+                  lookup: Lookup.manual,
+                  place: _place),
               CurvedListItem(
                   title: 'House Members For This District',
                   header: 'LOWER BODY',
@@ -114,7 +118,8 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
                   body: Body.lower,
                   icon: MdiIcons.domain,
                   description: 'Federal and State members',
-                  lookup: Lookup.manual),
+                  lookup: Lookup.manual,
+                  place: _place),
               CurvedListItem(
                   title: 'Senator For This State',
                   header: 'UPPER BODY',
@@ -124,7 +129,8 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
                   body: Body.upper,
                   icon: MdiIcons.accountBox,
                   description: 'State members',
-                  lookup: Lookup.manual),
+                  lookup: Lookup.manual,
+                  place: _place),
               CurvedListItem(
                   title: 'House Members For This State',
                   header: 'LOWER BODY',
@@ -134,7 +140,8 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
                   body: Body.lower,
                   icon: MdiIcons.accountBox,
                   description: 'State members',
-                  lookup: Lookup.manual)
+                  lookup: Lookup.manual,
+                  place: _place)
             ]))
           ]));
     }

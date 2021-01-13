@@ -7,11 +7,11 @@ import 'package:rep_check/models/civic/official.dart';
 import 'package:rep_check/models/opensecrets/contributor/contributor.dart';
 import 'package:rep_check/models/opensecrets/legislator/legislator.dart';
 import 'package:rep_check/utils/constants.dart';
+import 'package:rep_check/utils/data_helper.dart';
 import 'package:rep_check/utils/widget_helper.dart';
 import 'package:rep_check/views/partials/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:rep_check/utils/styles.dart';
-import 'package:us_states/us_states.dart';
 
 class OfficialDetails extends StatefulWidget {
   final Official official;
@@ -38,7 +38,7 @@ class _DetailsPageState extends State<OfficialDetails> {
   }
 
   Future<void> _fetchStateSecrets(String state) async {
-    final code = USStates.getAbbreviation(state);
+    final code = Datahelper.getStateShort(state);
     final legislators = await OpenSecretBloc().fetchStateLegislators(code);
 
     setState(() {

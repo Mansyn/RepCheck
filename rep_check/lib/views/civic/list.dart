@@ -28,6 +28,18 @@ class OfficialList extends StatelessWidget {
     return _office;
   }
 
+  Text buildAddress() {
+    return Text(
+        response.normalizedInput.line1 +
+            ', ' +
+            response.normalizedInput.city +
+            ', ' +
+            response.normalizedInput.state +
+            ' ' +
+            response.normalizedInput.zip,
+        style: Styles.h2);
+  }
+
   Offices getOffice(Official official) {
     Offices _office;
     int index = response.officials.indexOf(official);
@@ -49,19 +61,7 @@ class OfficialList extends StatelessWidget {
               left: Constants.commonPadding,
               right: Constants.commonPadding,
               bottom: Constants.commonPadding),
-          child: Row(children: [
-            Flexible(
-                child: Text(
-                    Constants.yourLocation +
-                        response.normalizedInput.line1 +
-                        ', ' +
-                        response.normalizedInput.city +
-                        ', ' +
-                        response.normalizedInput.state +
-                        ' ' +
-                        response.normalizedInput.zip,
-                    style: Styles.h2))
-          ])),
+          child: Row(children: [Flexible(child: buildAddress())])),
       Expanded(child:
           Container(child: OrientationBuilder(builder: (context, orientation) {
         return StaggeredGridView.countBuilder(

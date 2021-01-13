@@ -94,7 +94,6 @@ class Constants {
   static String cid = 'cid=';
   static String getLegs = 'getLegislators';
   static String candContrib = 'candContrib';
-  static String yourLocation = 'For Location: ';
 
   static String session = '116';
 

@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                     Constants.handsKey,
                     width: double.infinity,
                     height: 350,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitHeight,
                     alignment: Alignment.center,
                     scale: 2.6,
                   ),
@@ -109,7 +109,8 @@ class _HomePageState extends State<HomePage> {
                               child: Text(
                                   'Find representatives by using an address'),
                             )
-                          ])))
+                          ]))),
+                  SizedBox(height: 60)
                 ]))));
   }
 
