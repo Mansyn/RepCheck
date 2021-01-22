@@ -8,7 +8,9 @@ import 'package:rep_check/models/opensecrets/contributor/contributor.dart';
 import 'package:rep_check/models/opensecrets/legislator/legislator.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/data_helper.dart';
+import 'package:rep_check/utils/enums.dart';
 import 'package:rep_check/utils/widget_helper.dart';
+import 'package:rep_check/views/partials/channel_button.dart';
 import 'package:rep_check/views/partials/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:rep_check/utils/styles.dart';
@@ -110,9 +112,10 @@ class _DetailsPageState extends State<OfficialDetails> {
 
   Widget getHeadline(String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Text(text, style: Styles.listItemHeader),
-    );
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(text,
+            style: Styles.listItemHeader
+                .copyWith(decoration: TextDecoration.underline)));
   }
 
   Widget getContributorsHeadline() {
@@ -126,7 +129,7 @@ class _DetailsPageState extends State<OfficialDetails> {
   Widget getContributors() {
     if (_topContributors != null) {
       return Column(children: <Widget>[
-        for (int i = 0; i <= 4; i++)
+        for (int i = 0; i <= 9; i++)
           Flex(
               direction: Axis.horizontal,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,9 +192,37 @@ class _DetailsPageState extends State<OfficialDetails> {
   List<Widget> getButtons(Official official) {
     List<Widget> buttons = List<Widget>();
 
-    buttons.add(buildButton('Homepage', official));
+    buttons.add(ChannelButton(
+        buttonType: ButtonType.web,
+        onPressed: () {
+          launchURL(official.urls.first);
+        }));
     official.channels.forEach((channel) {
-      buttons.add(buildButton(channel.type, official));
+      Widget button;
+      switch (channel.type) {
+        case 'Facebook':
+          button = ChannelButton(
+              buttonType: ButtonType.facebook,
+              onPressed: () {
+                launchURL(Constants.fbUrl + channel.id);
+              });
+          break;
+        case 'YouTube':
+          button = ChannelButton(
+              buttonType: ButtonType.youtube,
+              onPressed: () {
+                launchURL(Constants.youtubeUrl + channel.id);
+              });
+          break;
+        case 'Twitter':
+          button = ChannelButton(
+              buttonType: ButtonType.twitter,
+              onPressed: () {
+                launchURL(Constants.twitUrl + channel.id);
+              });
+          break;
+      }
+      buttons.add(button);
     });
 
     return buttons;
@@ -275,6 +306,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  SizedBox(height: 15),
                   getHeadline('Details'),
                   Flex(
                       direction: Axis.horizontal,
@@ -349,7 +381,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  getHeadline('Channels'),
+                  getHeadline('Contact Channels'),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.all(20.0),

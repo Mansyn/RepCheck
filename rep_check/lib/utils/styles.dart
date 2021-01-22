@@ -117,7 +117,7 @@ class Styles {
       sliverTitle.copyWith(color: primaryColor);
 
   static TextStyle appHeader = defaultStyle.copyWith(
-      color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w800);
+      color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.w800);
 
   static TextStyle h1 = defaultStyle.copyWith(
     fontWeight: FontWeight.w700,
@@ -177,7 +177,11 @@ class Styles {
     color: Colors.red,
   );
 
-  static TextStyle detailProp = TextStyle(color: primaryColor, height: 3);
+  static TextStyle detailProp = TextStyle(
+      color: primaryColor,
+      fontSize: 14.0,
+      fontWeight: FontWeight.w800,
+      height: 3);
 
   static InputDecoration input = InputDecoration(
     fillColor: Colors.white,

@@ -10,13 +10,6 @@ class Constants {
   static String appTagLine = 'Be aware of who represents you';
   static String appBio = 'Built to help people know who represents them';
   static String contactEmail = 'iwalktheline@live.com';
-  static String logoKey = 'assets/images/logo.png';
-  static String mapKey = 'assets/images/map.png';
-  static String rootsKey = 'assets/images/roots.png';
-  static String handsKey = 'assets/images/hands2.png';
-  static String loadingKey = 'assets/images/loading.gif';
-  static String defaultAvatar = 'assets/images/avatar.png';
-  static String whiteAvatar = 'assets/images/avatar-white.png';
   static String appAbout =
       'The was built to help people easily discover who represents them, and will let them see what they do in Congress. This is still a work in progress.';
 
@@ -68,6 +61,26 @@ class Constants {
   static String sep = '/';
   static String query = '?';
   static String amp = '&';
+
+  /// images
+  static String logoKey = 'assets/images/logo.png';
+  static String mapKey = 'assets/images/map.png';
+  static String rootsKey = 'assets/images/roots.png';
+  static String handsKey = 'assets/images/hands2.png';
+  static String loadingKey = 'assets/images/loading.gif';
+  static String defaultAvatar = 'assets/images/avatar.png';
+  static String whiteAvatar = 'assets/images/avatar-white.png';
+  static String facebookKey = 'assets/images/buttons/facebook.png';
+  static String githubKey = 'assets/images/buttons/github.png';
+  static String amazonKey = 'assets/images/buttons/amazon.png';
+  static String appleKey = 'assets/images/buttons/apple.png';
+  static String mailKey = 'assets/images/buttons/mail.png';
+  static String microsoftKey = 'assets/images/buttons/microsoft.png';
+  static String yahooKey = 'assets/images/buttons/yahoo.png';
+  static String googleKey = 'assets/images/buttons/google.png';
+  static String twitterKey = 'assets/images/buttons/twitter.png';
+  static String youtubeKey = 'assets/images/buttons/youtube.png';
+  static String webKey = 'assets/images/buttons/web.png';
 
   /// param keys
   static String appPreviouslyRunKey = 'seen';
