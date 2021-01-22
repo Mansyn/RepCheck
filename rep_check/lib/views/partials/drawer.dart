@@ -6,30 +6,26 @@ class HomeDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeaderItem(),
-          // FlutterTipsItem(),
-          // Divider(
-          //   color: Colors.grey[500],
-          // ),
-          AutoItem(),
-          ManualItem(),
-          Divider(
-            color: Styles.accentColor,
-          ),
-          ReferAFriendItem(),
-          AboutItem(),
-          Divider(
-            color: Styles.accentColor,
-          ),
-          SizedBox(
-            height: 50,
-          ),
-        ],
+        child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+      DrawerHeaderItem(),
+      // FlutterTipsItem(),
+      // Divider(
+      //   color: Colors.grey[500],
+      // ),
+      AutoItem(),
+      ManualItem(),
+      Divider(
+        color: Styles.accentColor,
       ),
-    );
+      ReferAFriendItem(),
+      AboutItem(),
+      Divider(
+        color: Styles.accentColor,
+      ),
+      SizedBox(
+        height: 50,
+      )
+    ]));
   }
 }
 

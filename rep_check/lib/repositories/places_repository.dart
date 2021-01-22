@@ -27,11 +27,32 @@ class PlaceApiProvider {
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       if (result['status'] == 'OK') {
-        // compose suggestions in a list
-        return result['predictions']
-            .map<SuggestionResponse>(
-                (p) => SuggestionResponse(p['place_id'], p['description']))
+        final List<SuggestionResponse> predictions = result['predictions']
+            .map<SuggestionResponse>((p) => SuggestionResponse(
+                p['place_id'], p['description'], p['types'].cast<String>()))
             .toList();
+
+        List<SuggestionResponse> suggestions = List<SuggestionResponse>();
+        predictions.forEach((prediction) {
+          if (prediction.types.contains('street_address')) {
+            // Results that include 'street_address' should be included
+            suggestions.add(prediction);
+          } else {
+            // Results that don't include 'street_address' will go through the check
+            int typeCounter = 0;
+            if (prediction.types.contains('geocode')) {
+              typeCounter++;
+            }
+            if (prediction.types.contains('route')) {
+              typeCounter++;
+            }
+            if (prediction.types.length > typeCounter) {
+              suggestions.add(prediction);
+            }
+          }
+        });
+
+        return suggestions;
       }
       if (result['status'] == 'ZERO_RESULTS') {
         return [];

@@ -26,6 +26,19 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
   String _state = '';
   String _zipCode = '';
 
+  Text buildAddress() {
+    return Text(
+        (_streetNumber != '' ? _streetNumber + ' ' : '') +
+            _street +
+            ', ' +
+            _city +
+            ', ' +
+            _state +
+            ' ' +
+            _zipCode,
+        style: Styles.h2);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_place == null) {
@@ -50,11 +63,11 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
                         .getPlaceDetailFromId(result.placeId);
                     setState(() {
                       _controller.text = result.description;
-                      _streetNumber = placeDetails.streetNumber;
-                      _street = placeDetails.street;
-                      _city = placeDetails.city;
-                      _state = placeDetails.state;
-                      _zipCode = placeDetails.zipCode;
+                      _streetNumber = placeDetails.streetNumber ??= '';
+                      _street = placeDetails.street ??= '';
+                      _city = placeDetails.city ??= '';
+                      _state = placeDetails.state ??= '';
+                      _zipCode = placeDetails.zipCode ??= '';
                       _place = placeDetails;
                     });
                   }
@@ -81,20 +94,7 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
           body: Column(children: <Widget>[
             Container(
                 padding: EdgeInsets.all(Constants.commonPadding),
-                child: Row(children: [
-                  Flexible(
-                      child: Text(
-                          _streetNumber +
-                              ' ' +
-                              _street +
-                              ', ' +
-                              _city +
-                              ', ' +
-                              _state +
-                              ' ' +
-                              _zipCode,
-                          style: Styles.h2))
-                ])),
+                child: Row(children: [Flexible(child: buildAddress())])),
             Expanded(
                 child:
                     ListView(scrollDirection: Axis.vertical, children: <Widget>[

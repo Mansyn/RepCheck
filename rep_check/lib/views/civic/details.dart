@@ -262,7 +262,9 @@ class _DetailsPageState extends State<OfficialDetails> {
                     centerTitle: true,
                     title: Text(official.name,
                         overflow: TextOverflow.ellipsis,
-                        style: Styles.sliverTitle),
+                        style: official.photoUrl == null
+                            ? Styles.sliverTitleNoPhoto
+                            : Styles.sliverTitle),
                     background: Widgethelper.getCivicPhoto(official)))
           ];
         },

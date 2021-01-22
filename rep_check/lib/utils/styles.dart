@@ -69,6 +69,16 @@ class Styles {
   static Color primaryAnalogous5 = Color(0xFF007C01);
   static Color primaryAnalogous6 = Color(0xFF427818);
 
+  static List<Color> primaryColors = [
+    Styles.primaryVariantColor,
+    Styles.primaryAnalogous1,
+    Styles.primaryAnalogous2,
+    Styles.primaryAnalogous3,
+    Styles.primaryAnalogous4,
+    Styles.primaryAnalogous5,
+    Styles.primaryAnalogous6
+  ];
+
   static TextStyle defaultStyle = TextStyle();
 
   static TextStyle h1AppBar = defaultStyle.copyWith(
@@ -101,7 +111,10 @@ class Styles {
   );
 
   static TextStyle sliverTitle = defaultStyle.copyWith(
-      fontSize: 21.0, fontFamily: 'PassionOne', color: primaryColor);
+      fontSize: 21.0, fontFamily: 'PassionOne', color: Colors.white);
+
+  static TextStyle sliverTitleNoPhoto =
+      sliverTitle.copyWith(color: primaryColor);
 
   static TextStyle appHeader = defaultStyle.copyWith(
       color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w800);
@@ -125,6 +138,8 @@ class Styles {
   static TextStyle h2Black = h2.copyWith(
     color: Colors.black,
   );
+
+  static TextStyle h2Accent = h2.copyWith(color: Styles.accentColor);
 
   static TextStyle p = defaultStyle.copyWith(
     fontSize: 16.0,

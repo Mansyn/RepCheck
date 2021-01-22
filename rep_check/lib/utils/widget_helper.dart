@@ -35,7 +35,7 @@ class Widgethelper {
             ),
         errorWidget: (context, url, error) =>
             Image.asset(Constants.whiteAvatar, fit: BoxFit.cover),
-        fit: BoxFit.cover);
+        fit: BoxFit.fitWidth);
   }
 
   static String getMemberParty(member) {

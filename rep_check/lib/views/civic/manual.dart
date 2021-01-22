@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rep_check/api/api_response.dart';
 import 'package:rep_check/responses/civic/representative_response.dart';
 import 'package:rep_check/responses/maps/place_response.dart';
-import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/views/partials/api_error.dart';
 import 'package:rep_check/views/partials/loading.dart';
 import 'package:rep_check/blocs/district_civic_bloc.dart';
@@ -77,7 +76,6 @@ class _CivicManualPageState extends State<CivicManualPage> {
     return Scaffold(
         appBar: AppBar(title: Text(widget.title, style: Styles.h1AppBar)),
         body: Container(
-            padding: EdgeInsets.all(Constants.commonPadding),
             child: RefreshIndicator(
                 onRefresh: () => _districtbloc.fetchMembersList(),
                 child: StreamBuilder<ApiResponse<RepresentativeResponse>>(

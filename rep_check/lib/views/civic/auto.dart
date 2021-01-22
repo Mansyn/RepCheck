@@ -126,12 +126,10 @@ class _CivicAutoPageState extends State<CivicAutoPage> {
           _districtbloc =
               DistrictCivicBloc(_getQuery(), _getBody(), _address.addressLine);
           return Scaffold(
-              resizeToAvoidBottomPadding: true,
               appBar: AppBar(
                 title: Text(widget.title, style: Styles.h1AppBar),
               ),
               body: Container(
-                  padding: EdgeInsets.all(Constants.commonPadding),
                   child: RefreshIndicator(
                       onRefresh: () => _districtbloc.fetchMembersList(),
                       child: StreamBuilder<ApiResponse<RepresentativeResponse>>(
