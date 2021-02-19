@@ -9,11 +9,12 @@ import 'package:rep_check/models/opensecrets/legislator/legislator.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/data_helper.dart';
 import 'package:rep_check/utils/enums.dart';
-import 'package:rep_check/utils/widget_helper.dart';
 import 'package:rep_check/views/partials/channel_button.dart';
 import 'package:rep_check/views/partials/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:rep_check/utils/styles.dart';
+
+import 'detail_parts/detail_header.dart';
 
 class OfficialDetails extends StatefulWidget {
   final Official official;
@@ -129,25 +130,41 @@ class _DetailsPageState extends State<OfficialDetails> {
   Widget getContributors() {
     if (_topContributors != null) {
       return Column(children: <Widget>[
+        Flex(
+            direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Organization', style: Styles.detailProp)
+                  ]),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[Text('Total', style: Styles.detailProp)]),
+            ]),
         for (int i = 0; i <= 9; i++)
-          Flex(
-              direction: Axis.horizontal,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('Organization', style: Styles.detailProp),
-                      Text(_topContributors[i].attributes.orgName)
-                    ]),
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Text('Total', style: Styles.detailProp),
-                      Text("\$" +
-                          "${oCcy.format(double.parse(_topContributors[i].attributes.total))}")
-                    ]),
-              ])
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Flex(
+                  direction: Axis.horizontal,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(_topContributors[i].attributes.orgName,
+                              style: Styles.defaultStyle)
+                        ]),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                              "\$" +
+                                  "${oCcy.format(double.parse(_topContributors[i].attributes.total))}",
+                              style: Styles.defaultStyle)
+                        ])
+                  ]))
       ]);
     } else {
       return SizedBox(height: 0);
@@ -192,39 +209,40 @@ class _DetailsPageState extends State<OfficialDetails> {
   List<Widget> getButtons(Official official) {
     List<Widget> buttons = List<Widget>();
 
-    buttons.add(ChannelButton(
-        buttonType: ButtonType.web,
-        onPressed: () {
-          launchURL(official.urls.first);
-        }));
-    official.channels.forEach((channel) {
-      Widget button;
-      switch (channel.type) {
-        case 'Facebook':
-          button = ChannelButton(
-              buttonType: ButtonType.facebook,
-              onPressed: () {
-                launchURL(Constants.fbUrl + channel.id);
-              });
-          break;
-        case 'YouTube':
-          button = ChannelButton(
-              buttonType: ButtonType.youtube,
-              onPressed: () {
-                launchURL(Constants.youtubeUrl + channel.id);
-              });
-          break;
-        case 'Twitter':
-          button = ChannelButton(
-              buttonType: ButtonType.twitter,
-              onPressed: () {
-                launchURL(Constants.twitUrl + channel.id);
-              });
-          break;
-      }
-      buttons.add(button);
-    });
-
+    if (official.channels != null) {
+      buttons.add(ChannelButton(
+          buttonType: ButtonType.web,
+          onPressed: () {
+            launchURL(official.urls.first);
+          }));
+      official.channels.forEach((channel) {
+        Widget button;
+        switch (channel.type) {
+          case 'Facebook':
+            button = ChannelButton(
+                buttonType: ButtonType.facebook,
+                onPressed: () {
+                  launchURL(Constants.fbUrl + channel.id);
+                });
+            break;
+          case 'YouTube':
+            button = ChannelButton(
+                buttonType: ButtonType.youtube,
+                onPressed: () {
+                  launchURL(Constants.youtubeUrl + channel.id);
+                });
+            break;
+          case 'Twitter':
+            button = ChannelButton(
+                buttonType: ButtonType.twitter,
+                onPressed: () {
+                  launchURL(Constants.twitUrl + channel.id);
+                });
+            break;
+        }
+        buttons.add(button);
+      });
+    }
     return buttons;
   }
 
@@ -239,7 +257,7 @@ class _DetailsPageState extends State<OfficialDetails> {
   }
 
   String getOffice2(Official official) {
-    String address = 'n/a';
+    String address = '';
     if (official.address != null) {
       if (official.address.length > 0) {
         address = official.address[0].city +
@@ -281,124 +299,145 @@ class _DetailsPageState extends State<OfficialDetails> {
   }
 
   Widget buildDetails(Official official, Offices office) {
-    return NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-                expandedHeight: 210,
-                floating: true,
-                snap: false,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text(official.name,
-                        overflow: TextOverflow.ellipsis,
-                        style: official.photoUrl == null
-                            ? Styles.sliverTitleNoPhoto
-                            : Styles.sliverTitle),
-                    background: Widgethelper.getCivicPhoto(official)))
-          ];
-        },
+    return Scaffold(
         body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 18),
-            physics: ClampingScrollPhysics(),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(height: 15),
-                  getHeadline('Details'),
-                  Flex(
-                      direction: Axis.horizontal,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text('Title', style: Styles.detailProp),
-                              Text(office.name)
-                            ]),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              Text('Party', style: Styles.detailProp),
-                              Text(official.party)
-                            ])
-                      ]),
-                  Flex(
-                    direction: Axis.horizontal,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Container(
+                decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                        begin: FractionalOffset.centerRight,
+                        end: FractionalOffset.bottomLeft,
+                        colors: <Color>[
+                      const Color(0xFF222629),
+                      const Color(0xFF474B4F),
+                    ])),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      hasPhone(official)
-                          ? GestureDetector(
-                              onTap: () => (official.phones != null
-                                  ? launchPhone(official.phones[0])
-                                  : null),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text('Phone', style: Styles.detailProp),
-                                    Text(getPhone(official),
-                                        style: TextStyle(
-                                            color: Styles.primaryVariantColor)),
-                                  ]))
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                  Text('Phone', style: Styles.detailProp),
-                                  Text('n/a'),
-                                ]),
-                      hasEmail(official)
-                          ? GestureDetector(
-                              onTap: () => launchEmail(official.emails[0]),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text('Email', style: Styles.detailProp),
-                                    Text(getEmail(official),
-                                        style: TextStyle(
-                                            color: Styles.primaryVariantColor)),
-                                  ]))
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                  Text('Email', style: Styles.detailProp),
-                                  Text('n/a'),
-                                ])
-                    ],
-                  ),
-                  Flex(
-                    direction: Axis.horizontal,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text('Office', style: Styles.detailProp),
-                            Text(getOffice1(official)),
-                            Text(getOffice2(official))
-                          ])
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  getHeadline('Contact Channels'),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.all(20.0),
-                    child: Center(
-                      child: Column(
-                        children: getButtons(official),
+                      DetailHeader(
+                        official,
+                        avatarTag: official.name,
                       ),
-                    ),
-                  ),
-                  if (_searching)
-                    Loading(
-                      loadingMessage: "Searching Contributors",
-                    ),
-                  getContributorsHeadline(),
-                  getContributors(),
-                  SizedBox(height: 40)
-                ])));
+                      Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                getHeadline('Details'),
+                                Flex(
+                                    direction: Axis.horizontal,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text('Title',
+                                                style: Styles.detailProp),
+                                            Text(office.name)
+                                          ]),
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: <Widget>[
+                                            Text('Party',
+                                                style: Styles.detailProp),
+                                            Text(official.party)
+                                          ])
+                                    ]),
+                                Flex(
+                                  direction: Axis.horizontal,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    hasPhone(official)
+                                        ? GestureDetector(
+                                            onTap: () =>
+                                                (official.phones != null
+                                                    ? launchPhone(
+                                                        official.phones[0])
+                                                    : null),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text('Phone',
+                                                      style: Styles.detailProp),
+                                                  Text(getPhone(official),
+                                                      style: TextStyle(
+                                                          color: Styles
+                                                              .primaryVariantColor)),
+                                                ]))
+                                        : Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                                Text('Phone',
+                                                    style: Styles.detailProp),
+                                                Text('n/a'),
+                                              ]),
+                                    hasEmail(official)
+                                        ? GestureDetector(
+                                            onTap: () =>
+                                                launchEmail(official.emails[0]),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Text('Email',
+                                                      style: Styles.detailProp),
+                                                  Text(getEmail(official),
+                                                      style: TextStyle(
+                                                          color: Styles
+                                                              .primaryVariantColor)),
+                                                ]))
+                                        : Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                                Text('Email',
+                                                    style: Styles.detailProp),
+                                                Text('n/a'),
+                                              ])
+                                  ],
+                                ),
+                                Flex(
+                                  direction: Axis.horizontal,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text('Office',
+                                              style: Styles.detailProp),
+                                          Text(getOffice1(official)),
+                                          Text(getOffice2(official))
+                                        ])
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                if (official.channels != null)
+                                  getHeadline('Contact Channels'),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Center(
+                                    child: Column(
+                                      children: getButtons(official),
+                                    ),
+                                  ),
+                                ),
+                                if (_searching)
+                                  Loading(
+                                      loadingMessage: "Searching Contributors"),
+                                getContributorsHeadline(),
+                                getContributors(),
+                                SizedBox(height: 40)
+                              ]))
+                    ]))));
   }
 
   Widget build(BuildContext context) {

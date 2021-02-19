@@ -21,8 +21,9 @@ class Constants {
 
 // ad config
   static List<String> testingDevices = [
-    'emulator-5554',
-    '9A271FFBA00CL1',
+    'b89b2dd4c77b6936',
+    '577599a1dd5ab4ce',
+    '5b59fb61f33543fc',
     '3C1704A7B8B2A9B21396AF749904CBE3'
   ];
   static String adUnitId = 'ca-app-pub-4892089932850014/8913053714';
@@ -70,6 +71,8 @@ class Constants {
   static String loadingKey = 'assets/images/loading.gif';
   static String defaultAvatar = 'assets/images/avatar.png';
   static String whiteAvatar = 'assets/images/avatar-white.png';
+  static String backgroundHeaderKey =
+      'assets/images/profile_header_background.png';
   static String facebookKey = 'assets/images/buttons/facebook.png';
   static String githubKey = 'assets/images/buttons/github.png';
   static String amazonKey = 'assets/images/buttons/amazon.png';
@@ -107,8 +110,11 @@ class Constants {
   static String cid = 'cid=';
   static String getLegs = 'getLegislators';
   static String candContrib = 'candContrib';
+  static String newsSearch = 'Latest News';
 
   static String session = '116';
+
+  static String newsUrl = 'https://news.google.com/search?q=';
 
   static String fbUrl = 'https://www.facebook.com/';
   static String fbPhotoUrl =

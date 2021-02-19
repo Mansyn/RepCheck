@@ -87,7 +87,7 @@ class _OfficialListState extends State<OfficialList> {
           ),
         ),
         Transform.translate(
-            offset: Offset(0.0, -85.0),
+            offset: Offset(0.0, -(MediaQuery.of(context).size.height * 0.1050)),
             child: Container(
                 child: ClipPath(
                     clipper: MyClipper(),
@@ -98,7 +98,8 @@ class _OfficialListState extends State<OfficialList> {
                       // ),
                       Container(color: Styles.primaryColor),
                       Transform.translate(
-                          offset: Offset(0.0, 92.0),
+                          offset: Offset(
+                              0.0, MediaQuery.of(context).size.height * 0.115),
                           child: ListTile(
                               leading:
                                   ClipOval(child: Icon(Icons.place, size: 40)),
@@ -158,36 +159,31 @@ class _AwesomeListItemState extends State<AwesomeListItem> {
         child: Row(children: <Widget>[
           Container(width: 10.0, height: 190.0, color: widget.color),
           Expanded(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(widget.official.name, style: Styles.listItemHeader),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(widget.officeName))
-                ],
-              ),
-            ),
-          ),
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 40.0, horizontal: 20.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(widget.official.name,
+                            style: Styles.listItemHeader),
+                        Text(widget.officeName)
+                      ]))),
           Container(
               height: 150.0,
               width: 150.0,
               child: Stack(children: <Widget>[
                 Transform.translate(
-                  offset: Offset(50.0, 0.0),
-                  child: Container(
-                    height: 100.0,
-                    width: 100.0,
-                    color: widget.color,
-                  ),
-                ),
+                    offset: Offset(50.0, 0.0),
+                    child: Container(
+                      height: 100.0,
+                      width: 100.0,
+                      color: widget.color,
+                    )),
                 Transform.translate(
                     offset: Offset(10.0, 20.0),
                     child: Card(
-                        elevation: 20.0,
+                        elevation: 15.0,
                         child: Container(
                             height: 120.0,
                             width: 120.0,

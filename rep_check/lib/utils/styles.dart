@@ -79,6 +79,8 @@ class Styles {
     Styles.primaryAnalogous6
   ];
 
+  static Color primaryFadedColor = Color(0xBB86C232);
+
   static TextStyle defaultStyle = TextStyle();
 
   static TextStyle h1AppBar = defaultStyle.copyWith(

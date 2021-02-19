@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_admob/firebase_admob.dart';
+
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/styles.dart';
 import 'package:rep_check/views/partials/common_appbar_actions.dart';
 import 'package:rep_check/views/partials/drawer.dart';
-import 'package:rep_check/views/partials/fake_bottom_buttons.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,39 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-      testDevices: Constants.testingDevices, keywords: Constants.keywords);
-
-  BannerAd _bannerAd;
-  double _adSize = 50;
-
-  BannerAd createBannerAd() {
-    return BannerAd(
-        adUnitId: Constants.adUnitId,
-        size: AdSize.banner,
-        targetingInfo: targetingInfo,
-        listener: (MobileAdEvent event) {
-          if (event == MobileAdEvent.loaded) {
-            setState(() {
-              _adSize = _bannerAd.size.height.toDouble();
-            });
-          } else if (event == MobileAdEvent.failedToLoad) {
-            setState(() {
-              _adSize = 0;
-            });
-          }
-        });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    FirebaseAdMob.instance.initialize(appId: Constants.adAppId);
-    _bannerAd = createBannerAd()
-      ..load()
-      ..show();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,11 +78,5 @@ class _HomePageState extends State<HomePage> {
                           ]))),
                   SizedBox(height: 60)
                 ]))));
-  }
-
-  @override
-  void dispose() {
-    _bannerAd?.dispose();
-    super.dispose();
   }
 }
