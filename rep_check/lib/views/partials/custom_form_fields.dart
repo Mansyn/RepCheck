@@ -189,21 +189,21 @@ Widget mySubmitIconedButton(
             text,
             style: Styles.pButton.copyWith(
               fontWeight: FontWeight.bold,
-              color: isFilled ? Colors.white : Color(Styles.redColor),
+              color: isFilled ? Colors.white : Styles.primaryColor,
             ),
             textAlign: TextAlign.center,
           ),
         ),
       ],
     ),
-    color: isFilled ? Color(Styles.redColor) : Colors.transparent,
-    textColor: isFilled ? Colors.white : Color(Styles.redColor),
+    color: isFilled ? Styles.primaryColor : Colors.transparent,
+    textColor: isFilled ? Colors.white : Styles.primaryColor,
     elevation: 0,
     minWidth: 350,
     height: 50,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(50),
-      side: BorderSide(color: Color(Styles.redColor)),
+      side: BorderSide(color: Styles.primaryColor),
     ),
   );
 }

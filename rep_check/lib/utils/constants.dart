@@ -11,7 +11,8 @@ class Constants {
   static String appBio = 'Built to help people know who represents them';
   static String contactEmail = 'iwalktheline@live.com';
   static String appAbout =
-      'The was built to help people easily discover who represents them, and will let them see what they do in Congress. This is still a work in progress.';
+      'Rep Check was built to enable people to easily research their representatives. We welcome all feedback and suggestions to further empower citizens with knowledge.';
+  static String tell = 'Tell a friend to tell a friend to tell a friend';
 
   /// Share message
   static String shareLink = 'http://unleasheddevelopement.com';

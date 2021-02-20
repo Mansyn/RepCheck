@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
         drawer: HomeDrawer(),
         body: Container(
             decoration: BoxDecoration(color: Styles.primaryColor),
+            alignment: Alignment.center,
             child: SingleChildScrollView(
                 primary: true,
                 child: Column(children: <Widget>[
@@ -32,51 +33,85 @@ class _HomePageState extends State<HomePage> {
                     alignment: Alignment.center,
                     scale: 2.6,
                   ),
+                  SizedBox(height: 30),
                   GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, '/auto');
                       },
                       child: Card(
+                          elevation: 6.0,
                           color: Styles.accentVarColor,
-                          clipBehavior: Clip.antiAlias,
                           shape: RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          child: Column(children: [
-                            ListTile(
-                              leading: Icon(Icons.location_searching),
-                              title: const Text('Detect District'),
-                              subtitle: Text('using your GPS location'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                  'Find representatives by using your current location'),
-                            )
-                          ]))),
+                                  BorderRadius.all(Radius.circular(18.0))),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 6.0),
+                          child: Container(
+                              child: ListTile(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 10.0),
+                                  leading: Container(
+                                      padding: EdgeInsets.only(right: 12.0),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              right: BorderSide(
+                                                  width: 1.0,
+                                                  color: Colors.white24))),
+                                      child: Icon(Icons.location_searching)),
+                                  title: Text(
+                                    'Detect District',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                                  subtitle: Row(children: <Widget>[
+                                    Text('use GPS location',
+                                        style: TextStyle(color: Colors.white))
+                                  ]),
+                                  trailing: Icon(Icons.keyboard_arrow_right,
+                                      color: Colors.white, size: 30.0))))),
                   GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, '/manual');
                       },
                       child: Card(
+                          elevation: 6.0,
                           color: Styles.accentVarColor,
-                          clipBehavior: Clip.antiAlias,
                           shape: RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          child: Column(children: [
-                            ListTile(
-                              leading: Icon(Icons.search),
-                              title: const Text('Lookup District'),
-                              subtitle: Text('find by address'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                  'Find representatives by using an address'),
-                            )
-                          ]))),
-                  SizedBox(height: 60)
+                                  BorderRadius.all(Radius.circular(18.0))),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 6.0),
+                          child: Container(
+                              child: ListTile(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 10.0),
+                                  leading: Container(
+                                      padding: EdgeInsets.only(right: 12.0),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              right: BorderSide(
+                                                  width: 1.0,
+                                                  color: Colors.white24))),
+                                      child: Icon(Icons.search)),
+                                  title: Text(
+                                    'Lookup District',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                                  subtitle: Row(
+                                    children: <Widget>[
+                                      Text('find by address',
+                                          style: TextStyle(color: Colors.white))
+                                    ],
+                                  ),
+                                  trailing: Icon(Icons.keyboard_arrow_right,
+                                      color: Colors.white, size: 30.0)))))
                 ]))));
   }
 }

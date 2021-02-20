@@ -88,110 +88,99 @@ class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("ABOUT REP CHECK"),
-        actions: commonAppBarActions(),
-      ),
-      body: Container(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-              height: 10.0,
-            ),
-            Card(
-              color: Styles.primaryColor,
-              margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: <Widget>[
-                    Text("About Us",
-                        style: Styles.detailHeader.copyWith(
-                          height: 1,
-                          fontSize: 22,
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(70.0, 10, 70.0, 10.0),
-                      child: Divider(
-                        color: Colors.grey[500],
-                        height: 4,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        Constants.appAbout,
-                        style: Styles.p,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.info,
-                color: iconColor,
-              ),
-              title: Text('Name', style: titleStyle),
-              subtitle: Text(_projectName, style: subtitleStyle),
-            ),
-            Container(
-              height: 10.0,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.info,
-                color: iconColor,
-              ),
-              title: Text('Running on', style: titleStyle),
-              subtitle: Text(_platformVersion, style: subtitleStyle),
-            ),
-            Divider(
-              height: 20.0,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.info,
-                color: iconColor,
-              ),
-              title: Text('Version Name', style: titleStyle),
-              subtitle: Text(_projectVersion, style: subtitleStyle),
-            ),
-            Divider(
-              height: 20.0,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.info,
-                color: iconColor,
-              ),
-              title: Text('Version Code', style: titleStyle),
-              subtitle: Text(_projectCode, style: subtitleStyle),
-            ),
-            Divider(
-              height: 20.0,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.info,
-                color: iconColor,
-              ),
-              title: Text('App ID', style: titleStyle),
-              subtitle: Text(_projectAppID, style: subtitleStyle),
-            ),
-            Container(
-              height: 120,
-              padding: EdgeInsets.all(15),
-              child: Image.asset('assets/images/logo.png'),
-            ),
-            fakeBottom(),
-          ],
+        appBar: AppBar(
+          title: Text("About Rep Check", style: Styles.h1AppBar),
+          actions: commonAppBarActions(),
         ),
-      ),
-    );
+        body: Container(
+            child: ListView(children: <Widget>[
+          SizedBox(
+            height: 10.0,
+          ),
+          Card(
+            color: Styles.primaryColor,
+            margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 150,
+                    child: Image.asset(Constants.logoKey),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(70.0, 10, 70.0, 10.0),
+                    child: Divider(
+                      color: Styles.accentColor,
+                      height: 8,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      Constants.appAbout,
+                      style: Styles.p,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.info,
+              color: iconColor,
+            ),
+            title: Text('Name', style: titleStyle),
+            subtitle: Text(_projectName, style: subtitleStyle),
+          ),
+          Container(
+            height: 10.0,
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.info,
+              color: iconColor,
+            ),
+            title: Text('Running on', style: titleStyle),
+            subtitle: Text(_platformVersion, style: subtitleStyle),
+          ),
+          Divider(
+            height: 20.0,
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.info,
+              color: iconColor,
+            ),
+            title: Text('Version Name', style: titleStyle),
+            subtitle: Text(_projectVersion, style: subtitleStyle),
+          ),
+          Divider(
+            height: 20.0,
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.info,
+              color: iconColor,
+            ),
+            title: Text('Version Code', style: titleStyle),
+            subtitle: Text(_projectCode, style: subtitleStyle),
+          ),
+          Divider(
+            height: 20.0,
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.info,
+              color: iconColor,
+            ),
+            title: Text('App ID', style: titleStyle),
+            subtitle: Text(_projectAppID, style: subtitleStyle),
+          )
+        ])));
   }
 }
