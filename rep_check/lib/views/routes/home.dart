@@ -57,7 +57,8 @@ class _HomePageState extends State<HomePage> {
                                               right: BorderSide(
                                                   width: 1.0,
                                                   color: Colors.white24))),
-                                      child: Icon(Icons.location_searching)),
+                                      child: Icon(Icons.location_searching,
+                                          size: 40)),
                                   title: Text(
                                     'Detect District',
                                     style: TextStyle(
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                                               right: BorderSide(
                                                   width: 1.0,
                                                   color: Colors.white24))),
-                                      child: Icon(Icons.search)),
+                                      child: Icon(Icons.search, size: 40)),
                                   title: Text(
                                     'Lookup District',
                                     style: TextStyle(

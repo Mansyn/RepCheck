@@ -44,7 +44,7 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
     if (_place == null) {
       return Scaffold(
           appBar: AppBar(
-            title: Text('Lookup District', style: Styles.h1AppBar),
+            title: Text(Constants.lookupDistrict, style: Styles.h1AppBar),
           ),
           body: Column(children: <Widget>[
             TextField(
@@ -79,7 +79,7 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
                     height: 10,
                     child: Icon(Icons.search),
                   ),
-                  hintText: "Click here to lookup address",
+                  hintText: 'Click here to lookup address',
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(left: 8.0, top: 16.0),
                 )),
@@ -88,7 +88,7 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
     } else {
       return Scaffold(
           appBar: AppBar(
-            title: Text('Lookup District', style: Styles.h1AppBar),
+            title: Text(Constants.lookupDistrict, style: Styles.h1AppBar),
             actions: commonAppBarActions(),
           ),
           body: Column(children: <Widget>[

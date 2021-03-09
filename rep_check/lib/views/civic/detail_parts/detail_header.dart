@@ -29,7 +29,7 @@ class DetailHeader extends StatelessWidget {
 
     return new DiagonallyCutColoredImage(
       Image.asset(
-        Constants.rootsKey,
+        Constants.dcKey,
         width: screenWidth,
         height: 280.0,
         fit: BoxFit.cover,

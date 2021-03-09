@@ -74,6 +74,7 @@ class Constants {
   static String whiteAvatar = 'assets/images/avatar-white.png';
   static String backgroundHeaderKey =
       'assets/images/profile_header_background.png';
+  static String dcKey = 'assets/images/dc.jpg';
   static String facebookKey = 'assets/images/buttons/facebook.png';
   static String githubKey = 'assets/images/buttons/github.png';
   static String amazonKey = 'assets/images/buttons/amazon.png';
@@ -85,6 +86,9 @@ class Constants {
   static String twitterKey = 'assets/images/buttons/twitter.png';
   static String youtubeKey = 'assets/images/buttons/youtube.png';
   static String webKey = 'assets/images/buttons/web.png';
+
+  /// titles
+  static String lookupDistrict = 'Lookup District';
 
   /// param keys
   static String appPreviouslyRunKey = 'seen';
