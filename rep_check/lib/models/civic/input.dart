@@ -14,7 +14,7 @@ class NormalizedInput {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['line1'] = this.line1;
     data['city'] = this.city;
     data['state'] = this.state;

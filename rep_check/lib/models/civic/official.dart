@@ -24,9 +24,9 @@ class Official {
   Official.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     if (json['address'] != null) {
-      address = new List<Address>();
+      address = [];
       json['address'].forEach((v) {
-        address.add(new Address.fromJson(v));
+        address.add(Address.fromJson(v));
       });
     }
     party = json['party'];
@@ -38,9 +38,9 @@ class Official {
     }
     photoUrl = json['photoUrl'];
     if (json['channels'] != null) {
-      channels = new List<Channels>();
+      channels = [];
       json['channels'].forEach((v) {
-        channels.add(new Channels.fromJson(v));
+        channels.add(Channels.fromJson(v));
       });
     }
     if (json['emails'] != null) {
@@ -49,7 +49,7 @@ class Official {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['name'] = this.name;
     if (this.address != null) {
       data['address'] = this.address.map((v) => v.toJson()).toList();

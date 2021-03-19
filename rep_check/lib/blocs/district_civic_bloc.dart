@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:geocoder/model.dart';
 import 'package:rep_check/api/api_response.dart';
 import 'package:rep_check/blocs/bloc.dart';
 import 'package:rep_check/repositories/civic_repository.dart';

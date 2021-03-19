@@ -39,7 +39,6 @@ class MyAppTheme {
         // We can also add on some extra properties that ColorScheme seems to miss
         .copyWith(
             buttonColor: accent1,
-            cursorColor: accent1,
             highlightColor: accent1,
             toggleableActiveColor: accent1);
 

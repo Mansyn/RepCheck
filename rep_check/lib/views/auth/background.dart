@@ -4,20 +4,21 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
           new Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              Image.asset('assets/images/collaboration.png', width: MediaQuery.of(context).size.width/1.5,),
+              Image.asset(
+                'assets/images/collaboration.png',
+                width: MediaQuery.of(context).size.width / 1.5,
+              ),
               WavyHeader(),
             ],
           ),
           Expanded(
-            child: Container(
-            ),
+            child: Container(),
           ),
           Stack(
             alignment: Alignment.bottomLeft,
@@ -127,7 +128,7 @@ class TopWaveClipper extends CustomClipper<Path> {
         secondEndPoint.dx, secondEndPoint.dy);
 
     var thirdControlPoint =
-    Offset(size.width - (size.width / 9), size.height / 6);
+        Offset(size.width - (size.width / 9), size.height / 6);
     var thirdEndPoint = Offset(size.width, 0.0);
     path.quadraticBezierTo(thirdControlPoint.dx, thirdControlPoint.dy,
         thirdEndPoint.dx, thirdEndPoint.dy);

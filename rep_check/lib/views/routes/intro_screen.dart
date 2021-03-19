@@ -3,7 +3,6 @@ import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/styles.dart';
-import 'package:rep_check/views/partials/fake_bottom_buttons.dart';
 
 import 'home.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rep_check/utils/constants.dart';
+import 'package:rep_check/utils/styles.dart';
 
 class ApiError extends StatelessWidget {
   final String errorMessage;
@@ -12,9 +13,9 @@ class ApiError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
           Text(
             Constants.testing ? errorMessage : "API ERROR!",
             textAlign: TextAlign.center,
@@ -24,13 +25,10 @@ class ApiError extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8),
-          RaisedButton(
-            color: Theme.of(context).primaryColor,
-            child: Text('Retry', style: TextStyle(color: Colors.white)),
-            onPressed: onRetryPressed,
-          )
-        ],
-      ),
-    );
+          OutlinedButton(
+              style: OutlinedButton.styleFrom(primary: Styles.primaryColor),
+              child: Text('Retry', style: TextStyle(color: Colors.white)),
+              onPressed: onRetryPressed)
+        ]));
   }
 }

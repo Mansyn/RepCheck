@@ -121,124 +121,101 @@ class MyTextFormField2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: TextFormField(
-        decoration: InputDecoration(
-          hintText: hintText,
-          contentPadding: EdgeInsets.all(15.0),
-          border: InputBorder.none,
-          filled: true,
-          fillColor: Colors.grey[200],
-        ),
-        obscureText: isPassword ? true : false,
-        validator: validator,
-        onSaved: onSaved,
-        keyboardType: _getType(),
-      ),
-    );
+        padding: EdgeInsets.all(8.0),
+        child: TextFormField(
+            decoration: InputDecoration(
+              hintText: hintText,
+              contentPadding: EdgeInsets.all(15.0),
+              border: InputBorder.none,
+              filled: true,
+              fillColor: Colors.grey[200],
+            ),
+            obscureText: isPassword ? true : false,
+            validator: validator,
+            onSaved: onSaved,
+            keyboardType: _getType()));
   }
 }
 
 Widget mySubmitButton(String text, Function action) {
   return MaterialButton(
-    onPressed: action,
-    child: Text(
-      text,
-      style: Styles.pButton
-          .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-    ),
-    color: Color(Styles.redColor),
-    elevation: 0,
-    minWidth: 350,
-    height: 50,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(50),
-    ),
-  );
+      onPressed: action,
+      child: Text(text,
+          style: Styles.pButton
+              .copyWith(fontWeight: FontWeight.bold, color: Colors.white)),
+      color: Color(Styles.redColor),
+      elevation: 0,
+      minWidth: 350,
+      height: 50,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)));
 }
 
 Widget mySubmitThemedButton(context, String text, Function action) {
   return MaterialButton(
-    onPressed: action,
-    child: Text(
-      text,
-      style: Styles.pButton
-          .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-    ),
-    color: Theme.of(context).primaryColor,
-    elevation: 0,
-    minWidth: 350,
-    height: 50,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(50),
-    ),
-  );
+      onPressed: action,
+      child: Text(text,
+          style: Styles.pButton
+              .copyWith(fontWeight: FontWeight.bold, color: Colors.white)),
+      color: Theme.of(context).primaryColor,
+      elevation: 0,
+      minWidth: 350,
+      height: 50,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)));
 }
 
 Widget mySubmitIconedButton(
     String text, Icon icon, bool isFilled, Function action) {
   return MaterialButton(
-    onPressed: action,
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        icon,
-        Expanded(
-          child: Text(
-            text,
-            style: Styles.pButton.copyWith(
-              fontWeight: FontWeight.bold,
-              color: isFilled ? Colors.white : Styles.primaryColor,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    ),
-    color: isFilled ? Styles.primaryColor : Colors.transparent,
-    textColor: isFilled ? Colors.white : Styles.primaryColor,
-    elevation: 0,
-    minWidth: 350,
-    height: 50,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(50),
-      side: BorderSide(color: Styles.primaryColor),
-    ),
-  );
+      onPressed: action,
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            icon,
+            Expanded(
+                child: Text(text,
+                    style: Styles.pButton.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: isFilled ? Colors.white : Styles.primaryColor),
+                    textAlign: TextAlign.center))
+          ]),
+      color: isFilled ? Styles.primaryColor : Colors.transparent,
+      textColor: isFilled ? Colors.white : Styles.primaryColor,
+      elevation: 0,
+      minWidth: 350,
+      height: 50,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+          side: BorderSide(color: Styles.primaryColor)));
 }
 
 Widget mySubmitIconedThemedButton(
     context, String text, Icon icon, bool isFilled, Function action) {
   return MaterialButton(
-    onPressed: action,
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        icon,
-        Expanded(
-          child: Text(
-            text,
-            style: Styles.pButton.copyWith(
-              fontWeight: FontWeight.bold,
-              color: isFilled ? Colors.white : Theme.of(context).primaryColor,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    ),
-    color: isFilled ? Theme.of(context).primaryColor : Colors.transparent,
-    textColor: isFilled ? Colors.white : Theme.of(context).primaryColor,
-    elevation: 0,
-    minWidth: 350,
-    height: 50,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(50),
-      side: BorderSide(color: Theme.of(context).primaryColor),
-    ),
-  );
+      onPressed: action,
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            icon,
+            Expanded(
+                child: Text(text,
+                    style: Styles.pButton.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: isFilled
+                          ? Colors.white
+                          : Theme.of(context).primaryColor,
+                    ),
+                    textAlign: TextAlign.center))
+          ]),
+      color: isFilled ? Theme.of(context).primaryColor : Colors.transparent,
+      textColor: isFilled ? Colors.white : Theme.of(context).primaryColor,
+      elevation: 0,
+      minWidth: 350,
+      height: 50,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+          side: BorderSide(color: Theme.of(context).primaryColor)));
 }
 
 Widget myLoadingButton(context) {

@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Rep Check', style: Styles.h1AppBar),
+          title: Text(Constants.appName, style: Styles.h1AppBar),
           actions: commonAppBarActions(),
         ),
         drawer: HomeDrawer(),
@@ -60,15 +60,13 @@ class _HomePageState extends State<HomePage> {
                                       child: Icon(Icons.location_searching,
                                           size: 40)),
                                   title: Text(
-                                    'Detect District',
+                                    Constants.detectDistrict,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
                                   subtitle: Row(children: <Widget>[
-                                    Text('use GPS location',
+                                    Text(Constants.detectDistrictDesc,
                                         style: TextStyle(color: Colors.white))
                                   ]),
                                   trailing: Icon(Icons.keyboard_arrow_right,
@@ -98,19 +96,15 @@ class _HomePageState extends State<HomePage> {
                                                   color: Colors.white24))),
                                       child: Icon(Icons.search, size: 40)),
                                   title: Text(
-                                    'Lookup District',
+                                    Constants.lookupDistrict,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                                  subtitle: Row(
-                                    children: <Widget>[
-                                      Text('find by address',
-                                          style: TextStyle(color: Colors.white))
-                                    ],
-                                  ),
+                                  subtitle: Row(children: <Widget>[
+                                    Text(Constants.lookupDistrictDesc,
+                                        style: TextStyle(color: Colors.white))
+                                  ]),
                                   trailing: Icon(Icons.keyboard_arrow_right,
                                       color: Colors.white, size: 30.0)))))
                 ]))));

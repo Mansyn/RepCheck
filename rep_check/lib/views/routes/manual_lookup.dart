@@ -59,7 +59,7 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
                   );
                   // This will change the text displayed in the TextField
                   if (result != null) {
-                    final placeDetails = await PlaceApiProvider(sessionToken)
+                    final placeDetails = await PlaceRepository(sessionToken)
                         .getPlaceDetailFromId(result.placeId);
                     setState(() {
                       _controller.text = result.description;

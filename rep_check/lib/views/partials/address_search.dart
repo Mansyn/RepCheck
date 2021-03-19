@@ -6,7 +6,7 @@ import 'package:rep_check/utils/styles.dart';
 
 class AddressSearch extends SearchDelegate<SuggestionResponse> {
   AddressSearch(this.sessionToken) {
-    apiClient = PlaceApiProvider(sessionToken);
+    placesRepository = PlaceRepository(sessionToken);
   }
 
   @override
@@ -22,7 +22,7 @@ class AddressSearch extends SearchDelegate<SuggestionResponse> {
   }
 
   final sessionToken;
-  PlaceApiProvider apiClient;
+  PlaceRepository placesRepository;
 
   final Map<String, String> favoriteLocationImage = {
     'street_address': 'assets/images/locations/house.png',
@@ -95,7 +95,7 @@ class AddressSearch extends SearchDelegate<SuggestionResponse> {
     return FutureBuilder(
         future: query == ''
             ? null
-            : apiClient.fetchSuggestions(
+            : placesRepository.fetchSuggestions(
                 query, Localizations.localeOf(context).languageCode),
         builder: (context, snapshot) => query == ''
             ? Container(

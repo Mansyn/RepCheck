@@ -2,15 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
+import 'package:rep_check/api/api_base_helper.dart';
 import 'package:rep_check/env_config.dart';
 import 'package:rep_check/responses/maps/place_response.dart';
 import 'package:rep_check/responses/maps/suggestion_response.dart';
 import 'package:rep_check/utils/constants.dart';
 
-class PlaceApiProvider {
+class PlaceRepository {
   final client = Client();
 
-  PlaceApiProvider(this.sessionToken);
+  PlaceRepository(this.sessionToken);
 
   final sessionToken;
 
@@ -18,11 +19,14 @@ class PlaceApiProvider {
   static final String iosKey = 'YOUR_API_KEY_HERE';
   final apiKey = Platform.isAndroid ? androidKey : iosKey;
 
+  ApiBaseHelper _helper = ApiBaseHelper();
+
   Future<List<SuggestionResponse>> fetchSuggestions(
       String input, String lang) async {
-    final request = EnvConfig.mapsUrl +
+    final fullUrl = EnvConfig.mapsUrl +
         'autocomplete/json?input=$input&types=address&language=$lang&components=country:us&key=$apiKey&sessiontoken=$sessionToken';
-    final response = await client.get(request);
+    print(fullUrl);
+    final response = await _helper.get(fullUrl, Constants.headers);
 
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
@@ -32,7 +36,7 @@ class PlaceApiProvider {
                 p['place_id'], p['description'], p['types'].cast<String>()))
             .toList();
 
-        List<SuggestionResponse> suggestions = List<SuggestionResponse>();
+        List<SuggestionResponse> suggestions = [];
         predictions.forEach((prediction) {
           if (prediction.types.contains('street_address')) {
             // Results that include 'street_address' should be included
@@ -64,9 +68,10 @@ class PlaceApiProvider {
   }
 
   Future<PlaceResponse> getPlaceDetailFromId(String placeId) async {
-    final request = EnvConfig.mapsUrl +
+    final fullUrl = EnvConfig.mapsUrl +
         'details/json?place_id=$placeId&fields=address_component&key=$apiKey&sessiontoken=$sessionToken';
-    final response = await client.get(request);
+    print(fullUrl);
+    final response = await _helper.get(fullUrl, Constants.headers);
 
     if (response.statusCode == 200) {
       final result = json.decode(response.body);

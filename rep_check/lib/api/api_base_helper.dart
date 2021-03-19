@@ -8,7 +8,7 @@ class ApiBaseHelper {
   Future<dynamic> get(String url, Object headers) async {
     var responseJson;
     try {
-      final response = await http.get(url, headers: headers);
+      final response = await http.get(Uri.parse(url), headers: headers);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -20,7 +20,7 @@ class ApiBaseHelper {
     print('Api Post, url $url');
     var responseJson;
     try {
-      final response = await http.post(url, body: body);
+      final response = await http.post(Uri.parse(url), body: body);
       responseJson = _returnResponse(response);
     } on SocketException {
       print('No net');
@@ -34,7 +34,7 @@ class ApiBaseHelper {
     print('Api Put, url $url');
     var responseJson;
     try {
-      final response = await http.put(url, body: body);
+      final response = await http.put(Uri.parse(url), body: body);
       responseJson = _returnResponse(response);
     } on SocketException {
       print('No net');
@@ -49,7 +49,7 @@ class ApiBaseHelper {
     print('Api delete, url $url');
     var apiResponse;
     try {
-      final response = await http.delete(url);
+      final response = await http.delete(Uri.parse(url));
       apiResponse = _returnResponse(response);
     } on SocketException {
       print('No net');

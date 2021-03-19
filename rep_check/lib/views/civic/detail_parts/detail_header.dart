@@ -70,12 +70,13 @@ class DetailHeader extends StatelessWidget {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(color: Styles.primaryColor)),
-                        textColor: Styles.primaryColor,
-                        padding: EdgeInsets.all(8.0),
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            primary: Styles.primaryColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(color: Styles.primaryColor)),
+                            padding: EdgeInsets.all(8.0)),
                         onPressed: () {
                           launchURL(Constants.newsUrl +
                               official.name.replaceAll(' ', '+'));

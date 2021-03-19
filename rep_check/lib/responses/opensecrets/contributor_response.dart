@@ -6,13 +6,12 @@ class ContributorResponse {
   ContributorResponse({this.response});
 
   ContributorResponse.fromJson(Map<String, dynamic> json) {
-    response = json['response'] != null
-        ? new Response.fromJson(json['response'])
-        : null;
+    response =
+        json['response'] != null ? Response.fromJson(json['response']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.response != null) {
       data['response'] = this.response.toJson();
     }

@@ -1,10 +1,9 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:device_id/device_id.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import 'utils/constants.dart';
 import 'utils/router.dart';
 import 'utils/styles.dart';
 import 'views/routes/unknown_page.dart';
@@ -12,6 +11,7 @@ import 'views/routes/unknown_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
+  MobileAds.instance.initialize();
 
   runApp(MyApp());
 }
@@ -22,45 +22,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _AppState extends State<MyApp> {
-  static MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-      testDevices: Constants.testingDevices, keywords: Constants.keywords);
-
   String deviceID;
-  BannerAd _bannerAd;
-  double _adSize = 0;
   bool hasInternet = false, isChecking = true;
 
   @override
   void initState() {
     super.initState();
     check();
-    FirebaseAdMob.instance.initialize(appId: Constants.adAppId);
-    _bannerAd = createBannerAd()
-      ..load()
-      ..show();
   }
 
   void getDeviceID() async {
-    String deviceId = await DeviceId.getID;
+    String deviceId = await PlatformDeviceId.getDeviceId;
     print('Device ID is $deviceId');
-  }
-
-  BannerAd createBannerAd() {
-    return BannerAd(
-        adUnitId: Constants.adUnitId,
-        size: AdSize.banner,
-        targetingInfo: targetingInfo,
-        listener: (MobileAdEvent event) {
-          if (event == MobileAdEvent.loaded) {
-            setState(() {
-              _adSize = _bannerAd.size.height.toDouble();
-            });
-          } else if (event == MobileAdEvent.failedToLoad) {
-            setState(() {
-              _adSize = 0;
-            });
-          }
-        });
   }
 
   @override
@@ -75,16 +48,9 @@ class _AppState extends State<MyApp> {
       ..bgdark = Styles.accentColor;
     return MaterialApp(
       title: 'Rep Check',
-      debugShowCheckedModeBanner: false,
       theme: appTheme.themeData,
       initialRoute: '/splash',
       routes: appRoutes,
-      builder: (context, widget) {
-        return Padding(
-          child: widget,
-          padding: new EdgeInsets.only(bottom: _adSize),
-        );
-      },
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(
           builder: (BuildContext context) => UnknownPage(),
@@ -115,7 +81,6 @@ class _AppState extends State<MyApp> {
 
   @override
   void dispose() {
-    _bannerAd?.dispose();
     super.dispose();
   }
 }

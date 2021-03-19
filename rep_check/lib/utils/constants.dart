@@ -14,6 +14,11 @@ class Constants {
       'Rep Check was built to enable people to easily research their representatives. We welcome all feedback and suggestions to further empower citizens with knowledge.';
   static String tell = 'Tell a friend to tell a friend to tell a friend';
 
+  static String detectDistrict = 'Detect District';
+  static String detectDistrictDesc = 'use GPS location';
+  static String lookupDistrict = 'Lookup District';
+  static String lookupDistrictDesc = 'find by address';
+
   /// Share message
   static String shareLink = 'http://unleasheddevelopement.com';
   static String shareMessage = 'Check out this Amazing App at ' + shareLink;
@@ -45,7 +50,14 @@ class Constants {
 
   static Map<String, String> headers = {
     'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+
+  static Map<String, String> webHeaders = {
+    'Content-Type': 'application/json',
     'Accept': 'application/json',
+    'user-agent':
+        'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36'
   };
 
   Map<String, String> backendHeaders = {
@@ -87,9 +99,6 @@ class Constants {
   static String youtubeKey = 'assets/images/buttons/youtube.png';
   static String webKey = 'assets/images/buttons/web.png';
 
-  /// titles
-  static String lookupDistrict = 'Lookup District';
-
   /// param keys
   static String appPreviouslyRunKey = 'seen';
   static String members = 'members';
@@ -119,6 +128,8 @@ class Constants {
 
   static String session = '116';
 
+  static String imagesUrl =
+      'https://www.google.com/search?q={query}&tbm=isch&tbs=isz:m';
   static String newsUrl = 'https://news.google.com/search?q=';
 
   static String fbUrl = 'https://www.facebook.com/';

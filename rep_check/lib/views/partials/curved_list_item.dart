@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geocoder/model.dart';
 import 'package:rep_check/responses/maps/place_response.dart';
 import 'package:rep_check/utils/enums.dart';
 import 'package:rep_check/utils/styles.dart';
@@ -17,7 +18,8 @@ class CurvedListItem extends StatelessWidget {
       this.color,
       this.nextColor,
       this.lookup,
-      this.place});
+      this.place,
+      this.address});
 
   final String title;
   final String header;
@@ -29,6 +31,7 @@ class CurvedListItem extends StatelessWidget {
   final Color nextColor;
   final Lookup lookup;
   final PlaceResponse place;
+  final Address address;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +54,7 @@ class CurvedListItem extends StatelessWidget {
                       context,
                       MaterialPageRoute(builder: (context) {
                         if (lookup == Lookup.auto) {
-                          return CivicAutoPage(query, body, title);
+                          return CivicAutoPage(query, body, title, address);
                         } else {
                           return CivicManualPage(query, body, title, place);
                         }

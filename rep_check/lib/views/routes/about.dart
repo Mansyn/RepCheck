@@ -5,7 +5,6 @@ import 'package:get_version/get_version.dart';
 import 'package:rep_check/utils/constants.dart';
 import 'package:rep_check/utils/styles.dart';
 import 'package:rep_check/views/partials/common_appbar_actions.dart';
-import 'package:rep_check/views/partials/fake_bottom_buttons.dart';
 
 class AboutPage extends StatefulWidget {
   @override
