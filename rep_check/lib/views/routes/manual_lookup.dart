@@ -96,53 +96,55 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
                 padding: EdgeInsets.all(Constants.commonPadding),
                 child: Row(children: [Flexible(child: buildAddress())])),
             Expanded(
-                child:
-                    ListView(scrollDirection: Axis.vertical, children: <Widget>[
-              CurvedListItem(
-                  title: 'Senators For This District',
-                  header: 'UPPER BODY',
-                  color: Styles.primaryAnalogous1,
-                  nextColor: Styles.primaryAnalogous2,
-                  query: Query.district,
-                  body: Body.upper,
-                  icon: MdiIcons.locationEnter,
-                  description: 'Federal and State members',
-                  lookup: Lookup.manual,
-                  place: _place),
-              CurvedListItem(
-                  title: 'House Members For This District',
-                  header: 'LOWER BODY',
-                  color: Styles.primaryAnalogous2,
-                  nextColor: Styles.primaryAnalogous3,
-                  query: Query.district,
-                  body: Body.lower,
-                  icon: MdiIcons.domain,
-                  description: 'Federal and State members',
-                  lookup: Lookup.manual,
-                  place: _place),
-              CurvedListItem(
-                  title: 'Senator For This State',
-                  header: 'UPPER BODY',
-                  color: Styles.primaryAnalogous3,
-                  nextColor: Styles.primaryAnalogous4,
-                  query: Query.state,
-                  body: Body.upper,
-                  icon: MdiIcons.accountBox,
-                  description: 'State members',
-                  lookup: Lookup.manual,
-                  place: _place),
-              CurvedListItem(
-                  title: 'House Members For This State',
-                  header: 'LOWER BODY',
-                  color: Styles.primaryAnalogous4,
-                  nextColor: Styles.accentColor,
-                  query: Query.state,
-                  body: Body.lower,
-                  icon: MdiIcons.accountBox,
-                  description: 'State members',
-                  lookup: Lookup.manual,
-                  place: _place)
-            ]))
+                child: ListView(
+                    scrollDirection: Axis.vertical,
+                    padding: EdgeInsets.only(bottom: 60),
+                    children: <Widget>[
+                  CurvedListItem(
+                      title: 'Senators For This District',
+                      header: 'UPPER BODY',
+                      color: Styles.primaryAnalogous1,
+                      nextColor: Styles.primaryAnalogous2,
+                      query: Query.district,
+                      body: Body.upper,
+                      icon: MdiIcons.locationEnter,
+                      description: 'Federal and State members',
+                      lookup: Lookup.manual,
+                      place: _place),
+                  CurvedListItem(
+                      title: 'House Members For This District',
+                      header: 'LOWER BODY',
+                      color: Styles.primaryAnalogous2,
+                      nextColor: Styles.primaryAnalogous3,
+                      query: Query.district,
+                      body: Body.lower,
+                      icon: MdiIcons.domain,
+                      description: 'Federal and State members',
+                      lookup: Lookup.manual,
+                      place: _place),
+                  CurvedListItem(
+                      title: 'Senator For This State',
+                      header: 'UPPER BODY',
+                      color: Styles.primaryAnalogous3,
+                      nextColor: Styles.primaryAnalogous4,
+                      query: Query.state,
+                      body: Body.upper,
+                      icon: MdiIcons.accountBox,
+                      description: 'State members',
+                      lookup: Lookup.manual,
+                      place: _place),
+                  CurvedListItem(
+                      title: 'House Members For This State',
+                      header: 'LOWER BODY',
+                      color: Styles.primaryAnalogous4,
+                      nextColor: Styles.accentColor,
+                      query: Query.state,
+                      body: Body.lower,
+                      icon: MdiIcons.accountBox,
+                      description: 'State members',
+                      lookup: Lookup.manual,
+                      place: _place)
+                ]))
           ]));
     }
   }

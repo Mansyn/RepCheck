@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rep_check/models/civic/official.dart';
 import 'package:rep_check/utils/constants.dart';
 
@@ -29,13 +28,9 @@ class Widgethelper {
     return CachedNetworkImage(
         imageUrl: url,
         progressIndicatorBuilder: (context, url, downloadProgress) =>
-            SpinKitThreeBounce(
-              color: Colors.white,
-              size: 50.0,
-            ),
+            CircularProgressIndicator(value: downloadProgress.progress),
         errorWidget: (context, url, error) =>
-            Image.asset(Constants.whiteAvatar, fit: BoxFit.cover),
-        fit: BoxFit.fitWidth);
+            Image.asset(Constants.whiteAvatar, fit: BoxFit.cover));
   }
 
   static String getMemberParty(member) {

@@ -79,6 +79,7 @@ class Constants {
   /// images
   static String logoKey = 'assets/images/logo.png';
   static String mapKey = 'assets/images/map.png';
+  static String flagKey = 'assets/images/flag.png';
   static String rootsKey = 'assets/images/roots.png';
   static String handsKey = 'assets/images/hands2.png';
   static String loadingKey = 'assets/images/loading.gif';

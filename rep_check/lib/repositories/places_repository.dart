@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
@@ -28,43 +27,36 @@ class PlaceRepository {
     print(fullUrl);
     final response = await _helper.get(fullUrl, Constants.headers);
 
-    if (response.statusCode == 200) {
-      final result = json.decode(response.body);
-      if (result['status'] == 'OK') {
-        final List<SuggestionResponse> predictions = result['predictions']
-            .map<SuggestionResponse>((p) => SuggestionResponse(
-                p['place_id'], p['description'], p['types'].cast<String>()))
-            .toList();
-
-        List<SuggestionResponse> suggestions = [];
-        predictions.forEach((prediction) {
-          if (prediction.types.contains('street_address')) {
-            // Results that include 'street_address' should be included
-            suggestions.add(prediction);
-          } else {
-            // Results that don't include 'street_address' will go through the check
-            int typeCounter = 0;
-            if (prediction.types.contains('geocode')) {
-              typeCounter++;
-            }
-            if (prediction.types.contains('route')) {
-              typeCounter++;
-            }
-            if (prediction.types.length > typeCounter) {
-              suggestions.add(prediction);
-            }
-          }
-        });
-
-        return suggestions;
-      }
-      if (result['status'] == 'ZERO_RESULTS') {
-        return [];
-      }
-      throw Exception(result['error_message']);
-    } else {
-      throw Exception('Failed to fetch suggestion');
+    if (response['status'] == 'ZERO_RESULTS') {
+      return [];
     }
+
+    final List<SuggestionResponse> predictions = response['predictions']
+        .map<SuggestionResponse>((p) => SuggestionResponse(
+            p['place_id'], p['description'], p['types'].cast<String>()))
+        .toList();
+
+    List<SuggestionResponse> suggestions = [];
+    predictions.forEach((prediction) {
+      if (prediction.types.contains('street_address')) {
+        // Results that include 'street_address' should be included
+        suggestions.add(prediction);
+      } else {
+        // Results that don't include 'street_address' will go through the check
+        int typeCounter = 0;
+        if (prediction.types.contains('geocode')) {
+          typeCounter++;
+        }
+        if (prediction.types.contains('route')) {
+          typeCounter++;
+        }
+        if (prediction.types.length > typeCounter) {
+          suggestions.add(prediction);
+        }
+      }
+    });
+
+    return suggestions;
   }
 
   Future<PlaceResponse> getPlaceDetailFromId(String placeId) async {
@@ -73,36 +65,28 @@ class PlaceRepository {
     print(fullUrl);
     final response = await _helper.get(fullUrl, Constants.headers);
 
-    if (response.statusCode == 200) {
-      final result = json.decode(response.body);
-      if (result['status'] == 'OK') {
-        final components =
-            result['result']['address_components'] as List<dynamic>;
-        // build result
-        final place = PlaceResponse();
-        components.forEach((c) {
-          final List type = c['types'];
-          if (type.contains('street_number')) {
-            place.streetNumber = c['long_name'];
-          }
-          if (type.contains('route')) {
-            place.street = c['long_name'];
-          }
-          if (type.contains('locality')) {
-            place.city = c['long_name'];
-          }
-          if (type.contains('administrative_area_level_1')) {
-            place.state = c['long_name'];
-          }
-          if (type.contains('postal_code')) {
-            place.zipCode = c['long_name'];
-          }
-        });
-        return place;
+    final components =
+        response['result']['address_components'] as List<dynamic>;
+    // build result
+    final place = PlaceResponse();
+    components.forEach((c) {
+      final List type = c['types'];
+      if (type.contains('street_number')) {
+        place.streetNumber = c['long_name'];
       }
-      throw Exception(result['error_message']);
-    } else {
-      throw Exception('Failed to fetch suggestion');
-    }
+      if (type.contains('route')) {
+        place.street = c['long_name'];
+      }
+      if (type.contains('locality')) {
+        place.city = c['long_name'];
+      }
+      if (type.contains('administrative_area_level_1')) {
+        place.state = c['long_name'];
+      }
+      if (type.contains('postal_code')) {
+        place.zipCode = c['long_name'];
+      }
+    });
+    return place;
   }
 }

@@ -9,7 +9,7 @@ class LocationRepository {
     LocationData _locationData = await Location().getLocation();
 
     final coordinates =
-        new Coordinates(_locationData.latitude, _locationData.longitude);
+        Coordinates(_locationData.latitude, _locationData.longitude);
 
     debugPrint(
         'latitude: ${_locationData.latitude} longitude: ${_locationData.longitude}');

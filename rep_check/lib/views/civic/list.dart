@@ -187,11 +187,9 @@ class _AwesomeListItemState extends State<AwesomeListItem> {
                         child: Container(
                             height: 120.0,
                             width: 120.0,
-                            color: Styles.accentVarColor,
                             child: FittedBox(
-                                child:
-                                    Widgethelper.getCivicPhoto(widget.official),
-                                fit: BoxFit.cover))))
+                                child: Widgethelper.getCivicPhoto(
+                                    widget.official)))))
               ]))
         ]));
   }

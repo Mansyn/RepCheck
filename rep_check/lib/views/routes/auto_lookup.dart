@@ -102,6 +102,7 @@ class _AutoLookupPageState extends State<AutoLookupPage> {
                     child: Row(children: [Flexible(child: buildAddress())])),
                 Expanded(
                     child: ListView(
+                        padding: EdgeInsets.only(bottom: 60),
                         scrollDirection: Axis.vertical,
                         children: <Widget>[
                       CurvedListItem(

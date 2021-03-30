@@ -8,7 +8,7 @@
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-  <application android:name="io.flutter.app.FlutterApplication" android:label="Rep Check" android:icon="@mipmap/launcher_icon">
+  <application android:name="io.flutter.app.FlutterApplication" android:label="Rep Check" android:icon="@mipmap/launcher_icon" android:usesCleartextTraffic="true">
 
     <!-- uncomment this if using Google Ads and update with your AdMob APPID -->
     <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-4892089932850014~6638244163"/>
