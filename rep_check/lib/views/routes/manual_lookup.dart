@@ -36,7 +36,7 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
             _state +
             ' ' +
             _zipCode,
-        style: Styles.h2);
+        style: Styles.h2White);
   }
 
   @override
@@ -91,10 +91,24 @@ class _ManualLookupPageState extends State<ManualLookupPage> {
             title: Text(Constants.lookupDistrict, style: Styles.h1AppBar),
             actions: commonAppBarActions(),
           ),
-          body: Column(children: <Widget>[
+          bottomNavigationBar: Stack(children: [
             Container(
-                padding: EdgeInsets.all(Constants.commonPadding),
-                child: Row(children: [Flexible(child: buildAddress())])),
+                decoration: BoxDecoration(
+                    border: Border(
+                  top: BorderSide(
+                      color: Styles.accentVarColor,
+                      width: 1,
+                      style: BorderStyle.solid),
+                )),
+                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                child: Row(children: [
+                  Container(
+                      child: Icon(Icons.search, size: 40),
+                      padding: EdgeInsets.only(right: 10.0)),
+                  Flexible(child: buildAddress())
+                ]))
+          ]),
+          body: Column(children: <Widget>[
             Expanded(
                 child: ListView(
                     scrollDirection: Axis.vertical,

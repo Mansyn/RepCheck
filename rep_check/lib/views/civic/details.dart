@@ -361,13 +361,19 @@ class _DetailsPageState extends State<OfficialDetails> {
                                             child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text('Phone',
-                                                      style: Styles.detailProp),
-                                                  Text(getPhone(official),
-                                                      style: TextStyle(
-                                                          color: Styles
-                                                              .primaryVariantColor)),
+                                                children: [
+                                                  Container(
+                                                      child: Column(children: [
+                                                    Text('Phone',
+                                                        style:
+                                                            Styles.detailProp),
+                                                    Text(getPhone(official),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            color: Styles
+                                                                .primaryVariantColor))
+                                                  ])),
                                                 ]))
                                         : Column(
                                             crossAxisAlignment:
@@ -386,6 +392,8 @@ class _DetailsPageState extends State<OfficialDetails> {
                                                     CrossAxisAlignment.end,
                                                 children: <Widget>[
                                                   Text('Email',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                       style: Styles.detailProp),
                                                   Text(getEmail(official),
                                                       style: TextStyle(

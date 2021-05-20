@@ -73,7 +73,8 @@ class _AutoLookupPageState extends State<AutoLookupPage> {
   }
 
   Text buildAddress() {
-    return Text(_address.addressLine, style: Styles.h2);
+    return Text(_address.addressLine.replaceAll(', USA', ''),
+        style: Styles.h2White);
   }
 
   @override
@@ -96,10 +97,25 @@ class _AutoLookupPageState extends State<AutoLookupPage> {
                 title: Text('Current District', style: Styles.h1AppBar),
                 actions: commonAppBarActions(),
               ),
-              body: Column(children: <Widget>[
+              bottomNavigationBar: Stack(children: [
                 Container(
-                    padding: EdgeInsets.all(Constants.commonPadding),
-                    child: Row(children: [Flexible(child: buildAddress())])),
+                    decoration: BoxDecoration(
+                        border: Border(
+                      top: BorderSide(
+                          color: Styles.accentVarColor,
+                          width: 1,
+                          style: BorderStyle.solid),
+                    )),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                    child: Row(children: [
+                      Container(
+                          child: Icon(Icons.location_searching, size: 40),
+                          padding: EdgeInsets.only(right: 10.0)),
+                      Flexible(child: buildAddress())
+                    ]))
+              ]),
+              body: Column(children: <Widget>[
                 Expanded(
                     child: ListView(
                         padding: EdgeInsets.only(bottom: 60),

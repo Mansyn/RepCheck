@@ -12,14 +12,20 @@ import 'details.dart';
 class OfficialList extends StatefulWidget {
   final RepresentativeResponse response;
   final String state;
-  const OfficialList({Key key, this.response, this.state}) : super(key: key);
+  final Orientation orientation;
+  const OfficialList({Key key, this.response, this.state, this.orientation})
+      : super(key: key);
 
   @override
-  _OfficialListState createState() => new _OfficialListState();
+  _OfficialListState createState() => _OfficialListState();
 }
 
 class _OfficialListState extends State<OfficialList> {
   List<Color> colors = Styles.primaryColors;
+
+  double offset1;
+  double offset2;
+  double offset3;
 
   Offices getOffice(Official official) {
     Offices _office;
@@ -63,48 +69,49 @@ class _OfficialListState extends State<OfficialList> {
 
   @override
   Widget build(BuildContext context) {
+    offset1 = widget.orientation == Orientation.portrait ? 0.077 : 0.160;
+    offset2 = widget.orientation == Orientation.portrait ? 0.1050 : 0;
+    offset3 = widget.orientation == Orientation.portrait ? 0.11 : 0.015;
     if (widget.response.officials != null &&
         widget.response.officials.length > 0) {
       return Stack(children: <Widget>[
         Transform.translate(
-          offset: Offset(0.0, MediaQuery.of(context).size.height * 0.1050),
-          child: ListView.builder(
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(0.0),
-            scrollDirection: Axis.vertical,
-            primary: true,
-            itemCount: widget.response.officials.length,
-            itemBuilder: (BuildContext content, int index) {
-              colors.shuffle();
-              return AwesomeListItem(
-                  official: widget.response.officials[index],
-                  office: getOffice(widget.response.officials[index]),
-                  officeName: getOfficeName(widget.response.officials[index]),
-                  state: widget.state,
-                  color: colors[
-                      new Random().nextInt(Styles.primaryColors.length)]);
-            },
-          ),
-        ),
+            offset: Offset(0.0, MediaQuery.of(context).size.height * offset1),
+            child: Container(
+                margin: const EdgeInsets.only(bottom: 45.0),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(0.0),
+                    scrollDirection: Axis.vertical,
+                    primary: true,
+                    itemCount: widget.response.officials.length,
+                    itemBuilder: (BuildContext content, int index) {
+                      colors.shuffle();
+                      return AwesomeListItem(
+                          official: widget.response.officials[index],
+                          office: getOffice(widget.response.officials[index]),
+                          officeName:
+                              getOfficeName(widget.response.officials[index]),
+                          state: widget.state,
+                          color: colors[
+                              Random().nextInt(Styles.primaryColors.length)]);
+                    }))),
         Transform.translate(
-            offset: Offset(0.0, -(MediaQuery.of(context).size.height * 0.1050)),
+            offset:
+                Offset(0.0, -(MediaQuery.of(context).size.height * offset2)),
             child: Container(
                 child: ClipPath(
                     clipper: MyClipper(),
                     child: Stack(children: [
-                      // Image.network(
-                      //   "https://picsum.photos/800/400?random",
-                      //   fit: BoxFit.cover,
-                      // ),
                       Container(color: Styles.primaryColor),
                       Transform.translate(
-                          offset: Offset(
-                              0.0, MediaQuery.of(context).size.height * 0.115),
+                          offset: Offset(0.0,
+                              MediaQuery.of(context).size.height * offset3),
                           child: ListTile(
                               leading:
                                   ClipOval(child: Icon(Icons.place, size: 40)),
                               title: buildAddress()))
-                    ]))))
+                    ])))),
       ]);
     } else {
       return Center(child: Text('No results found for address'));
@@ -140,7 +147,7 @@ class AwesomeListItem extends StatefulWidget {
       {this.official, this.office, this.officeName, this.state, this.color});
 
   @override
-  _AwesomeListItemState createState() => new _AwesomeListItemState();
+  _AwesomeListItemState createState() => _AwesomeListItemState();
 }
 
 class _AwesomeListItemState extends State<AwesomeListItem> {
@@ -184,10 +191,10 @@ class _AwesomeListItemState extends State<AwesomeListItem> {
                     offset: Offset(10.0, 20.0),
                     child: Card(
                         elevation: 15.0,
-                        child: Container(
-                            height: 120.0,
+                        child: SizedBox(
                             width: 120.0,
-                            child: FittedBox(
+                            height: 120.0,
+                            child: Center(
                                 child: Widgethelper.getCivicPhoto(
                                     widget.official)))))
               ]))

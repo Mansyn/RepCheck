@@ -84,9 +84,7 @@ class Constants {
   static String handsKey = 'assets/images/hands2.png';
   static String loadingKey = 'assets/images/loading.gif';
   static String defaultAvatar = 'assets/images/avatar.png';
-  static String whiteAvatar = 'assets/images/avatar-white.png';
-  static String backgroundHeaderKey =
-      'assets/images/profile_header_background.png';
+  static String backgroundHeaderKey = 'assets/images/drawer_header.png';
   static String dcKey = 'assets/images/dc.jpg';
   static String facebookKey = 'assets/images/buttons/facebook.png';
   static String githubKey = 'assets/images/buttons/github.png';

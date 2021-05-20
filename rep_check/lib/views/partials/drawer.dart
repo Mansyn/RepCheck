@@ -6,22 +6,21 @@ class HomeDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+        child: ListView(padding: EdgeInsets.zero, children: [
       DrawerHeaderItem(),
-      // FlutterTipsItem(),
-      // Divider(
-      //   color: Colors.grey[500],
-      // ),
       AutoItem(),
+      Divider(
+        color: Styles.accentColor,
+      ),
       ManualItem(),
       Divider(
         color: Styles.accentColor,
       ),
       ReferAFriendItem(),
-      AboutItem(),
       Divider(
         color: Styles.accentColor,
       ),
+      AboutItem(),
       SizedBox(
         height: 50,
       )
@@ -56,16 +55,25 @@ class DrawerHeaderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
-      child: Text(""),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Styles.primaryColor, Styles.primaryAnalogous4]),
-        image: DecorationImage(
-            image: AssetImage(Constants.logoKey), fit: BoxFit.scaleDown),
-      ),
-    );
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage(Constants.backgroundHeaderKey))),
+        child: Stack(children: <Widget>[
+          Positioned(
+              bottom: 12.0,
+              left: 16.0,
+              child: Text("Rep Check",
+                  style: Styles.h1AppBar.copyWith(fontSize: 40.0, shadows: [
+                    Shadow(
+                      blurRadius: 10.0,
+                      color: Styles.accentColor,
+                      offset: Offset(4.0, 4.0),
+                    ),
+                  ]))),
+        ]));
   }
 }
 

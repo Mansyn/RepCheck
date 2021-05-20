@@ -44,7 +44,7 @@ class DetailHeader extends StatelessWidget {
         child: CircleAvatar(
           backgroundImage: official.photoUrl != null
               ? NetworkImage(official.photoUrl)
-              : AssetImage(Constants.whiteAvatar),
+              : AssetImage(Constants.defaultAvatar),
           radius: 100.0,
         ));
   }

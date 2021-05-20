@@ -8,7 +8,7 @@ class Widgethelper {
     if (official.photoUrl != null) {
       return buildProfilePhoto(official.photoUrl);
     } else {
-      return Image.asset(Constants.whiteAvatar, fit: BoxFit.cover);
+      return Image.asset(Constants.defaultAvatar, fit: BoxFit.cover);
     }
   }
 
@@ -20,17 +20,23 @@ class Widgethelper {
       return buildProfilePhoto(
           Constants.twitPhotoUrl.replaceFirst('{id}', member.twitterAccount));
     } else {
-      return Image.asset(Constants.whiteAvatar, fit: BoxFit.cover);
+      return Image.asset(Constants.defaultAvatar, fit: BoxFit.cover);
     }
   }
 
   static Widget buildProfilePhoto(url) {
     return CachedNetworkImage(
         imageUrl: url,
+        imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ))),
         progressIndicatorBuilder: (context, url, downloadProgress) =>
             CircularProgressIndicator(value: downloadProgress.progress),
         errorWidget: (context, url, error) =>
-            Image.asset(Constants.whiteAvatar, fit: BoxFit.cover));
+            Image.asset(Constants.defaultAvatar, fit: BoxFit.cover));
   }
 
   static String getMemberParty(member) {

@@ -75,34 +75,37 @@ class _CivicManualPageState extends State<CivicManualPage> {
     _districtbloc = DistrictCivicBloc(_getQuery(), _getBody(), _buildAddress());
     return Scaffold(
         appBar: AppBar(title: Text(widget.title, style: Styles.h1AppBar)),
-        body: Container(
-            child: RefreshIndicator(
-                onRefresh: () => _districtbloc.fetchMembersList(),
-                child: StreamBuilder<ApiResponse<RepresentativeResponse>>(
-                    stream: _districtbloc.civicListStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        switch (snapshot.data.status) {
-                          case Status.LOADING:
-                            return Loading(
-                              loadingMessage: snapshot.data.message,
-                            );
-                            break;
-                          case Status.COMPLETED:
-                            return OfficialList(
-                                response: snapshot.data.data,
-                                state: widget.place.state);
-                            break;
-                          case Status.ERROR:
-                            return ApiError(
-                              errorMessage: snapshot.data.message,
-                              onRetryPressed: () =>
-                                  _districtbloc.fetchMembersList(),
-                            );
-                            break;
+        body: OrientationBuilder(builder: (context, orientation) {
+          return Container(
+              child: RefreshIndicator(
+                  onRefresh: () => _districtbloc.fetchMembersList(),
+                  child: StreamBuilder<ApiResponse<RepresentativeResponse>>(
+                      stream: _districtbloc.civicListStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          switch (snapshot.data.status) {
+                            case Status.LOADING:
+                              return Loading(
+                                loadingMessage: snapshot.data.message,
+                              );
+                              break;
+                            case Status.COMPLETED:
+                              return OfficialList(
+                                  response: snapshot.data.data,
+                                  state: widget.place.state,
+                                  orientation: orientation);
+                              break;
+                            case Status.ERROR:
+                              return ApiError(
+                                errorMessage: snapshot.data.message,
+                                onRetryPressed: () =>
+                                    _districtbloc.fetchMembersList(),
+                              );
+                              break;
+                          }
                         }
-                      }
-                      return Container();
-                    }))));
+                        return Container();
+                      })));
+        }));
   }
 }
