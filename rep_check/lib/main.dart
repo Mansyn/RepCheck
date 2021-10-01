@@ -1,86 +1,44 @@
-import 'package:connectivity/connectivity.dart';
-import 'package:platform_device_id/platform_device_id.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import 'utils/router.dart';
+import 'pages/home.dart';
 import 'utils/styles.dart';
-import 'views/routes/unknown_page.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await FlutterConfig.loadEnvVariables();
-  MobileAds.instance.initialize();
-
+  await dotenv.load(fileName: ".env");
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _AppState createState() => _AppState();
-}
-
-class _AppState extends State<MyApp> {
-  String deviceID;
-  bool hasInternet = false, isChecking = true;
-
-  @override
-  void initState() {
-    super.initState();
-    check();
-  }
-
-  void getDeviceID() async {
-    String deviceId = await PlatformDeviceId.getDeviceId;
-    print('Device ID is $deviceId');
-  }
-
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    //getDeviceID();
-    MyAppTheme appTheme = MyAppTheme(isDark: true)
-      ..prime1 = Styles.primaryColor
-      ..prime2 = Styles.primaryVariantColor
-      ..accent1 = Styles.accentColor
-      ..accent2 = Styles.accentVarColor
-      ..bglight = Colors.white
-      ..bgdark = Styles.accentColor;
+    final textTheme = Theme.of(context).textTheme;
     return MaterialApp(
-      title: 'Rep Check',
-      theme: appTheme.themeData,
-      initialRoute: '/splash',
-      routes: appRoutes,
-      onUnknownRoute: (RouteSettings settings) {
-        return MaterialPageRoute(
-          builder: (BuildContext context) => UnknownPage(),
-        );
-      },
-    );
-  }
-
-  check() async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.mobile) {
-      setState(() {
-        isChecking = false;
-        hasInternet = true;
-      });
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      setState(() {
-        isChecking = false;
-        hasInternet = true;
-      });
-    } else {
-      setState(() {
-        isChecking = false;
-        hasInternet = false;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+        title: 'Rep Check',
+        theme: ThemeData(
+            backgroundColor: Styles.backgroundColor,
+            cardColor: Styles.backgroundColor,
+            primaryColor: Styles.primaryColor,
+            accentColor: Styles.accentColor,
+            textTheme: GoogleFonts.robotoTextTheme(textTheme).copyWith(
+                headline1:
+                    GoogleFonts.robotoCondensed(textStyle: textTheme.headline1),
+                headline2:
+                    GoogleFonts.robotoCondensed(textStyle: textTheme.headline2),
+                headline3:
+                    GoogleFonts.robotoCondensed(textStyle: textTheme.headline3),
+                headline4:
+                    GoogleFonts.robotoCondensed(textStyle: textTheme.headline4),
+                headline5:
+                    GoogleFonts.robotoCondensed(textStyle: textTheme.headline5),
+                headline6:
+                    GoogleFonts.robotoCondensed(textStyle: textTheme.headline6),
+                subtitle1:
+                    GoogleFonts.robotoCondensed(textStyle: textTheme.subtitle1),
+                subtitle2: GoogleFonts.robotoCondensed(
+                    textStyle: textTheme.subtitle2))),
+        home: HomePage());
   }
 }

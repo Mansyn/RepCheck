@@ -1,30 +1,6 @@
-import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Constants {
-  static bool testing = true;
-
-  /// general setup
-  static String appId = 'com.unleashed.rep_check';
-  static String iosAppId = 'com.unleashed.rep_check';
-  static String appName = 'Rep Check';
-  static String appTagLine = 'Be aware of who represents you';
-  static String appBio = 'Built to help people know who represents them';
-  static String contactEmail = 'iwalktheline@live.com';
-  static String appAbout =
-      'Rep Check was built to enable people to easily research their representatives. We welcome all feedback and suggestions to further empower citizens with knowledge.';
-  static String tell = 'Tell a friend to tell a friend to tell a friend';
-
-  static String detectDistrict = 'Detect District';
-  static String detectDistrictDesc = 'use GPS location';
-  static String lookupDistrict = 'Lookup District';
-  static String lookupDistrictDesc = 'find by address';
-
-  /// Share message
-  static String shareLink = 'http://unleasheddevelopement.com';
-  static String shareMessage = 'Check out this Amazing App at ' + shareLink;
-  static String shareSubject = 'Best App Ever!';
-  static String twitterUrl = 'https://twitter.com/rhymenocerus';
-
 // ad config
   static List<String> testingDevices = [
     'b89b2dd4c77b6936',
@@ -36,67 +12,28 @@ class Constants {
   static String adAppId = 'ca-app-pub-4892089932850014~6638244163';
   static List<String> keywords = ['voting', 'government', 'information'];
 
-  static String apiKey = FlutterConfig.get('apiKey');
-  static String osApiKey = FlutterConfig.get('osKey');
-  static String pbApiKey = FlutterConfig.get('pbApiKey');
-  static String mapsApiKey = FlutterConfig.get('mapsKey');
-
-  /// http headers
-  static Map<String, String> pbHeaders = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'X-API-Key': pbApiKey
-  };
-
-  static Map<String, String> headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
-
-  static Map<String, String> webHeaders = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'user-agent':
-        'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36'
-  };
-
-  Map<String, String> backendHeaders = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': 'Bearer val'
-  };
-
-  /// FCM notification keys & topics
-  static String publicTopicKey = testing ? 'testing' : 'public';
+  static String apiKey = dotenv.env['API_KEY'] != null
+      ? dotenv.env['API_KEY'].toString()
+      : 'key needed';
+  static String osApiKey = dotenv.env['OS_KEY'] != null
+      ? dotenv.env['OS_KEY'].toString()
+      : 'key needed';
+  static String pbApiKey = dotenv.env['pbApiKey'] != null
+      ? dotenv.env['API_KEY'].toString()
+      : 'key needed';
+  static String geoKey = dotenv.env['GEO_KEY'] != null
+      ? dotenv.env['GEO_KEY'].toString()
+      : 'key needed';
 
   /// e.t.c.
-  static double commonPadding = 15.0;
+  static String defaultAvatar = 'assets/images/avatar.png';
+  static String defaultResult = 'assets/images/the-legislative-branch.jpg';
+  static String logo = 'assets/images/logo.png';
+  static String logoMuted = 'assets/images/logo_muted.png';
   static String commonDateFormat = 'dd MMM yyyy, hh:mm a';
   static String sep = '/';
   static String query = '?';
   static String amp = '&';
-
-  /// images
-  static String logoKey = 'assets/images/logo.png';
-  static String mapKey = 'assets/images/map.png';
-  static String flagKey = 'assets/images/flag.png';
-  static String rootsKey = 'assets/images/roots.png';
-  static String handsKey = 'assets/images/hands2.png';
-  static String loadingKey = 'assets/images/loading.gif';
-  static String defaultAvatar = 'assets/images/avatar.png';
-  static String backgroundHeaderKey = 'assets/images/drawer_header.png';
-  static String dcKey = 'assets/images/dc.jpg';
-  static String facebookKey = 'assets/images/buttons/facebook.png';
-  static String githubKey = 'assets/images/buttons/github.png';
-  static String amazonKey = 'assets/images/buttons/amazon.png';
-  static String appleKey = 'assets/images/buttons/apple.png';
-  static String mailKey = 'assets/images/buttons/mail.png';
-  static String microsoftKey = 'assets/images/buttons/microsoft.png';
-  static String yahooKey = 'assets/images/buttons/yahoo.png';
-  static String googleKey = 'assets/images/buttons/google.png';
-  static String twitterKey = 'assets/images/buttons/twitter.png';
-  static String youtubeKey = 'assets/images/buttons/youtube.png';
-  static String webKey = 'assets/images/buttons/web.png';
 
   /// param keys
   static String appPreviouslyRunKey = 'seen';
@@ -140,4 +77,29 @@ class Constants {
 
   static String youtubeUrl = 'https://www.youtube.com/';
   static String govTrackUrl = 'https://www.govtrack.us/congress/members/';
+
+  /// http headers
+  static Map<String, String> pbHeaders = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'X-API-Key': pbApiKey
+  };
+
+  static Map<String, String> headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+
+  static Map<String, String> webHeaders = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'user-agent':
+        'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36'
+  };
+
+  Map<String, String> backendHeaders = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer val'
+  };
 }
