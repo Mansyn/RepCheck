@@ -6,7 +6,7 @@ environment_config:
       dotenv: true
 
     API_KEY:
-      default: ""
+      default: "AIzaSyD4USwfc1e3KEFtcp6smjmwblyCCC2df4o"
       dotenv: true
       config_field: false
 
@@ -15,7 +15,7 @@ environment_config:
       default: "https://www.googleapis.com/civicinfo/v2/"
 
     GEO_KEY:
-      default: ""
+      default: "AIzaSyDHG4sVQ9nkIMtuzyaiFImp-Jp7F0yzBlc"
       dotenv: true
       config_field: false
 
@@ -24,7 +24,7 @@ environment_config:
       default: "https://maps.googleapis.com/maps/api/place/"
 
     OS_KEY:
-      default: ""
+      default: "16ee0542d73bd5405d5354b5fc368253"
       dotenv: true
       config_field: false
 

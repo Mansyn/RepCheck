@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:rep_check/components/loading.dart';
 import 'package:rep_check/data/models/civic/office.dart';
 import 'package:rep_check/data/models/civic/official.dart';
 import 'package:rep_check/data/models/opensecrets/contributor/contributor.dart';
@@ -104,11 +105,18 @@ class _DetailsPageState extends State<OfficialDetails> {
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text('Top Contributors',
               style: TextStyle(
+                color: Styles.accentColor,
+                fontSize: 21,
+                fontWeight: FontWeight.bold,
+              )));
+    } else {
+      return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Text('Contributors Not Found',
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               )));
-    } else {
-      return SizedBox(height: 0);
     }
   }
 
@@ -122,15 +130,28 @@ class _DetailsPageState extends State<OfficialDetails> {
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Organization', style: Styles.detailProp)
+                    Text('Organization',
+                        style: TextStyle(
+                          color: Styles.primaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ))
                   ]),
               Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[Text('Total', style: Styles.detailProp)]),
+                  children: <Widget>[
+                    Text('Total',
+                        style: TextStyle(
+                          color: Styles.primaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ))
+                  ]),
             ]),
+        SizedBox(height: 10),
         for (int i = 0; i <= 9; i++)
           Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
+              padding: const EdgeInsets.symmetric(vertical: 3),
               child: Flex(
                   direction: Axis.horizontal,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -160,6 +181,76 @@ class _DetailsPageState extends State<OfficialDetails> {
       ? await launch(_url)
       : throw 'Could not launch $_url';
 
+  void launchEmail(String email) async {
+    String url = 'mailto:$email';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void launchPhone(String phone) async {
+    String url = 'tel:$phone';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  String getOffice1(Official official) {
+    String address = 'n/a';
+    if (official.address.isNotEmpty) {
+      if (official.address.length > 0) {
+        address = official.address[0].line1;
+      }
+    }
+    return address;
+  }
+
+  String getOffice2(Official official) {
+    String address = '';
+    if (official.address.isNotEmpty) {
+      if (official.address.length > 0) {
+        address = official.address[0].city +
+            ', ' +
+            official.address[0].state +
+            ' ' +
+            official.address[0].zip;
+      }
+    }
+    return address;
+  }
+
+  bool hasPhone(Official official) {
+    bool phone = false;
+    if (official.phones.isNotEmpty) {
+      if (official.phones.length > 0) {
+        phone = true;
+      }
+    }
+    return phone;
+  }
+
+  String getPhone(Official official) {
+    return official.phones[0];
+  }
+
+  // bool hasEmail(Official official) {
+  //   bool email = false;
+  //   if (official.emails.isNotEmpty) {
+  //     if (official.emails.length > 0) {
+  //       email = true;
+  //     }
+  //   }
+  //   return email;
+  // }
+
+  // String getEmail(Official official) {
+  //   return official.emails[0];
+  // }
+
   List<Widget> getChannelIndicators(Official official) {
     List<Widget> buttons = [];
 
@@ -167,12 +258,15 @@ class _DetailsPageState extends State<OfficialDetails> {
     if (official.urls.isNotEmpty) {
       buttons.add(Row(
         children: <Widget>[
-          InkWell(
-              onTap: () {
+          IconButton(
+              onPressed: () {
                 _launchURL(official.urls.first);
               },
-              child: FaIcon(FontAwesomeIcons.chrome,
-                  color: Styles.white, size: 18)),
+              focusColor: Styles.accentColor,
+              highlightColor: Styles.accentColor,
+              hoverColor: Styles.accentColor,
+              icon: FaIcon(FontAwesomeIcons.chrome, color: Styles.white),
+              iconSize: 21),
         ],
       ));
 
@@ -181,12 +275,15 @@ class _DetailsPageState extends State<OfficialDetails> {
       if (wiki.isNotEmpty) {
         buttons.add(Row(
           children: <Widget>[
-            InkWell(
-                onTap: () {
+            IconButton(
+                onPressed: () {
                   _launchURL(wiki.toList().first);
                 },
-                child: FaIcon(FontAwesomeIcons.wikipediaW,
-                    color: Styles.white, size: 18)),
+                focusColor: Styles.accentColor,
+                highlightColor: Styles.accentColor,
+                hoverColor: Styles.accentColor,
+                icon: FaIcon(FontAwesomeIcons.wikipediaW, color: Styles.white),
+                iconSize: 21),
           ],
         ));
       }
@@ -199,36 +296,46 @@ class _DetailsPageState extends State<OfficialDetails> {
           case 'Facebook':
             buttons.add(Row(
               children: <Widget>[
-                InkWell(
-                    onTap: () {
+                IconButton(
+                    onPressed: () {
                       _launchURL(Constants.fbUrl + channel.id);
                     },
-                    child: FaIcon(FontAwesomeIcons.facebook,
-                        color: Styles.white, size: 18)),
+                    focusColor: Styles.accentColor,
+                    highlightColor: Styles.accentColor,
+                    hoverColor: Styles.accentColor,
+                    icon:
+                        FaIcon(FontAwesomeIcons.facebook, color: Styles.white),
+                    iconSize: 21),
               ],
             ));
             break;
           case 'YouTube':
             buttons.add(Row(
               children: <Widget>[
-                InkWell(
-                    onTap: () {
+                IconButton(
+                    onPressed: () {
                       _launchURL(Constants.youtubeUrl + channel.id);
                     },
-                    child: FaIcon(FontAwesomeIcons.youtube,
-                        color: Styles.white, size: 18)),
+                    focusColor: Styles.accentColor,
+                    highlightColor: Styles.accentColor,
+                    hoverColor: Styles.accentColor,
+                    icon: FaIcon(FontAwesomeIcons.youtube, color: Styles.white),
+                    iconSize: 21),
               ],
             ));
             break;
           case 'Twitter':
             buttons.add(Row(
               children: <Widget>[
-                InkWell(
-                    onTap: () {
+                IconButton(
+                    onPressed: () {
                       _launchURL(Constants.twitUrl + channel.id);
                     },
-                    child: FaIcon(FontAwesomeIcons.twitter,
-                        color: Styles.white, size: 18)),
+                    focusColor: Styles.accentColor,
+                    highlightColor: Styles.accentColor,
+                    hoverColor: Styles.accentColor,
+                    icon: FaIcon(FontAwesomeIcons.twitter, color: Styles.white),
+                    iconSize: 21),
               ],
             ));
             break;
@@ -253,17 +360,14 @@ class _DetailsPageState extends State<OfficialDetails> {
             ),
             Positioned(
               width: MediaQuery.of(context).size.width,
-              top: MediaQuery.of(context).size.height * .4 - 90,
+              top: MediaQuery.of(context).size.height * .4 - 95,
               child: Padding(
                 padding: const EdgeInsets.only(left: 30, right: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Icon(
-                      Icons.rotate_90_degrees_ccw,
-                      color: Colors.white,
-                      size: 35,
-                    ),
+                    FaIcon(FontAwesomeIcons.buffer,
+                        color: Styles.white, size: 35),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: getChannelIndicators(widget.official),
@@ -296,10 +400,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Icon(
-                          Icons.bookmark_border,
-                          size: 30,
-                        )
+                        FaIcon(FontAwesomeIcons.addressCard, size: 30)
                       ],
                     ),
                     SizedBox(height: 10),
@@ -330,6 +431,91 @@ class _DetailsPageState extends State<OfficialDetails> {
                         Text(widget.official.party)
                       ],
                     ),
+                    // Flex(
+                    //     direction: Axis.horizontal,
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: <Widget>[
+                    //       Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: <Widget>[
+                    //             Text('Title', style: Styles.detailProp),
+                    //             Text(widget.office.name)
+                    //           ]),
+                    //       Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.end,
+                    //           children: <Widget>[
+                    //             Text('Party', style: Styles.detailProp),
+                    //             Text(widget.official.party)
+                    //           ])
+                    //     ]),
+                    // Flex(
+                    //   direction: Axis.horizontal,
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     hasPhone(widget.official)
+                    //         ? GestureDetector(
+                    //             onTap: () => (widget.official.phones.isNotEmpty
+                    //                 ? launchPhone(widget.official.phones[0])
+                    //                 : null),
+                    //             child: Column(
+                    //                 crossAxisAlignment:
+                    //                     CrossAxisAlignment.start,
+                    //                 children: [
+                    //                   Container(
+                    //                       child: Column(children: [
+                    //                     Text('Phone', style: Styles.detailProp),
+                    //                     Text(
+                    //                       getPhone(widget.official),
+                    //                       overflow: TextOverflow.ellipsis,
+                    //                     )
+                    //                   ])),
+                    //                 ]))
+                    //         : Column(
+                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                    //             children: <Widget>[
+                    //                 Text('Phone', style: Styles.detailProp),
+                    //                 Text('n/a'),
+                    //               ]),
+                    //     // hasEmail(widget.official)
+                    //     //     ? GestureDetector(
+                    //     //         onTap: () =>
+                    //     //             launchEmail(widget.official.emails[0]),
+                    //     //         child: Column(
+                    //     //             crossAxisAlignment:
+                    //     //                 CrossAxisAlignment.end,
+                    //     //             children: <Widget>[
+                    //     //               Text('Email',
+                    //     //                   overflow:
+                    //     //                       TextOverflow.ellipsis,
+                    //     //                   style: Styles.detailProp),
+                    //     //               Text(getEmail(widget.official),
+                    //     //                   style: TextStyle(
+                    //     //                       color: Styles
+                    //     //                           .primaryVariantColor)),
+                    //     //             ]))
+                    //     //     : Column(
+                    //     //         crossAxisAlignment:
+                    //     //             CrossAxisAlignment.end,
+                    //     //         children: <Widget>[
+                    //     //             Text('Email',
+                    //     //                 style: Styles.detailProp),
+                    //     //             Text('n/a'),
+                    //     //           ])
+                    //   ],
+                    // ),
+                    // Flex(
+                    //   direction: Axis.horizontal,
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         children: <Widget>[
+                    //           Text('Office', style: Styles.detailProp),
+                    //           Text(getOffice1(widget.official)),
+                    //           Text(getOffice2(widget.official))
+                    //         ])
+                    //   ],
+                    // ),
                     SizedBox(height: 15),
                     Divider(
                       color: Colors.grey,
@@ -343,81 +529,14 @@ class _DetailsPageState extends State<OfficialDetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          // getContributorsHeadline(),
-                          // getContributors(),
-                          ListTile(
-                            contentPadding: const EdgeInsets.all(0),
-                            title: Text(
-                              "\$1,602/month",
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "Estimated repayment",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                              ),
-                            ),
-                            trailing: Container(
-                              alignment: Alignment.center,
-                              width: 80,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    width: 10,
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFfed19a),
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        bottomLeft: Radius.circular(20),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 25,
-                                    height: 25,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xFF632bbf),
-                                    ),
-                                    child: Icon(
-                                      Icons.question_answer,
-                                      color: Colors.white,
-                                      size: 15,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 10,
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFfed19a),
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
+                          if (_searching)
+                            Loading(loadingMessage: 'Searching Contributors'),
+                          if (!_searching) getContributorsHeadline(),
+                          if (!_searching) getContributors(),
                         ],
                       ),
                     ),
-                    Spacer(),
-                    Row(
-                      children: <Widget>[
-                        _buildExpandedBtn('Contact'),
-                        SizedBox(width: 10),
-                        _buildExpandedBtn('Express Interest'),
-                      ],
-                    ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 40),
                   ],
                 ),
               ),
@@ -426,33 +545,5 @@ class _DetailsPageState extends State<OfficialDetails> {
         ),
       ),
     );
-  }
-
-  Widget _buildExpandedBtn(String msg) {
-    return Expanded(
-      child: Container(
-        alignment: Alignment.center,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Color(0xFFe2d7f5),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-          ),
-        ),
-        child: Text(
-          msg,
-          style: TextStyle(
-            color: Color(0xff6732c1),
-            fontSize: 18,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildIndicator() {
-    return Container(width: 20, height: 5, color: Colors.white);
   }
 }

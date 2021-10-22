@@ -17,10 +17,13 @@ class Response {
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         normalizedInput: NormalizedInput.fromJson(json["normalizedInput"]),
         kind: json["kind"],
-        offices:
-            List<Office>.from(json["offices"].map((x) => Office.fromJson(x))),
-        officials: List<Official>.from(
-            json["officials"].map((x) => Official.fromJson(x))),
+        offices: json["offices"] != null
+            ? List<Office>.from(json["offices"].map((x) => Office.fromJson(x)))
+            : [],
+        officials: json["officials"] != null
+            ? List<Official>.from(
+                json["officials"].map((x) => Official.fromJson(x)))
+            : [],
       );
 
   Map<String, dynamic> toJson() => {

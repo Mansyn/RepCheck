@@ -137,27 +137,24 @@ class _MainContentState extends State<MainContent> {
             padding: const EdgeInsets.fromLTRB(0, 20, 20, 0),
             child: Stack(children: <Widget>[
               LayoutBuilder(
-                builder: (BuildContext c, BoxConstraints constraints) {
-                  return Container(
+                  builder: (BuildContext c, BoxConstraints constraints) {
+                return Container(
                     width: MediaQuery.of(context).size.width * .65,
                     height: constraints.maxHeight - 20,
-                    child: Formatting.getCivicPhoto(official),
-                  );
-                },
-              ),
+                    child: Formatting.getCivicPhoto(official));
+              }),
               Positioned(
                   bottom: 0,
                   right: 0,
                   child: Container(
-                    height: 45,
-                    width: 45,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Styles.blue,
-                    ),
-                    child: Icon(Icons.navigate_next,
-                        size: 40, color: Colors.white),
-                  )),
+                      height: 45,
+                      width: 45,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Styles.blue,
+                      ),
+                      child: Icon(Icons.navigate_next,
+                          size: 40, color: Colors.white))),
               Positioned(
                 bottom: 35,
                 left: 10,
@@ -165,29 +162,27 @@ class _MainContentState extends State<MainContent> {
                 child: ListTile(
                   title: Text(
                     official.name,
-                    style:
-                        TextStyle(fontSize: 20, color: Colors.white, shadows: [
-                      Shadow(
-                          color: Colors.black,
-                          offset: const Offset(0.0, 0.0),
-                          blurRadius: 4.0),
-                    ]),
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                              color: Colors.black,
+                              offset: const Offset(0.0, 0.0),
+                              blurRadius: 4.0)
+                        ]),
                   ),
                   subtitle: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Icon(
-                        Icons.room,
-                        color: Colors.white,
-                        size: 18,
-                      ),
+                      Icon(Icons.room, color: Colors.white, size: 18),
                       Text(
                         getOffice(response, official).name,
                         style: TextStyle(color: Colors.white, shadows: [
                           Shadow(
                               color: Colors.black,
                               offset: const Offset(0.0, 0.0),
-                              blurRadius: 4.0),
+                              blurRadius: 4.0)
                         ]),
                       ),
                     ],
@@ -205,7 +200,7 @@ class _MainContentState extends State<MainContent> {
         } else if (snapshot.connectionState == ConnectionState.active) {
           return Results.query();
         } else if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data!.officials.length > 0) {
             return ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: snapshot.data!.officials.length,
@@ -213,8 +208,6 @@ class _MainContentState extends State<MainContent> {
                   final Official official = snapshot.data!.officials[index];
                   return buildResult(snapshot.data!, official);
                 });
-          } else if (snapshot.hasError) {
-            return Results.empty();
           } else {
             return Results.empty();
           }

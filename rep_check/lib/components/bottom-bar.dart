@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rep_check/utils/styles.dart';
 
 import 'active-tab.dart';
@@ -39,9 +40,9 @@ class _BottomBarState extends State<BottomBar>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _buildTab('All', Icons.home, 0),
-              _buildTab('Federal', Icons.bookmark_border, 1),
-              _buildTab('State', Icons.chat_bubble_outline, 2)
+              _buildTab('All', FontAwesomeIcons.flagUsa, 0),
+              _buildTab('Federal', FontAwesomeIcons.landmark, 1),
+              _buildTab('State', FontAwesomeIcons.city, 2)
             ]));
   }
 
@@ -50,6 +51,7 @@ class _BottomBarState extends State<BottomBar>
         ? ActiveTab(
             animation: _animation, key: Key(text), text: text, icon: icon)
         : Material(
+            color: Colors.transparent,
             child: InkWell(
                 onTap: () {
                   setState(() {
