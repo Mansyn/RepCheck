@@ -15,21 +15,21 @@ class Response {
   List<Official> officials;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
-        normalizedInput: NormalizedInput.fromJson(json["normalizedInput"]),
-        kind: json["kind"],
-        offices: json["offices"] != null
-            ? List<Office>.from(json["offices"].map((x) => Office.fromJson(x)))
+        normalizedInput: NormalizedInput.fromJson(json['normalizedInput']),
+        kind: json['kind'],
+        offices: json['offices'] != null
+            ? List<Office>.from(json['offices'].map((x) => Office.fromJson(x)))
             : [],
-        officials: json["officials"] != null
+        officials: json['officials'] != null
             ? List<Official>.from(
-                json["officials"].map((x) => Official.fromJson(x)))
+                json['officials'].map((x) => Official.fromJson(x)))
             : [],
       );
 
   Map<String, dynamic> toJson() => {
-        "normalizedInput": normalizedInput.toJson(),
-        "kind": kind,
-        "offices": List<dynamic>.from(offices.map((x) => x.toJson())),
-        "officials": List<dynamic>.from(officials.map((x) => x.toJson())),
+        'normalizedInput': normalizedInput.toJson(),
+        'kind': kind,
+        'offices': List<dynamic>.from(offices.map((x) => x.toJson())),
+        'officials': List<dynamic>.from(officials.map((x) => x.toJson())),
       };
 }

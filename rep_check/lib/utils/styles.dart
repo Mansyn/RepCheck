@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Styles {
@@ -65,4 +66,7 @@ class Styles {
       fontSize: 14.0,
       fontWeight: FontWeight.w800,
       height: 3);
+
+  static TextStyle link = defaultStyle.copyWith(
+      color: accentColor, decoration: TextDecoration.underline);
 }

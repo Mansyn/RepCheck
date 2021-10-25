@@ -101,14 +101,25 @@ class _DetailsPageState extends State<OfficialDetails> {
 
   Widget getContributorsHeadline() {
     if (_topContributors.isNotEmpty) {
-      return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Text('Top Contributors',
+      return Column(children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Top Contributors',
               style: TextStyle(
                 color: Styles.accentColor,
                 fontSize: 21,
                 fontWeight: FontWeight.bold,
-              )));
+              ),
+            ),
+            FaIcon(FontAwesomeIcons.moneyCheckAlt,
+                color: Styles.accentColor, size: 30)
+          ],
+        ),
+        SizedBox(height: 10)
+      ]);
     } else {
       return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -237,19 +248,19 @@ class _DetailsPageState extends State<OfficialDetails> {
     return official.phones[0];
   }
 
-  // bool hasEmail(Official official) {
-  //   bool email = false;
-  //   if (official.emails.isNotEmpty) {
-  //     if (official.emails.length > 0) {
-  //       email = true;
-  //     }
-  //   }
-  //   return email;
-  // }
+  bool hasEmail(Official official) {
+    bool email = false;
+    if (official.emails.isNotEmpty) {
+      if (official.emails.length > 0) {
+        email = true;
+      }
+    }
+    return email;
+  }
 
-  // String getEmail(Official official) {
-  //   return official.emails[0];
-  // }
+  String getEmail(Official official) {
+    return official.emails[0];
+  }
 
   List<Widget> getChannelIndicators(Official official) {
     List<Widget> buttons = [];
@@ -356,7 +367,7 @@ class _DetailsPageState extends State<OfficialDetails> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * .44,
-              child: Formatting.getCivicPhoto(widget.official),
+              child: Formatting.getCivicHeadline(widget.official),
             ),
             Positioned(
               width: MediaQuery.of(context).size.width,
@@ -380,7 +391,8 @@ class _DetailsPageState extends State<OfficialDetails> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * .6 + 50,
               top: MediaQuery.of(context).size.height * .4 - 50,
-              child: Container(
+              child: SingleChildScrollView(
+                  child: Container(
                 padding: const EdgeInsets.only(left: 30, right: 20, top: 30),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(80)),
@@ -400,7 +412,8 @@ class _DetailsPageState extends State<OfficialDetails> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        FaIcon(FontAwesomeIcons.addressCard, size: 30)
+                        FaIcon(FontAwesomeIcons.addressCard,
+                            color: Styles.accentColor, size: 30)
                       ],
                     ),
                     SizedBox(height: 10),
@@ -415,107 +428,84 @@ class _DetailsPageState extends State<OfficialDetails> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 15),
-                    Row(
+                    Flex(
+                        direction: Axis.horizontal,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text('Title', style: Styles.detailProp),
+                                Text(widget.office.name)
+                              ]),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text('Party', style: Styles.detailProp),
+                                Text(widget.official.party)
+                              ])
+                        ]),
+                    Flex(
+                      direction: Axis.horizontal,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          width: 150,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[],
-                          ),
-                        ),
-                        Text(widget.official.party)
+                        hasPhone(widget.official)
+                            ? GestureDetector(
+                                onTap: () => (widget.official.phones.isNotEmpty
+                                    ? launchPhone(widget.official.phones[0])
+                                    : null),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text('Phone', style: Styles.detailProp),
+                                      Text(
+                                        getPhone(widget.official),
+                                        style: Styles.link,
+                                        overflow: TextOverflow.ellipsis,
+                                      )
+                                    ]))
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                    Text('Phone', style: Styles.detailProp),
+                                    Text('n/a'),
+                                  ]),
+                        hasEmail(widget.official)
+                            ? GestureDetector(
+                                onTap: () => (widget.official.emails.isNotEmpty
+                                    ? launchEmail(widget.official.emails[0])
+                                    : null),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      Text('Email',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Styles.detailProp),
+                                      Text(getEmail(widget.official),
+                                          style: Styles.link),
+                                    ]))
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                    Text('Email', style: Styles.detailProp),
+                                    Text('n/a'),
+                                  ])
                       ],
                     ),
-                    // Flex(
-                    //     direction: Axis.horizontal,
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: <Widget>[
-                    //       Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: <Widget>[
-                    //             Text('Title', style: Styles.detailProp),
-                    //             Text(widget.office.name)
-                    //           ]),
-                    //       Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.end,
-                    //           children: <Widget>[
-                    //             Text('Party', style: Styles.detailProp),
-                    //             Text(widget.official.party)
-                    //           ])
-                    //     ]),
-                    // Flex(
-                    //   direction: Axis.horizontal,
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: <Widget>[
-                    //     hasPhone(widget.official)
-                    //         ? GestureDetector(
-                    //             onTap: () => (widget.official.phones.isNotEmpty
-                    //                 ? launchPhone(widget.official.phones[0])
-                    //                 : null),
-                    //             child: Column(
-                    //                 crossAxisAlignment:
-                    //                     CrossAxisAlignment.start,
-                    //                 children: [
-                    //                   Container(
-                    //                       child: Column(children: [
-                    //                     Text('Phone', style: Styles.detailProp),
-                    //                     Text(
-                    //                       getPhone(widget.official),
-                    //                       overflow: TextOverflow.ellipsis,
-                    //                     )
-                    //                   ])),
-                    //                 ]))
-                    //         : Column(
-                    //             crossAxisAlignment: CrossAxisAlignment.start,
-                    //             children: <Widget>[
-                    //                 Text('Phone', style: Styles.detailProp),
-                    //                 Text('n/a'),
-                    //               ]),
-                    //     // hasEmail(widget.official)
-                    //     //     ? GestureDetector(
-                    //     //         onTap: () =>
-                    //     //             launchEmail(widget.official.emails[0]),
-                    //     //         child: Column(
-                    //     //             crossAxisAlignment:
-                    //     //                 CrossAxisAlignment.end,
-                    //     //             children: <Widget>[
-                    //     //               Text('Email',
-                    //     //                   overflow:
-                    //     //                       TextOverflow.ellipsis,
-                    //     //                   style: Styles.detailProp),
-                    //     //               Text(getEmail(widget.official),
-                    //     //                   style: TextStyle(
-                    //     //                       color: Styles
-                    //     //                           .primaryVariantColor)),
-                    //     //             ]))
-                    //     //     : Column(
-                    //     //         crossAxisAlignment:
-                    //     //             CrossAxisAlignment.end,
-                    //     //         children: <Widget>[
-                    //     //             Text('Email',
-                    //     //                 style: Styles.detailProp),
-                    //     //             Text('n/a'),
-                    //     //           ])
-                    //   ],
-                    // ),
-                    // Flex(
-                    //   direction: Axis.horizontal,
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: <Widget>[
-                    //     Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: <Widget>[
-                    //           Text('Office', style: Styles.detailProp),
-                    //           Text(getOffice1(widget.official)),
-                    //           Text(getOffice2(widget.official))
-                    //         ])
-                    //   ],
-                    // ),
+                    Flex(
+                      direction: Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Office', style: Styles.detailProp),
+                              Text(getOffice1(widget.official)),
+                              Text(getOffice2(widget.official))
+                            ])
+                      ],
+                    ),
                     SizedBox(height: 15),
                     Divider(
                       color: Colors.grey,
@@ -539,7 +529,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                     SizedBox(height: 40),
                   ],
                 ),
-              ),
+              )),
             )
           ],
         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+import 'package:place_picker/place_picker.dart';
 import 'package:rep_check/components/loading.dart';
 import 'package:rep_check/data/models/civic/office.dart';
 import 'package:rep_check/data/models/civic/official.dart';
@@ -33,7 +33,7 @@ class _MainContentState extends State<MainContent> {
   Role role = Role.full;
   bool addressSet = false;
 
-  late PickResult selectedPlace;
+  LocationResult selectedPlace = new LocationResult();
 
   TextEditingController addressController = TextEditingController()..text = '';
 
@@ -219,6 +219,33 @@ class _MainContentState extends State<MainContent> {
     );
   }
 
+  void showPlacePicker() async {
+    if (selectedPlace.latLng != null) {
+      LocationResult result =
+          await Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => PlacePicker(
+                    Constants.geoKey,
+                    displayLocation: selectedPlace.latLng,
+                  )));
+      setState(() {
+        addressController.text = result.formattedAddress ?? '';
+        selectedPlace = result;
+        addressSet = true;
+      });
+      print(result);
+    } else {
+      LocationResult result = await Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) => PlacePicker(Constants.geoKey)));
+      setState(() {
+        addressController.text = result.formattedAddress ?? '';
+        selectedPlace = result;
+        addressSet = true;
+      });
+      print(result);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -229,58 +256,44 @@ class _MainContentState extends State<MainContent> {
             width: MediaQuery.of(context).size.width,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <
-                  Widget>[
-                Expanded(
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Styles.primaryColor,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            )),
-                        child: TextField(
-                            controller: addressController,
-                            autofocus: true,
-                            style: Styles.search,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                prefixIcon:
-                                    Icon(Icons.search, color: Styles.white),
-                                hintText: 'Enter address',
-                                hintStyle: Styles.search),
-                            onSubmitted: (value) {
-                              setState(() {
-                                addressSet = value.isNotEmpty;
-                              });
-                            }))),
-                InkWell(
-                    child: Container(
-                        width: 50,
-                        padding: EdgeInsets.fromLTRB(10, 0, 0, 3),
-                        alignment: Alignment.center,
-                        child: Icon(Icons.gps_fixed,
-                            size: 40, color: Styles.primaryColor)),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PlacePicker(
-                                  apiKey: Constants.geoKey,
-                                  onPlacePicked: (result) {
-                                    selectedPlace = result;
-                                    addressController.text =
-                                        result.formattedAddress ?? '';
-                                    Navigator.of(context).pop();
-                                    setState(() {
-                                      addressSet = true;
-                                    });
-                                  },
-                                  initialPosition: MainContent.kInitialPosition,
-                                  useCurrentLocation: true)));
-                    })
-              ]),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Styles.primaryColor,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                )),
+                            child: TextField(
+                                controller: addressController,
+                                autofocus: true,
+                                style: Styles.search,
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    prefixIcon:
+                                        Icon(Icons.search, color: Styles.white),
+                                    hintText: 'Enter address',
+                                    hintStyle: Styles.search),
+                                onSubmitted: (value) {
+                                  setState(() {
+                                    addressSet = value.isNotEmpty;
+                                  });
+                                }))),
+                    InkWell(
+                        child: Container(
+                            width: 50,
+                            padding: EdgeInsets.fromLTRB(10, 0, 0, 3),
+                            alignment: Alignment.center,
+                            child: Icon(Icons.gps_fixed,
+                                size: 40, color: Styles.primaryColor)),
+                        onTap: () {
+                          showPlacePicker();
+                        })
+                  ]),
               Expanded(child: addressSet ? listWidget() : Results.ready()),
               widget.isPortrait ? BottomBar(callback: this.callback) : Row()
             ])));
