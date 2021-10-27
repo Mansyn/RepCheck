@@ -10,7 +10,7 @@ class Styles {
   static Color accentColor = red;
   static Color backgroundColor = white;
 
-  static TextStyle defaultStyle = TextStyle();
+  static TextStyle defaultStyle = TextStyle(fontSize: 16.0);
 
   static TextStyle h2 = defaultStyle.copyWith(
     fontWeight: FontWeight.w700,
@@ -51,19 +51,19 @@ class Styles {
   );
 
   static TextStyle detail = defaultStyle.copyWith(
-    fontSize: 12.0,
+    fontSize: 16.0,
     color: Colors.grey[800],
   );
 
   static TextStyle error = defaultStyle.copyWith(
     fontWeight: FontWeight.w500,
-    fontSize: 14.0,
+    fontSize: 16.0,
     color: Colors.red,
   );
 
   static TextStyle detailProp = TextStyle(
       color: primaryColor,
-      fontSize: 14.0,
+      fontSize: 16.0,
       fontWeight: FontWeight.w800,
       height: 3);
 

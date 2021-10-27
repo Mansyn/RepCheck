@@ -25,10 +25,14 @@ class Constants {
       ? dotenv.env['GEO_KEY'].toString()
       : 'key needed';
 
+  static String title = 'Rep Check';
+
   /// e.t.c.
   static String defaultAvatar = 'assets/images/avatar.png';
   static String defaultResult = 'assets/images/the-legislative-branch.jpg';
   static String logo = 'assets/images/logo.png';
+  static String flag = 'assets/images/flag.png';
+  static String flagColor = 'assets/images/flag_color.png';
   static String logoMuted = 'assets/images/logo_muted.png';
   static String commonDateFormat = 'dd MMM yyyy, hh:mm a';
   static String sep = '/';

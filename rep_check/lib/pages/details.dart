@@ -114,7 +114,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            FaIcon(FontAwesomeIcons.moneyCheckAlt,
+            FaIcon(FontAwesomeIcons.dollarSign,
                 color: Styles.accentColor, size: 30)
           ],
         ),
@@ -138,26 +138,18 @@ class _DetailsPageState extends State<OfficialDetails> {
             direction: Axis.horizontal,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Organization',
-                        style: TextStyle(
-                          color: Styles.primaryColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ))
-                  ]),
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Text('Total',
-                        style: TextStyle(
-                          color: Styles.primaryColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ))
-                  ]),
+              Text('Organization',
+                  style: TextStyle(
+                    color: Styles.primaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text('Total',
+                  style: TextStyle(
+                    color: Styles.primaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  )),
             ]),
         SizedBox(height: 10),
         for (int i = 0; i <= 9; i++)
@@ -167,20 +159,21 @@ class _DetailsPageState extends State<OfficialDetails> {
                   direction: Axis.horizontal,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Column(
+                    Expanded(
+                      // <-- This is what you need
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(_topContributors[i].attributes!.orgName!,
+                              overflow: TextOverflow.ellipsis,
                               style: Styles.defaultStyle)
-                        ]),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Text(
-                              "\$" +
-                                  "${oCcy.format(double.parse(_topContributors[i].attributes!.total!))}",
-                              style: Styles.defaultStyle)
-                        ])
+                        ],
+                      ),
+                    ),
+                    Text(
+                        "\$" +
+                            "${oCcy.format(double.parse(_topContributors[i].attributes!.total!))}",
+                        style: Styles.defaultStyle)
                   ]))
       ]);
     } else {
@@ -412,7 +405,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        FaIcon(FontAwesomeIcons.addressCard,
+                        FaIcon(FontAwesomeIcons.userAlt,
                             color: Styles.accentColor, size: 30)
                       ],
                     ),
@@ -436,13 +429,15 @@ class _DetailsPageState extends State<OfficialDetails> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text('Title', style: Styles.detailProp),
-                                Text(widget.office.name)
+                                Text(widget.office.name,
+                                    style: Styles.defaultStyle)
                               ]),
                           Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 Text('Party', style: Styles.detailProp),
-                                Text(widget.official.party)
+                                Text(widget.official.party,
+                                    style: Styles.defaultStyle)
                               ])
                         ]),
                     Flex(
@@ -469,7 +464,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                     Text('Phone', style: Styles.detailProp),
-                                    Text('n/a'),
+                                    Text('n/a', style: Styles.defaultStyle),
                                   ]),
                         hasEmail(widget.official)
                             ? GestureDetector(
@@ -489,7 +484,7 @@ class _DetailsPageState extends State<OfficialDetails> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
                                     Text('Email', style: Styles.detailProp),
-                                    Text('n/a'),
+                                    Text('n/a', style: Styles.defaultStyle),
                                   ])
                       ],
                     ),
@@ -501,8 +496,10 @@ class _DetailsPageState extends State<OfficialDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text('Office', style: Styles.detailProp),
-                              Text(getOffice1(widget.official)),
-                              Text(getOffice2(widget.official))
+                              Text(getOffice1(widget.official),
+                                  style: Styles.defaultStyle),
+                              Text(getOffice2(widget.official),
+                                  style: Styles.defaultStyle)
                             ])
                       ],
                     ),
