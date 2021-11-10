@@ -205,9 +205,9 @@ class _DetailsPageState extends State<OfficialDetails> {
 
   String getOffice1(Official official) {
     String address = 'n/a';
-    if (official.address.isNotEmpty) {
-      if (official.address.length > 0) {
-        address = official.address[0].line1;
+    if (official.normalizedInput.isNotEmpty) {
+      if (official.normalizedInput.length > 0) {
+        address = official.normalizedInput[0].line1;
       }
     }
     return address;
@@ -215,8 +215,8 @@ class _DetailsPageState extends State<OfficialDetails> {
 
   String getOffice2(Official official) {
     String address = '';
-    if (official.address.isNotEmpty) {
-      if (official.address.length > 0) {
+    if (official.normalizedInput.isNotEmpty) {
+      if (official.normalizedInput.length > 0) {
         address = official.address[0].city +
             ', ' +
             official.address[0].state +

@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
     final textTheme = theme.textTheme;
     return MaterialApp(
         title: Constants.title,
-        debugShowCheckedModeBanner: false,
         theme: ThemeData(
             backgroundColor: Styles.backgroundColor,
             cardColor: Styles.backgroundColor,

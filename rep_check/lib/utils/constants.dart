@@ -64,7 +64,6 @@ class Constants {
   static String cid = 'cid=';
   static String getLegs = 'getLegislators';
   static String candContrib = 'candContrib';
-  static String newsSearch = 'Latest News';
 
   static String session = '116';
 

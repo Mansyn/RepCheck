@@ -81,21 +81,21 @@ class _MainContentState extends State<MainContent> {
     }
   }
 
-  void callback(String filter) {
-    switch (filter) {
-      case 'All':
+  void tabChange(int index) {
+    switch (index) {
+      case 0:
         setState(() {
           this.level = Level.full;
           this.role = Role.full;
         });
         break;
-      case 'Federal':
+      case 1:
         setState(() {
           this.level = Level.country;
           this.role = Role.full;
         });
         break;
-      case 'State':
+      case 2:
         setState(() {
           this.level = Level.admin1;
           this.role = Role.full;
@@ -295,7 +295,7 @@ class _MainContentState extends State<MainContent> {
                         })
                   ]),
               Expanded(child: addressSet ? listWidget() : Results.ready()),
-              widget.isPortrait ? BottomBar(callback: this.callback) : Row()
+              widget.isPortrait ? BottomBar(callback: this.tabChange) : Row()
             ])));
   }
 }

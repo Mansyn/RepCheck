@@ -42,7 +42,7 @@ class _BottomBarState extends State<BottomBar>
             children: <Widget>[
               _buildTab('All', FontAwesomeIcons.flagUsa, 0),
               _buildTab('Federal', FontAwesomeIcons.landmark, 1),
-              _buildTab('State', FontAwesomeIcons.city, 2)
+              _buildTab('State', FontAwesomeIcons.building, 2)
             ]));
   }
 
@@ -59,7 +59,7 @@ class _BottomBarState extends State<BottomBar>
                     _controller.reset();
                     _controller.forward();
                   });
-                  this.widget.callback(text);
+                  this.widget.callback(index);
                 },
                 child: Icon(icon, size: 35, color: Styles.accentColor)));
   }
