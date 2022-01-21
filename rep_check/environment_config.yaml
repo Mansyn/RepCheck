@@ -1,0 +1,36 @@
+environment_config:
+  path: env_config.dart
+  fields:
+    env:
+      default: "development"
+      dotenv: true
+
+    API_KEY:
+      default: "AIzaSyD4USwfc1e3KEFtcp6smjmwblyCCC2df4o"
+      dotenv: true
+      config_field: false
+
+    apiUrl:
+      const: false
+      default: "https://www.googleapis.com/civicinfo/v2/"
+
+    GEO_KEY:
+      default: "AIzaSyDHG4sVQ9nkIMtuzyaiFImp-Jp7F0yzBlc"
+      dotenv: true
+      config_field: false
+
+    mapsUrl:
+      const: false
+      default: "https://maps.googleapis.com/maps/api/place/"
+
+    OS_KEY:
+      default: "16ee0542d73bd5405d5354b5fc368253"
+      dotenv: true
+      config_field: false
+
+    osUrl:
+      const: false
+      default: "https://www.opensecrets.org/api/"
+# flutter pub run environment_config:generate
+# flutter build apk --split-per-abi
+# flutter build appbundle
