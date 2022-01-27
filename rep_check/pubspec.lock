@@ -7,14 +7,14 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "32.0.0"
+    version: "22.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "1.7.2"
   archive:
     dependency: transitive
     description:
@@ -140,7 +140,7 @@ packages:
       name: dart_style
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.1"
+    version: "2.1.1"
   environment_config:
     dependency: "direct dev"
     description:
@@ -189,7 +189,7 @@ packages:
     source: hosted
     version: "0.6.0"
   flutter_cache_manager:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_cache_manager
       url: "https://pub.dartlang.org"
@@ -242,13 +242,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.1.0"
-  flutter_svg:
-    dependency: "direct main"
-    description:
-      name: flutter_svg
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -392,20 +385,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  path_drawing:
-    dependency: transitive
-    description:
-      name: path_drawing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
-  path_parsing:
-    dependency: transitive
-    description:
-      name: path_parsing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   path_provider:
     dependency: transitive
     description:

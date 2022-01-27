@@ -1,15 +1,16 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:rep_check/src/data/providers/http_provider.dart';
 import 'package:rep_check/src/utils/constants.dart';
 
 class GoogleRepository {
+  HttpProvider httpProvider = HttpProvider();
+
   Future<List<String>> fetchImageList(String query) async {
     var fullUrl =
         Uri.encodeFull(Constants.imagesUrl.replaceAll('{query}', query));
 
-    final response =
-        await http.get(Uri.parse(fullUrl), headers: Constants.webHeaders);
+    final response = await httpProvider.getData(fullUrl, Constants.webHeaders);
 
     if (response.statusCode == 200) {
       List<String> links = [];

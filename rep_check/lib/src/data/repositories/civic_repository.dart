@@ -1,11 +1,13 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:rep_check/env_config.dart';
 import 'package:rep_check/src/data/models/representative_response.dart';
+import 'package:rep_check/src/data/providers/http_provider.dart';
 import 'package:rep_check/src/utils/constants.dart';
 
 class CivicRepository {
+  HttpProvider httpProvider = HttpProvider();
+
   Future<Response> fetchMemberList(
       String levels, String roles, String address) async {
     if (address.length < 10) {
@@ -22,7 +24,7 @@ class CivicRepository {
           Constants.address +
           address.replaceAll(' ', '+');
 
-      final response = await http.get(Uri.parse(fullUrl));
+      final response = await httpProvider.getData(fullUrl, Constants.headers);
 
       if (response.statusCode == 200) {
         return Response.fromJson(jsonDecode(response.body));

@@ -1,13 +1,15 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:rep_check/env_config.dart';
 import 'package:rep_check/src/data/models/contributor_response.dart';
 import 'package:rep_check/src/data/models/legislator_response.dart';
 import 'package:rep_check/src/data/models/summary_response.dart';
+import 'package:rep_check/src/data/providers/http_provider.dart';
 import 'package:rep_check/src/utils/constants.dart';
 
 class SecretRepository {
+  HttpProvider httpProvider = HttpProvider();
+
   Future<LegislatorResponse> fetchLegislators(String state) async {
     String fullUrl = EnvConfig.osUrl +
         Constants.query +
@@ -22,7 +24,7 @@ class SecretRepository {
         Constants.apikey +
         Constants.osApiKey;
 
-    final response = await http.get(Uri.parse(fullUrl));
+    final response = await httpProvider.getData(fullUrl, Constants.headers);
 
     if (response.statusCode == 200) {
       return LegislatorResponse.fromJson(jsonDecode(response.body));
@@ -45,8 +47,7 @@ class SecretRepository {
         Constants.apikey +
         Constants.osApiKey;
 
-    final response =
-        await http.get(Uri.parse(fullUrl)).timeout(const Duration(seconds: 5));
+    final response = await httpProvider.getData(fullUrl, Constants.headers);
 
     if (response.statusCode == 200) {
       return ContributorResponse.fromJson(jsonDecode(response.body));
@@ -69,8 +70,7 @@ class SecretRepository {
         Constants.apikey +
         Constants.osApiKey;
 
-    final response =
-        await http.get(Uri.parse(fullUrl)).timeout(const Duration(seconds: 5));
+    final response = await httpProvider.getData(fullUrl, Constants.headers);
 
     if (response.statusCode == 200) {
       return SummaryResponse.fromJson(jsonDecode(response.body));
